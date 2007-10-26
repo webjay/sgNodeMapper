@@ -1,0 +1,33 @@
+===============================
+Contributor License Agreements:
+===============================
+
+Before we can accept a patch from you, you must sign a Contributor
+License Agreement (CLA). The CLA protects you and us.
+
+    * If you are an individual writing original source code and you're
+      sure you own the intellectual property, then you'll need to sign an
+      individual CLA:
+
+        http://code.google.com/legal/individual-cla-v1.0.html
+
+    * If you work for a company that wants to allow you to contribute
+      your work to sgnodemapper, then you'll need to sign a corporate CLA:
+
+        http://code.google.com/legal/corporate-cla-v1.0.html
+
+Follow either of the two links above to access the appropriate CLA and
+instructions for how to sign and return it.
+
+=========
+Licensing
+=========
+
+Everything included with sg-nodemapper is licensed under the Apache
+License, Version 2.0 (see the "LICENSE" file), unless otherwise noted
+in that file.
+
+Your contributions must math the license of the file(s) that you're
+contributing to.  Details are covered in the CLAs linked above.
+
+
