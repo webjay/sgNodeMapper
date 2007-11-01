@@ -73,7 +73,7 @@ NodeMapper.URLToGraphNode = function (url) {
     // of this function deals with HTTP specifically
     return NodeMapper.urlToGraphNodeNotHTTP(url);
   }
-  var host = m[1];
+  var host = m[1].toLowerCase();
   var uri = m[2];
 
   // from user.site.co.uk, lookup handlers for
@@ -173,3 +173,17 @@ function commonPatternSomethingSlashUsername(prefix,
     return "sgn://" + desired_domain + "/?ident=" + m[1].toLowerCase();
   };
 };
+
+function commonPatternSubdomain(domain) {
+  // yes, domain isn't escaped, but that doesn't matter,
+  // as nobody will call this outside of a registerDomain'd
+  // block of code, where the domain has already been matched
+  var hostRE = new RegExp("([\\w\\-]+)\." + domain + "$", "i");
+  return function (url, host, uri) {
+    var m;
+    if (m = hostRE.exec(host)) {
+      return "sgn://" + domain + "/?ident=" + m[1].toLowerCase();
+    }
+    return url;
+  };
+}
