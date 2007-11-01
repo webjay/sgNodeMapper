@@ -26,15 +26,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-// <tests>
-// http://www.last.fm/user/aa123/             sgn://last.fm/?ident=aa123
-// http://www.last.fm/user/aa123              sgn://last.fm/?ident=aa123
-// http://lastfm.excite.co.jp/user/SomeCaps/  sgn://last.fm/?ident=somecaps
-// http://www.last.fm/user/after/addedevents/ sgn://last.fm/?ident=after
-// http://www.lastfm.pl/user/foo/?setlang=pl  sgn://last.fm/?ident=foo
-// url(sgn://last.fm/?ident=foo)              http://www.last.fm/user/foo/
-// </tests>
-
 var LAST_FM_DOMAINS = [
     "cn.last.fm",
     "last.fm",
@@ -61,3 +52,12 @@ var LAST_FM_DOMAINS = [
 registerDomain(LAST_FM_DOMAINS, {
  urlToGraphNode: commonPatternSomethingSlashUsername("user", "last.fm"),
                      });
+
+__END__
+
+http://www.last.fm/user/aa123/             sgn://last.fm/?ident=aa123
+http://www.last.fm/user/aa123              sgn://last.fm/?ident=aa123
+http://lastfm.excite.co.jp/user/SomeCaps/  sgn://last.fm/?ident=somecaps
+http://www.last.fm/user/after/addedevents/ sgn://last.fm/?ident=after
+http://www.lastfm.pl/user/foo/?setlang=pl  sgn://last.fm/?ident=foo
+url(sgn://last.fm/?ident=foo)              http://www.last.fm/user/foo/

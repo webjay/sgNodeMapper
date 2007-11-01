@@ -36,3 +36,21 @@ registerDomain("aimpages.com", {
    return "sgn://aol.com/?ident=" + m[1].toLowerCase().replace(/[\s\+]/g, "");
  },
 });
+
+__END__
+
+aim:GoIM?screenname=fooBar			sgn://aol.com/?ident=foobar
+aim:goim?Screenname=foo+Bar			sgn://aol.com/?ident=foobar
+aim:fooBar					sgn://aol.com/?ident=foobar
+aim:foo+Bar					sgn://aol.com/?ident=foobar
+http://www.aimpages.com/foobar/profile.html	sgn://aol.com/?ident=foobar
+http://www.aimpages.com//foobar/profile.html	sgn://aol.com/?ident=foobar
+http://www.aimpages.com/foobar/		sgn://aol.com/?ident=foobar
+http://www.aimpages.com/foo+bar/		sgn://aol.com/?ident=foobar
+http://www.aimpages.com/foobar		sgn://aol.com/?ident=foobar
+http://openid.aol.com/foobar			sgn://aol.com/?ident=foobar
+http://openid.aol.com/foobar/		sgn://aol.com/?ident=foobar
+
+openid(sgn://aol.com/?ident=foobar)		http://openid.aol.com/foobar
+chat(sgn://aol.com/?ident=foobar)		aim:GoIM?screenname=foobar
+profile(sgn://aol.com/?ident=foobar)		http://www.aimpages.com/foobar/profile.html

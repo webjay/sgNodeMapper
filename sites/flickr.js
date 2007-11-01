@@ -24,3 +24,20 @@ registerDomain("flickr.com", {
                                                      "flickr.com",
                                                      urlToGraphNode_Flickr),
 });
+
+__END__
+
+http://www.flickr.com/people/crucially		sgn://flickr.com/?ident=crucially
+http://www.flickr.com/people/crucially/		sgn://flickr.com/?ident=crucially
+http://www.flickr.com/photos/crucially		sgn://flickr.com/?ident=crucially
+http://www.flickr.com/photos/crucially/		sgn://flickr.com/?ident=crucially
+
+http://www.flickr.com/photos/15738836@N00/      sgn://flickr.com/?pk=15738836@N00
+http://www.flickr.com/people/15738836@N00/ 	sgn://flickr.com/?pk=15738836@N00
+
+profile(sgn://flickr.com/?ident=crucially)	http://www.flickr.com/people/crucially/
+content(sgn://flickr.com/?ident=crucially)	http://www.flickr.com/photos/crucially/
+addfriend(sgn://flickr.com/?ident=crucially)	http://www.flickr.com/people/crucially/relationship/
+
+rss(sgn://flicker.com/?pk=15738836@N00)		http://api.flickr.com/services/feeds/photos_public.gne?id=15738836@N00&lang=en-us&format=rss_200
+atom(sgn://flicker.com/?pk=15738836@N00)	http://api.flickr.com/services/feeds/photos_public.gne?id=15738836@N00&lang=en-us&format=atom

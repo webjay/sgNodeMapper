@@ -1,3 +1,5 @@
+// -*-java-*-
+
 /**
  * Copyright 2007 Google Inc.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,3 +42,35 @@ registerDomain("livejournal.com", {
  },
 });
 
+__END__
+
+# usernames go in front of livejournal.com
+http://brad.livejournal.com/		sgn://livejournal.com/?ident=brad
+http://brad.livejournal.com/profile	sgn://livejournal.com/?ident=brad
+content(sgn://livejournal.com/?ident=brad)	http://brad.livejournal.com/
+
+# but underscores map to hyphens:
+http://a-b.livejournal.com/		sgn://livejournal.com/?ident=a_b
+http://a-b.livejournal.com/profile	sgn://livejournal.com/?ident=a_b
+content(sgn://livejournal.com/?ident=a_b)	http://a-b.livejournal.com/
+
+# but leading underscores can't have leading hyphens in domain names, so those
+# go to tilde notation (which LJ redirects to community vs. user)
+content(sgn://livejournal.com/?ident=_underscores_)	http://www.livejournal.com/~_underscores_/
+
+http://users.livejournal.com/_underscores_/	sgn://livejournal.com/?ident=_underscores_
+http://users.livejournal.com/_underscores_/profile sgn://livejournal.com/?ident=_underscores_
+http://users.livejournal.com/_underscores_	sgn://livejournal.com/?ident=_underscores_
+http://users.livejournal.com/_u_/profile	sgn://livejournal.com/?ident=_u_
+http://community.livejournal.com/linux/profile	sgn://livejournal.com/?ident=linux
+http://community.livejournal.com/linux/		sgn://livejournal.com/?ident=linux
+http://community.livejournal.com/linux		sgn://livejournal.com/?ident=linux
+http://www.livejournal.com/~abc/		sgn://livejournal.com/?ident=abc
+http://www.livejournal.com/~abc 		sgn://livejournal.com/?ident=abc
+http://livejournal.com/~abc/			sgn://livejournal.com/?ident=abc
+http://livejournal.com/~abc			sgn://livejournal.com/?ident=abc
+
+rss(sgn://livejournal.com/?ident=abc)		http://abc.livejournal.com/data/rss
+atom(sgn://livejournal.com/?ident=abc)		http://abc.livejournal.com/data/atom
+openid(sgn://livejournal.com/?ident=abc)	http://abc.livejournal.com/
+openid(sgn://livejournal.com/?ident=abc)	http://abc.livejournal.com/

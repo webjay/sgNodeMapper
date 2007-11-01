@@ -4,6 +4,8 @@
 use strict;
 use FindBin qw($Bin);
 
+open (my $efh, ">nodemapper_expected.dat")
+  or die "Error opening nodemapper_expected.dat for write: $!\n";
 open (my $fh, ">nodemapper.js")
   or die "Error opening nodemapper.js for write: $!\n";
 print $fh "//##############################################################\n";
@@ -14,9 +16,21 @@ print $fh "//##############################################################\n";
 for my $file ("$Bin/nodemapper-base.js", glob("$Bin/sites/*.js")) {
   open (my $ifh, $file)
     or die "Error opening $file for read: $!";
+  my $hit_end = 0;
   while (<$ifh>) {
-    # TODO: extract out test rules
-    print $fh $_;
+    if (/__END__/) {
+      $hit_end = 1;
+      next;
+    }
+    if ($hit_end) {
+      print $efh $_;
+    } else {
+      print $fh $_;
+    }
+  }
+  if (! $hit_end && $file !~ /nodemapper-base/) {
+    warn "No __END__ section for tests in $file\n";
   }
   print $fh "\n";
+  print $efh "\n### FILE: $file\n\n";
 }
