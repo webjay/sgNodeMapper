@@ -16,6 +16,10 @@ registerDomain("jaiku.com", {
  urlToGraphNode: commonPatternSubdomain("jaiku.com"),
 });
 
+registerDomain("mugshot.org", {
+ urlToGraphNode: commonPatternUriRegexp("mugshot.org", /^\/person\?who=(\w+)/,
+                                        { case_preserve: 1 }),
+})
 
 __END__
 
@@ -33,3 +37,6 @@ http://pownce.com/A/   sgn://pownce.com/?ident=a
 
 http://bradfitz.jaiku.com/   sgn://jaiku.com/?ident=bradfitz
 http://BRADFITZ.JAIKU.COM/   sgn://jaiku.com/?ident=bradfitz
+
+# case sensitive identifiers!
+http://mugshot.org/person?who=7ACcH9gn7zv4YG  sgn://mugshot.org/?ident=7ACcH9gn7zv4YG

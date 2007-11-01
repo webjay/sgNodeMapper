@@ -21,8 +21,9 @@ function urlToGraphNode_Flickr(url, host, uri) {
 
 registerDomain("flickr.com", {
  urlToGraphNode: commonPatternSomethingSlashUsername("(?:people|photos)",
-                                                     "flickr.com",
-                                                     urlToGraphNode_Flickr),
+                                                     "flickr.com", {
+                                                    fallback_func: urlToGraphNode_Flickr,
+                                                   }),
 });
 
 __END__

@@ -127,6 +127,18 @@ NodeMapper.urlToGraphNodeNotHTTP = function (url) {
 };
 
 
+function commonPatternUriRegexp(domain, re, opts) {
+  if (!opts) opts = {};
+  return function (url, host, uri) {
+    var m = re.exec(uri);
+    if (!m) {
+      return opts.fallback_func ? opts.fallback_func(url, host, uri) : url;
+    }
+    return "sgn://" + domain + "/?ident=" +
+        (opts.case_preserve ? m[1] : m[1].toLowerCase());
+  };
+};
+
 /**
  * Returns parser for common pattern: URI of /username/, where
  * trailing slash is optional
@@ -136,15 +148,9 @@ NodeMapper.urlToGraphNodeNotHTTP = function (url) {
  * @return {String} Clean socialgraph identifier, if URL type is
  * known, else same URL back.
  */
-function commonPatternSlashUsername(desired_domain, fallback_func) {
+function commonPatternSlashUsername(desired_domain, opts) {
   var slashUsernameRE = /^\/(\w+)\/?$/;
-  return function (url, host, uri) {
-    var m = slashUsernameRE.exec(uri);
-    if (!m) {
-      return fallback_func ? fallback_func(url, host, uri) : url;
-    }
-    return "sgn://" + desired_domain + "/?ident=" + m[1].toLowerCase();
-  };
+  return commonPatternUriRegexp(desired_domain, slashUsernameRE, opts);
 };
 
 
@@ -160,18 +166,10 @@ function commonPatternSlashUsername(desired_domain, fallback_func) {
  */
 function commonPatternSomethingSlashUsername(prefix,
                                              desired_domain,
-                                             fallback_func) {
+                                             opts) {
   var SlashSomethingUserRE = new RegExp("^/" + prefix + "/" +
                                         "(\\w+)(?:/|$)");
-  return function (url, host, uri) {
-    var m;
-    if (!(m = SlashSomethingUserRE.exec(uri))) {
-      if (fallback_func)
-        return fallback_func(url, host, uri);
-      return url;
-    }
-    return "sgn://" + desired_domain + "/?ident=" + m[1].toLowerCase();
-  };
+  return commonPatternUriRegexp(desired_domain, SlashSomethingUserRE, opts);
 };
 
 function commonPatternSubdomain(domain) {
