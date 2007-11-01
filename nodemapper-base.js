@@ -127,6 +127,18 @@ NodeMapper.urlToGraphNodeNotHTTP = function (url) {
 };
 
 
+/**
+ * Returns a sgn parser function, given a regular expression
+ * that operates on the path of a URI.
+ *
+ * @param {String} domain sgn:// domain to return on match
+ * @param {RegExp} re Regular expression to match.  Capture #1
+ *                 must match the username.
+ * @param {Object} opts Optional object with extra options, for
+ *                 instance: 'fallback_func' to run if no match
+ *                 (rather than returning URL back), 'case_preserve',
+ *                 a bool, to not lowercase the username.
+ */
 function commonPatternUriRegexp(domain, re, opts) {
   if (!opts) opts = {};
   return function (url, host, uri) {
@@ -140,36 +152,36 @@ function commonPatternUriRegexp(domain, re, opts) {
 };
 
 /**
- * Returns parser for common pattern: URI of /username/, where
- * trailing slash is optional
- * @param {String} desired_domain sgn:// domain to return on match
- * @param {Function} fallback_func Optional fallback function
- * to call if URI doesn't match pattern.
+ * Wrapper around commonPatternUriRegexp, returning a parser for
+ * common pattern: URI of /username/, where trailing slash is optional
+ *
+ * @param {String} domain sgn:// domain to return on match
+ * @param {Object} opts Options supported by commonPatternUriRegexp
  * @return {String} Clean socialgraph identifier, if URL type is
  * known, else same URL back.
  */
-function commonPatternSlashUsername(desired_domain, opts) {
+function commonPatternSlashUsername(domain, opts) {
   var slashUsernameRE = /^\/(\w+)\/?$/;
-  return commonPatternUriRegexp(desired_domain, slashUsernameRE, opts);
+  return commonPatternUriRegexp(domain, slashUsernameRE, opts);
 };
 
 
 /**
- * Returns parser for common pattern: URI of /prefix/username/, where
- * trailing slash is optional
+ * Wrapper around commonPatternUriRegexp, returning a parser for
+ * common pattern: URI of /prefix/username/, where trailing slash is
+ * optional.
  * @param {String} prefix The prefix path before the username
- * @param {String} desired_domain sgn:// domain to return on match
- * @param {Function} fallback_func Optional fallback function
- * to call if URI doesn't match pattern.
+ * @param {String} domain sgn:// domain to return on match
+ * @param {Object} opts Options supported by commonPatternUriRegexp
  * @return {String} Clean socialgraph identifier, if URL type is
  * known, else same URL back.
  */
 function commonPatternSomethingSlashUsername(prefix,
-                                             desired_domain,
+                                             domain,
                                              opts) {
   var SlashSomethingUserRE = new RegExp("^/" + prefix + "/" +
                                         "(\\w+)(?:/|$)");
-  return commonPatternUriRegexp(desired_domain, SlashSomethingUserRE, opts);
+  return commonPatternUriRegexp(domain, SlashSomethingUserRE, opts);
 };
 
 function commonPatternSubdomain(domain) {
