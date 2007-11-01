@@ -26,14 +26,26 @@ registerDomain(["users.livejournal.com",
   },
 });
 
+var LJCOM_MAIN_DOMAIN_RE = /^\/(?:~|users\/|community\/)(\w+)(?:\/|$)/;
+var LJCOM_USERINFO_BML_RE = /^\/userinfo\.bml\?(user|userid)=(\w+)/;
+
 registerDomain("livejournal.com", {
  urlToGraphNode: function (url, host, uri) {
    if (host == "www.livejournal.com" || host == "livejournal.com") {
-     var slashTildeUserMaybeProfile = /^\/~(\w+)(?:\/|\/profile|$)/;
-     var m;
-     if (!(m = slashTildeUserMaybeProfile.exec(uri)))
-       return url;
-     return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
+     if (m = LJCOM_MAIN_DOMAIN_RE.exec(uri)) {
+       return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
+     }
+
+     if (m = LJCOM_USERINFO_BML_RE.exec(uri)) {
+       if (m[1] == "user") {
+         return "sgn://livejournal.com/?ident=" + m[2];
+       } else {
+         return "sgn://livejournal.com/?pk=" + m[2];
+       }
+     }
+
+     // fall through... couldn't match
+     return url;
    }
 
    var hostparts = host.split(".");
@@ -69,8 +81,16 @@ http://www.livejournal.com/~abc/		sgn://livejournal.com/?ident=abc
 http://www.livejournal.com/~abc 		sgn://livejournal.com/?ident=abc
 http://livejournal.com/~abc/			sgn://livejournal.com/?ident=abc
 http://livejournal.com/~abc			sgn://livejournal.com/?ident=abc
+http://livejournal.com/users/bob                sgn://livejournal.com/?ident=bob
+http://livejournal.com/users/bob/               sgn://livejournal.com/?ident=bob
 
 rss(sgn://livejournal.com/?ident=abc)		http://abc.livejournal.com/data/rss
 atom(sgn://livejournal.com/?ident=abc)		http://abc.livejournal.com/data/atom
 openid(sgn://livejournal.com/?ident=abc)	http://abc.livejournal.com/
 openid(sgn://livejournal.com/?ident=abc)	http://abc.livejournal.com/
+
+# userinfo.bml
+http://www.livejournal.com/userinfo.bml?userid=123&t=I sgn://livejournal.com/?pk=123
+http://www.livejournal.com/userinfo.bml?userid=123     sgn://livejournal.com/?pk=123
+http://www.livejournal.com/userinfo.bml?user=bob       sgn://livejournal.com/?ident=bob
+http://www.livejournal.com/userinfo.bml?user=bob&mode=full  sgn://livejournal.com/?ident=bob
