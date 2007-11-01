@@ -21,6 +21,10 @@ registerDomain("mugshot.org", {
                                         { case_preserve: 1 }),
 })
 
+registerDomain("ziki.com", {
+ urlToGraphNode: commonPatternUriRegexp("ziki.com", /^\/\w\w\/people\/(\w+)\/?/),
+})
+
 __END__
 
 http://digg.com/users/foobar	sgn://digg.com/?ident=foobar
@@ -40,3 +44,7 @@ http://BRADFITZ.JAIKU.COM/   sgn://jaiku.com/?ident=bradfitz
 
 # case sensitive identifiers!
 http://mugshot.org/person?who=7ACcH9gn7zv4YG  sgn://mugshot.org/?ident=7ACcH9gn7zv4YG
+
+http://www.ziki.com/en/people/bob   sgn://ziki.com/?ident=bob
+http://www.ziki.com/fr/people/bob/  sgn://ziki.com/?ident=bob
+http://www.ziki.com/fr/people/bob/extrastuff sgn://ziki.com/?ident=bob
