@@ -20,24 +20,54 @@ use lib 'embedding/perl/lib';
 use SocialGraph::NodeMapper;
 use Test::More 'no_plan';
 
+# optional pattern to match, to filter testing
+my $pattern = shift || ".";
+
 my $mapper = SocialGraph::NodeMapper->new("nodemapper.js");
 ok($mapper, "Created mapper");
 
 open(my $fh, "nodemapper_expected.dat")
   or die "Couldn't open nodemapper_expected.dat: $!";
 
+my @errors;
+
 while (<$fh>) {
   s/^\s*\#.*//;
   next unless /\S/;
   my ($input, $expected) = grep { $_ } split;
+  next unless $input =~ /$pattern/o || $expected =~ /$pattern/o;
+  my $actual;
+
   if ($input =~ /^(\w+)\((.+)\)$/) {
     # TODO: mapping from sgn:// nodes to URLs not yet
     # supported or tested.
+
+    # for now, pass on these
+    next;
   } else {
-    my $actual = $mapper->graph_node_from_url($input);
-    is($actual, $expected, "Mapping $input");
+    $actual = $mapper->graph_node_from_url($input);
+  }
+
+  is($actual, $expected, "Mapping $input");
+
+  if ($actual ne $expected) {
+    push @errors, {
+      input => $input,
+      expected => $expected,
+      actual => $actual,
+    };
   }
 }
 
-pass("tests passed.");
+if (@errors) {
+  warn "SUMMARY OF ERRORS:\n";
+  foreach my $e (@errors) {
+    print "\n";
+    print "$e->{input}\n";
+    print "        GOT: $e->{actual}\n";
+    print "     WANTED: $e->{expected}\n";
+  }
+} else {
+  pass("tests passed.");
+}
 
