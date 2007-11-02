@@ -17,12 +17,17 @@ registerDomain("jaiku.com", {
 });
 
 registerDomain("mugshot.org", {
- urlToGraphNode: commonPatternUriRegexp("mugshot.org", /^\/person\?who=(\w+)/,
-                                        { case_preserve: 1 }),
+ urlToGraphNode: makeUriRegexpHandler("mugshot.org", /^\/person\?who=(\w+)/,
+                                      { case_preserve: 1 }),
 })
 
 registerDomain("ziki.com", {
- urlToGraphNode: commonPatternUriRegexp("ziki.com", /^\/\w\w\/people\/(\w+)\/?/),
+ urlToGraphNode: makeUriRegexpHandler("ziki.com", /^\/\w\w\/people\/(\w+)\/?/),
+})
+
+registerDomain("wordpress.com", {
+ urlToGraphNode: makeHostRegexpHandler("wordpress.com",
+                                       /^(?:www\.)?([\w\-]+)\.wordpress\.com$/),
 })
 
 __END__
@@ -48,3 +53,6 @@ http://mugshot.org/person?who=7ACcH9gn7zv4YG  sgn://mugshot.org/?ident=7ACcH9gn7
 http://www.ziki.com/en/people/bob   sgn://ziki.com/?ident=bob
 http://www.ziki.com/fr/people/bob/  sgn://ziki.com/?ident=bob
 http://www.ziki.com/fr/people/bob/extrastuff sgn://ziki.com/?ident=bob
+
+http://foo.wordpress.com/  sgn://wordpress.com/?ident=foo
+http://www.foo.wordpress.com/  sgn://wordpress.com/?ident=foo

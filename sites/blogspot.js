@@ -18,12 +18,7 @@
 var BLOGSPOT_RE = /^(?:www\.)?([\w\-]+)\.blogspot\.com$/;
 
 registerDomain("blogspot.com", {
-  urlToGraphNode: function (url, host, uri) {
-    var m = BLOGSPOT_RE.exec(host);
-    if (!m) return;
-
-    return "sgn://blogspot.com/?ident=" + m[1].toLowerCase();
-  },
+  urlToGraphNode: makeHostRegexpHandler("blogspot.com", BLOGSPOT_RE),
 });
 
 __END__

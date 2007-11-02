@@ -139,7 +139,7 @@ NodeMapper.urlToGraphNodeNotHTTP = function (url) {
  *                 (rather than returning URL back), 'case_preserve',
  *                 a bool, to not lowercase the username.
  */
-function commonPatternUriRegexp(domain, re, opts) {
+function makeUriRegexpHandler(domain, re, opts) {
   if (!opts) opts = {};
   return function (url, host, uri) {
     var m = re.exec(uri);
@@ -151,28 +151,39 @@ function commonPatternUriRegexp(domain, re, opts) {
   };
 };
 
+function makeHostRegexpHandler(domain, re, opts) {
+  if (!opts) opts = {};
+  return function (url, host, uri) {
+    var m = re.exec(host);
+    if (!m) {
+      return opts.fallback_func ? opts.fallback_func(url, host, uri) : url;
+    }
+    return "sgn://" + domain + "/?ident=" + m[1].toLowerCase();
+  };
+};
+
 /**
- * Wrapper around commonPatternUriRegexp, returning a parser for
+ * Wrapper around makeUriRegexpHandler, returning a parser for
  * common pattern: URI of /username/, where trailing slash is optional
  *
  * @param {String} domain sgn:// domain to return on match
- * @param {Object} opts Options supported by commonPatternUriRegexp
+ * @param {Object} opts Options supported by makeUriRegexpHandler
  * @return {String} Clean socialgraph identifier, if URL type is
  * known, else same URL back.
  */
 function commonPatternSlashUsername(domain, opts) {
   var slashUsernameRE = /^\/(\w+)\/?$/;
-  return commonPatternUriRegexp(domain, slashUsernameRE, opts);
+  return makeUriRegexpHandler(domain, slashUsernameRE, opts);
 };
 
 
 /**
- * Wrapper around commonPatternUriRegexp, returning a parser for
+ * Wrapper around makeUriRegexpHandler, returning a parser for
  * common pattern: URI of /prefix/username/, where trailing slash is
  * optional.
  * @param {String} prefix The prefix path before the username
  * @param {String} domain sgn:// domain to return on match
- * @param {Object} opts Options supported by commonPatternUriRegexp
+ * @param {Object} opts Options supported by makeUriRegexpHandler
  * @return {String} Clean socialgraph identifier, if URL type is
  * known, else same URL back.
  */
@@ -181,7 +192,7 @@ function commonPatternSomethingSlashUsername(prefix,
                                              opts) {
   var SlashSomethingUserRE = new RegExp("^/" + prefix + "/" +
                                         "(\\w+)(?:/|$)");
-  return commonPatternUriRegexp(domain, SlashSomethingUserRE, opts);
+  return makeUriRegexpHandler(domain, SlashSomethingUserRE, opts);
 };
 
 function commonPatternSubdomain(domain) {
