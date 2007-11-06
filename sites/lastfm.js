@@ -50,7 +50,7 @@ var LAST_FM_DOMAINS = [
     ];
 
 registerDomain(LAST_FM_DOMAINS, {
- urlToGraphNode: commonPatternSomethingSlashUsername("user", "last.fm"),
+ urlToGraphNode: createSomethingSlashUsernameHandler("user", "last.fm"),
                      });
 
 __END__

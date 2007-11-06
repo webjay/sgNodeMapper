@@ -13,21 +13,24 @@
  * limitations under the License.
  **/
 
-var MYSPACE_URI_RE = /index\.cfm\?fuseaction=(.+)&friendID=(\d+)/i;
+var MYSPACE_PATH_RE = /index\.cfm\?fuseaction=(.+)&friendID=(\d+)/i;
 
 // match $1 = number, or $2 = username, followed by optional query
 // parameters, or nothing
-var MYSPACE_URI_SLASH_WHATEVER = /^\/(\d+)|([a-z]\w*)(?:\?|$)/;
+var MYSPACE_PATH_SLASH_WHATEVER = /^\/(\d+)|([a-z]\w*)(?:\?|$)/;
 
 // actions which, if seen in a URL, likely point to a user or her content
 var MYSPACE_USER_ACTIONS = {
   "user.viewprofile": 1,
   "blog.listall": 1,
-  "blog.confirmsubscribe": 1,
+  "blog.confirmsubscribe": 1
 };
 
-function urlToGraphNode_MySpace(url, host, uri) {
-  var m = MYSPACE_URI_RE.exec(uri);
+/**
+ * MySpace-specific URL handler
+ */
+function urlToGraphNodeMySpace(url, host, path) {
+  var m = MYSPACE_PATH_RE.exec(path);
   if (m) {
     var action = m[1].toLowerCase();
     var userid = m[2];
@@ -36,7 +39,7 @@ function urlToGraphNode_MySpace(url, host, uri) {
     }
   }
   if (host == "profile.myspace.com") {
-    m = MYSPACE_URI_SLASH_WHATEVER.exec(uri);
+    m = MYSPACE_PATH_SLASH_WHATEVER.exec(path);
     if (m) {
       if (m[1]) {
         return "sgn://myspace.com/?pk=" + m[1];
@@ -52,13 +55,14 @@ function urlToGraphNode_MySpace(url, host, uri) {
 };
 
 registerDomain("myspace.com", {
- urlToGraphNode: commonPatternSlashUsername("myspace.com",
-                                            urlToGraphNode_MySpace),
+  urlToGraphNode: createSlashUsernameHandler("myspace.com", {
+    fallbackHandler: urlToGraphNodeMySpace,
+  }),
 });
 
 registerDomain(["profile.myspace.com",
                 "blog.myspace.com"], {
- urlToGraphNode: urlToGraphNode_MySpace,
+ urlToGraphNode: urlToGraphNodeMySpace,
 });
 
 __END__
@@ -70,6 +74,8 @@ http://myspace.com/foobar/			sgn://myspace.com/?ident=foobar
 http://profile.myspace.com/37715961		sgn://myspace.com/?pk=37715961
 http://profile.myspace.com/uhhhh_freakin_idiot  sgn://myspace.com/?ident=uhhhh_freakin_idiot
 http://profile.myspace.com/k93			sgn://myspace.com/?ident=k93
+
+http://www.myspace.com/index.cfm?fuseaction=user.viewprofile&friendid=73394553   sgn://myspace.com/?pk=73394553
 
 http://profile.myspace.com/index.cfm?fuseaction=user.viewprofile&friendid=73394553   sgn://myspace.com/?pk=73394553
 http://blog.myspace.com/index.cfm?fuseaction=blog.ListAll&friendID=64410858          sgn://myspace.com/?pk=64410858

@@ -15,14 +15,21 @@
  * limitations under the License.
  **/
 
+/**
+ * Regular expression for blogspot domain names, with optional
+ * "www." at front, and then blogname, then blogspot.com, capturing
+ * the blog name.
+ *
+ * @type RegExp
+ */
 var BLOGSPOT_RE = /^(?:www\.)?([\w\-]+)\.blogspot\.com$/;
 
 registerDomain("blogspot.com", {
-  urlToGraphNode: makeHostRegexpHandler("blogspot.com", BLOGSPOT_RE),
+  urlToGraphNode: createHostRegexpHandler("blogspot.com", BLOGSPOT_RE),
 });
 
 __END__
 
 http://foo.blogspot.com/          sgn://blogspot.com/?ident=foo
 http://www.foo.blogspot.com/      sgn://blogspot.com/?ident=foo
-http://foo.blogspot.com/uri/blah  sgn://blogspot.com/?ident=foo
+http://foo.blogspot.com/path/blah sgn://blogspot.com/?ident=foo

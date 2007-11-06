@@ -17,10 +17,10 @@
 
 registerDomain(["users.livejournal.com",
                 "community.livejournal.com"], {
-  urlToGraphNode: function (url, host, uri) {
+  urlToGraphNode: function(url, host, path) {
     var slashUserMaybeProfile = /^\/(\w+)(?:\/|\/profile|$)/;
     var m;
-    if (!(m = slashUserMaybeProfile.exec(uri)))
+    if (!(m = slashUserMaybeProfile.exec(path)))
       return url;
     return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
   },
@@ -30,13 +30,13 @@ var LJCOM_MAIN_DOMAIN_RE = /^\/(?:~|users\/|community\/)(\w+)(?:\/|$)/;
 var LJCOM_USERINFO_BML_RE = /^\/userinfo\.bml\?(user|userid)=(\w+)/;
 
 registerDomain("livejournal.com", {
- urlToGraphNode: function (url, host, uri) {
+ urlToGraphNode: function(url, host, path) {
    if (host == "www.livejournal.com" || host == "livejournal.com") {
-     if (m = LJCOM_MAIN_DOMAIN_RE.exec(uri)) {
+     if (m = LJCOM_MAIN_DOMAIN_RE.exec(path)) {
        return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
      }
 
-     if (m = LJCOM_USERINFO_BML_RE.exec(uri)) {
+     if (m = LJCOM_USERINFO_BML_RE.exec(path)) {
        if (m[1] == "user") {
          return "sgn://livejournal.com/?ident=" + m[2];
        } else {

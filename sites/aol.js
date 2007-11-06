@@ -1,3 +1,5 @@
+// -*-java-*-
+
 /**
  * Copyright 2007 Google Inc.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +17,7 @@
 
 var AOL_RE = /^aim:(?:goim\?screenname=)?([\w \+]+)/i;
 
-NodeMapper.registerNonHTTPHandler(function (url) {
+NodeMapper.registerNonHTTPHandler(function(url) {
   var m = AOL_RE.exec(url);
   if (m) {
     var screenname = m[1].toLowerCase().replace(/[\s\+]/g, "");
@@ -24,14 +26,14 @@ NodeMapper.registerNonHTTPHandler(function (url) {
 });
 
 registerDomain("openid.aol.com", {
- urlToGraphNode: commonPatternSlashUsername("aol.com"),
+ urlToGraphNode: createSlashUsernameHandler("aol.com"),
 });
 
 registerDomain("aimpages.com", {
- urlToGraphNode: function (url, host, uri) {
+ urlToGraphNode: function(url, host, path) {
    var slashProfile = /^\/{1,2}([\w\+]+)(?:\/(?:profile\.html)?|$)/;
    var m;
-   if (!(m = slashProfile.exec(uri)))
+   if (!(m = slashProfile.exec(path)))
      return url;
    return "sgn://aol.com/?ident=" + m[1].toLowerCase().replace(/[\s\+]/g, "");
  },

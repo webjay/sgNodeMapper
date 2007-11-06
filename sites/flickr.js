@@ -1,3 +1,5 @@
+// -*-java-*-
+
 /**
  * Copyright 2007 Google Inc.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,17 +15,20 @@
  * limitations under the License.
  **/
 
-function urlToGraphNode_Flickr(url, host, uri) {
-  var flickerUriRE = /^\/(?:people|photos)\/(\d+@\w+)\/?$/;
-  var m = flickerUriRE.exec(uri);
-  return m ? "sgn://flickr.com/?pk=" + m[1] : uri;
+/**
+ * Flickr-specific URL handler.
+ */
+function urlToGraphNodeFlickr(url, host, path) {
+  var flickerPathRE = /^\/(?:people|photos)\/(\d+@\w+)\/?$/;
+  var m = flickerPathRE.exec(path);
+  return m ? "sgn://flickr.com/?pk=" + m[1] : path;
 };
 
 registerDomain("flickr.com", {
- urlToGraphNode: commonPatternSomethingSlashUsername("(?:people|photos)",
-                                                     "flickr.com", {
-                                                    fallback_func: urlToGraphNode_Flickr,
-                                                   }),
+  urlToGraphNode: createSomethingSlashUsernameHandler("(?:people|photos)",
+                                                      "flickr.com", {
+    fallbackHandler: urlToGraphNodeFlickr,
+  }),
 });
 
 __END__
