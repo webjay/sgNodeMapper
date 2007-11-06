@@ -39,6 +39,9 @@ for my $file ("$Bin/nodemapper-base.js", glob("$Bin/sites/*.js")) {
   if ($file =~ m!sites/!) {
     $buffer =~ s!/\*\*\s+\*\s+Copyright 20.+?\*/!!s;
     $buffer =~ s!// -\*-\w+-\*-\s*\n!!;
+    $buffer =~ s/^\s+//;
+    $buffer =~ s/\s+$//;
+    $buffer .= "\n";
     $buffer = "// " . "="x73 . "\n" .
       "// Begin included file $filebase\n" .
       "(function(){\n$buffer\n})();\n" .

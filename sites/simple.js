@@ -1,34 +1,39 @@
 // -*-java-*-
 
 registerDomain("digg.com", {
- urlToGraphNode: createSomethingSlashUsernameHandler("users", "digg.com"),
+  urlToGraphNode: createSomethingSlashUsernameHandler("users", "digg.com"),
 });
 
 registerDomain("twitter.com", {
- urlToGraphNode: createSlashUsernameHandler("twitter.com"),
+  urlToGraphNode: createSlashUsernameHandler("twitter.com"),
 });
 
 registerDomain("pownce.com", {
- urlToGraphNode: createSlashUsernameHandler("pownce.com"),
+  urlToGraphNode: createSlashUsernameHandler("pownce.com"),
 });
 
 registerDomain("jaiku.com", {
- urlToGraphNode: createUserIsSubdomainHandler("jaiku.com"),
+  urlToGraphNode: createUserIsSubdomainHandler("jaiku.com"),
 });
 
 registerDomain("mugshot.org", {
  urlToGraphNode: createPathRegexpHandler("mugshot.org", /^\/person\?who=(\w+)/,
                                         { casePreserve: 1 }),
-})
+});
 
 registerDomain("ziki.com", {
- urlToGraphNode: createPathRegexpHandler("ziki.com", /^\/\w\w\/people\/(\w+)\/?/),
-})
+  urlToGraphNode: createPathRegexpHandler(
+      "ziki.com",
+      /^\/\w\w\/people\/(\w+)\/?/
+      ),
+});
 
 registerDomain("wordpress.com", {
- urlToGraphNode: createHostRegexpHandler("wordpress.com",
-                                         /^(?:www\.)?([\w\-]+)\.wordpress\.com$/),
-})
+  urlToGraphNode: createHostRegexpHandler(
+      "wordpress.com",
+      /^(?:www\.)?([\w\-]+)\.wordpress\.com$/
+      ),
+});
 
 __END__
 
