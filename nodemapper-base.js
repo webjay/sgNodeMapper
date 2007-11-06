@@ -159,7 +159,7 @@ NodeMapper.urlToGraphNodeNotHTTP = function(url) {
 
 
 /**
- * Returns an sgn parser function, given a domain and regular
+ * returns an sgn parser function, given a domain and regular
  * expression that operates on the path of a URL.
  *
  * @param {String} domain sgn:// domain to return on match
@@ -169,6 +169,9 @@ NodeMapper.urlToGraphNodeNotHTTP = function(url) {
  *     instance: 'fallbackHandler' to run if no match
  *     (rather than returning URL back), 'casePreserve',
  *     a bool, to not lowercase the username.
+ * @return {Function} function of (url, host, path) which returns
+ *     an sgn:// URL (ideally, if recognized), or the same provided
+ *     URL back if URL isn't recognized by a registered parser.
  */
 function createPathRegexpHandler(domain, re, opts) {
   if (!opts) opts = {};
@@ -182,6 +185,17 @@ function createPathRegexpHandler(domain, re, opts) {
   };
 }
 
+/**
+ * returns an sgn parser function, given a domain and regular
+ * expression that operates on the hostname of a URL.
+ *
+ * @param {String} domain sgn:// domain to return on match
+ * @param {RegExp} re Regular expression to match.  Capture #1
+ *     must match the username.
+ * @param {Object} opts Optional object with extra options, for
+ *     instance: 'fallbackHandler' to run if no match
+ *     (rather than returning URL back)
+ */
 function createHostRegexpHandler(domain, re, opts) {
   if (!opts) opts = {};
   return function(url, host, path) {
@@ -194,13 +208,14 @@ function createHostRegexpHandler(domain, re, opts) {
 }
 
 /**
- * Wrapper around createPathRegexpHandler, returning a parser for
- * common pattern: path of /username/, where trailing slash is optional
+ * returns an sgn parser function which parses URLs with
+ * paths of the form /[username]/ (with optional trailing slash)
  *
  * @param {String} domain sgn:// domain to return on match
  * @param {Object} opts Options supported by createPathRegexpHandler
  * @return {String} Clean socialgraph identifier, if URL type is
  *     known, else same URL back.
+ * @see #createPathRegexpHandler
  */
 function createSlashUsernameHandler(domain, opts) {
   var slashUsernameRE = /^\/(\w+)\/?$/;
@@ -209,15 +224,15 @@ function createSlashUsernameHandler(domain, opts) {
 
 
 /**
- * Wrapper around createPathRegexpHandler, returning a parser for
- * common pattern: path of /[prefix]/[username]/, where the trailing
- * slash is optional.
+ * returns an sgn parser function which parses URLs with
+ * paths of the form /[prefix]/[username]/ (with optional trailing slash)
  *
  * @param {String} prefix The prefix path before the username
  * @param {String} domain sgn:// domain to return on match
  * @param {Object} opts Options supported by createPathRegexpHandler
  * @return {String} Clean socialgraph identifier, if URL type is
  *     known, else same URL back.
+ * @see #createPathRegexpHandler
  */
 function createSomethingSlashUsernameHandler(prefix,
                                              domain,
@@ -241,12 +256,6 @@ function createUserIsSubdomainHandler(domain) {
   // yes, domain isn't escaped, but that doesn't matter,
   // as nobody will call this outside of a registerDomain'd
   // block of code, where the domain has already been matched
-  var hostRE = new RegExp("([\\w\\-]+)\." + domain + "$", "i");
-  return function(url, host, path) {
-    var m;
-    if (m = hostRE.exec(host)) {
-      return "sgn://" + domain + "/?ident=" + m[1].toLowerCase();
-    }
-    return url;
-  };
+  var subdomainRE = new RegExp("([\\w\\-]+)\." + domain + "$", "i");
+  return createHostRegexpHandler(domain, subdomainRE);
 }
