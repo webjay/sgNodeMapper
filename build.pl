@@ -37,7 +37,7 @@ for my $file ("$Bin/nodemapper-base.js", glob("$Bin/sites/*.js")) {
   # hints line.  also, wrap them all in anonymous function
   # calls, to give them their own namespace.
   if ($file =~ m!sites/!) {
-    $buffer =~ s!/\*\*\s+\*\s+Copyright 20.+\*/!!s;
+    $buffer =~ s!/\*\*\s+\*\s+Copyright 20.+?\*/!!s;
     $buffer =~ s!// -\*-\w+-\*-\s*\n!!;
     $buffer = "// " . "="x73 . "\n" .
       "// Begin included file $filebase\n" .
