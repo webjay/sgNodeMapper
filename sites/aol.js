@@ -15,6 +15,11 @@
  * limitations under the License.
  **/
 
+/**
+ * Regular expression for AOL's aim: URL scheme.
+ *
+ * @type RegExp
+ */
 var AOL_RE = /^aim:(?:goim\?screenname=)?([\w \+]+)/i;
 
 NodeMapper.registerNonHTTPHandler(function(url) {

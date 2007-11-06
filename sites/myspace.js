@@ -13,18 +13,37 @@
  * limitations under the License.
  **/
 
+
+/**
+ * Regular expression for MySpace action paths, capturing the action
+ * in $1 and userid in $2.
+ *
+ * @type RegExp
+ */
 var MYSPACE_PATH_RE = /index\.cfm\?fuseaction=(.+)&friendID=(\d+)/i;
 
-// match $1 = number, or $2 = username, followed by optional query
-// parameters, or nothing
+
+/**
+ * Regular expression for MySpace pretty paths, capturing either
+ * the userid in $1 or the username in $2 (but not both).  May
+ * contain trailing query parameters.
+ *
+ * @type RegExp
+ */
 var MYSPACE_PATH_SLASH_WHATEVER = /^\/(\d+)|([a-z]\w*)(?:\?|$)/;
 
-// actions which, if seen in a URL, likely point to a user or her content
+
+/**
+ * MySpace actions which are particular to a user.
+ *
+ * @type Object
+ */
 var MYSPACE_USER_ACTIONS = {
   "user.viewprofile": 1,
   "blog.listall": 1,
   "blog.confirmsubscribe": 1
 };
+
 
 /**
  * MySpace-specific URL handler

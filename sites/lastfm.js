@@ -26,6 +26,11 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Domains that last.fm runs on
+ *
+ * @type Array.<String>
+ */
 var LAST_FM_DOMAINS = [
     "cn.last.fm",
     "last.fm",
@@ -46,7 +51,7 @@ var LAST_FM_DOMAINS = [
     "www.lastfm.pl",
     "www.lastfm.pt",
     "www.lastfm.ru",
-    "www.lastfm.se",
+    "www.lastfm.se"
     ];
 
 registerDomain(LAST_FM_DOMAINS, {

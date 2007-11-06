@@ -15,6 +15,22 @@
  * limitations under the License.
  **/
 
+/**
+ * Regular expression for user URLs hosted on www.livejournal.com or
+ * livejournal.com.
+ *
+ * @type RegExp
+ */
+var LJCOM_MAIN_DOMAIN_RE = /^\/(?:~|users\/|community\/)(\w+)(?:\/|$)/;
+
+/**
+ * Regular expression for the old URL of profile pages hosted on
+ * www.livejournal.com or livejournal.com.  Nowadays they redirect.
+ *
+ * @type RegExp
+ */
+var LJCOM_USERINFO_BML_RE = /^\/userinfo\.bml\?(user|userid)=(\w+)/;
+
 registerDomain(["users.livejournal.com",
                 "community.livejournal.com"], {
   urlToGraphNode: function(url, host, path) {
@@ -25,9 +41,6 @@ registerDomain(["users.livejournal.com",
     return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
   },
 });
-
-var LJCOM_MAIN_DOMAIN_RE = /^\/(?:~|users\/|community\/)(\w+)(?:\/|$)/;
-var LJCOM_USERINFO_BML_RE = /^\/userinfo\.bml\?(user|userid)=(\w+)/;
 
 registerDomain("livejournal.com", {
  urlToGraphNode: function(url, host, path) {
