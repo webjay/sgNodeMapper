@@ -18,7 +18,7 @@ registerDomain("jaiku.com", {
 
 registerDomain("mugshot.org", {
  urlToGraphNode: createPathRegexpHandler("mugshot.org", /^\/person\?who=(\w+)/,
-                                        { case_preserve: 1 }),
+                                        { casePreserve: 1 }),
 })
 
 registerDomain("ziki.com", {

@@ -132,6 +132,7 @@ NodeMapper.nonHTTPHandlers = [];
 
 /**
  * registers handlers for non-HTTP URLs
+ *
  * @param {Function} Function taking URL, returning either a social
  *     graph node identifier, or nothing if parse didn't match.
  */
@@ -141,8 +142,10 @@ NodeMapper.registerNonHTTPHandler = function(handler) {
 
 
 /**
- * Called by URLToGraphNode for non-HTTP URLs
- * @param {String} url URL of a person
+ * returns a social graph node URL, given a non-HTTP URL, or
+ * returns the same URL, if scheme/pattern isn't recognized.
+ *
+ * @param {String} url non-HTTP URL of a person
  * @return {String} Clean socialgraph identifier, if URL type is
  *     known, else same URL back.
  */
@@ -156,15 +159,15 @@ NodeMapper.urlToGraphNodeNotHTTP = function(url) {
 
 
 /**
- * Returns a sgn parser function, given a regular expression
- * that operates on the path of a URL.
+ * Returns an sgn parser function, given a domain and regular
+ * expression that operates on the path of a URL.
  *
  * @param {String} domain sgn:// domain to return on match
  * @param {RegExp} re Regular expression to match.  Capture #1
  *     must match the username.
  * @param {Object} opts Optional object with extra options, for
  *     instance: 'fallbackHandler' to run if no match
- *     (rather than returning URL back), 'case_preserve',
+ *     (rather than returning URL back), 'casePreserve',
  *     a bool, to not lowercase the username.
  */
 function createPathRegexpHandler(domain, re, opts) {
@@ -175,7 +178,7 @@ function createPathRegexpHandler(domain, re, opts) {
       return opts.fallbackHandler ? opts.fallbackHandler(url, host, path) : url;
     }
     return "sgn://" + domain + "/?ident=" +
-        (opts.case_preserve ? m[1] : m[1].toLowerCase());
+        (opts.casePreserve ? m[1] : m[1].toLowerCase());
   };
 }
 
