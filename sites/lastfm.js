@@ -54,8 +54,9 @@ var LAST_FM_DOMAINS = [
     "www.lastfm.se"
     ];
 
-registerDomain(LAST_FM_DOMAINS, {
- urlToGraphNode: createSomethingSlashUsernameHandler("user", "last.fm"),
+nodemapper.registerDomain(LAST_FM_DOMAINS, {
+ urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("user",
+                                                                "last.fm"),
                      });
 
 __END__

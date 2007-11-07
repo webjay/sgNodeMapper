@@ -56,7 +56,7 @@ sub DESTROY {
 sub graph_node_from_url {
   my ($self, $url) = @_;
   # TODO: javascript-escape $url
-  $self->{js}->eval("_set_return_value(NodeMapper.urlToGraphNode(\"$url\"));")
+  $self->{js}->eval("_set_return_value(nodemapper.urlToGraphNode(\"$url\"));")
     or die $@;
   return $self->{_last_return_value};
 }

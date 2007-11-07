@@ -18,15 +18,17 @@
 
 /**
  * @fileoverview Maps URLs to/from socialgraph identifiers.
+ * @author Brad Fitzpatrick (bradfitz@google.com)
  */
 
 
 /**
- * NodeMapper object, the namespace for all other NodeMapper methods
- * and registrations from site handlers.
+ * The namespace object for all other node mapper methods and
+ * registration data from site handlers.
+ *
  * @type Object
  */
-NodeMapper = {};
+nodemapper = {};
 
 
 /**
@@ -36,35 +38,31 @@ NodeMapper = {};
  * @see NodeMapper#registerDomain
  * @type Object
  */
-NodeMapper.handlers = {};
+nodemapper.handlers = {};
 
 
 /**
- * How domains register their URL routines
-
- * @param {String | Array.<String>} domain Domain name
+ * Register a handler for a domain.
+ *
+ * @param {String|Array.<String>} domain Domain name
  *     (e.g. "foo.com.cn", "myspace.com") or an array of
  *     domain names to register handlers for.
  *
  * @param {Object} handler Object with functions as properties:
- *     'urlToGraphNode': function(url,host,path) -> ident/URL
- *     (more coming in the future)
+ *     'urlToGraphNode': function(url,host,path) -> ident/URL (more coming
+ *     in the future).  A handler deals with parsing a URL to an sgn://
+ *     URL, and also mapping from sgn:// URLs back to different classes of
+ *     http:// URLs for that sgn:// resource.
  */
-NodeMapper.registerDomain = function(domain, handler) {
+nodemapper.registerDomain = function(domain, handler) {
   if (domain instanceof Array) {
     for (var i=0; i<domain.length; i++) {
-      NodeMapper.handlers[domain[i]] = handler;
+      nodemapper.handlers[domain[i]] = handler;
     }
   } else {
-    NodeMapper.handlers[domain] = handler;
+    nodemapper.handlers[domain] = handler;
   }
 };
-
-
-/**
- * alias for brevity in site-specific *.js files
- */
-registerDomain = NodeMapper.registerDomain;
 
 
 /**
@@ -73,7 +71,7 @@ registerDomain = NodeMapper.registerDomain;
  *
  * @type RegExp
  */
-NodeMapper.HTTP_REGEX = new RegExp("^http://([^/]+)(.*)");
+nodemapper.HTTP_REGEX = new RegExp("^http://([^/]+)(.*)");
 
 
 /**
@@ -86,12 +84,12 @@ NodeMapper.HTTP_REGEX = new RegExp("^http://([^/]+)(.*)");
  * @return {String} Clean socialgraph sgn:// URL, if URL type is
  *     known, else same URL back.
  */
-NodeMapper.urlToGraphNode = function(url) {
-  var m = NodeMapper.HTTP_REGEX.exec(url);
+nodemapper.urlToGraphNode = function(url) {
+  var m = nodemapper.HTTP_REGEX.exec(url);
   if (!m) {
     // non-HTTP is rare; pass it to separate handler.  the rest
     // of this function deals with HTTP specifically
-    return NodeMapper.urlToGraphNodeNotHTTP(url);
+    return nodemapper.urlToGraphNodeNotHTTP(url);
   }
   var host = m[1].toLowerCase();
   var path = m[2];
@@ -103,7 +101,7 @@ NodeMapper.urlToGraphNode = function(url) {
   var handler;
   for (var i = 0; i < hostparts.length; ++i) {
     var subhost = hostparts.slice(i, hostparts.length);
-    handler = NodeMapper.handlers[subhost.join(".")];
+    handler = nodemapper.handlers[subhost.join(".")];
     if (handler) break;
   }
 
@@ -117,17 +115,11 @@ NodeMapper.urlToGraphNode = function(url) {
 
 
 /**
- * Temporary compatibility wrapper (the old entrypoint),
- * still used by C++ library, hence the C++ style.
- */
-URLToGraphNode = NodeMapper.urlToGraphNode;
-
-/**
  * List of functions registered with RegisterNonHTTPHandler
  *
  * @type Array.<Function>
  */
-NodeMapper.nonHTTPHandlers = [];
+nodemapper.nonHTTPHandlers = [];
 
 
 /**
@@ -136,8 +128,8 @@ NodeMapper.nonHTTPHandlers = [];
  * @param {Function} Function taking URL, returning either a social
  *     graph node identifier, or nothing if parse didn't match.
  */
-NodeMapper.registerNonHTTPHandler = function(handler) {
-  NodeMapper.nonHTTPHandlers.push(handler);
+nodemapper.registerNonHTTPHandler = function(handler) {
+  nodemapper.nonHTTPHandlers.push(handler);
 };
 
 
@@ -149,9 +141,9 @@ NodeMapper.registerNonHTTPHandler = function(handler) {
  * @return {String} Clean socialgraph identifier, if URL type is
  *     known, else same URL back.
  */
-NodeMapper.urlToGraphNodeNotHTTP = function(url) {
-  for (var i=0; i < NodeMapper.nonHTTPHandlers.length; ++i) {
-    var ident = NodeMapper.nonHTTPHandlers[i](url);
+nodemapper.urlToGraphNodeNotHTTP = function(url) {
+  for (var i=0; i < nodemapper.nonHTTPHandlers.length; ++i) {
+    var ident = nodemapper.nonHTTPHandlers[i](url);
     if (ident) return ident;
   }
   return url;
@@ -173,7 +165,7 @@ NodeMapper.urlToGraphNodeNotHTTP = function(url) {
  *     an sgn:// URL (ideally, if recognized), or the same provided
  *     URL back if URL isn't recognized by a registered parser.
  */
-function createPathRegexpHandler(domain, re, opts) {
+nodemapper.createPathRegexpHandler = function(domain, re, opts) {
   if (!opts) opts = {};
   return function(url, host, path) {
     var m = re.exec(path);
@@ -183,10 +175,11 @@ function createPathRegexpHandler(domain, re, opts) {
     return "sgn://" + domain + "/?ident=" +
         (opts.casePreserve ? m[1] : m[1].toLowerCase());
   };
-}
+};
+
 
 /**
- * returns an sgn parser function, given a domain and regular
+ * Returns an sgn parser function, given a domain and regular
  * expression that operates on the hostname of a URL.
  *
  * @param {String} domain sgn:// domain to return on match
@@ -196,7 +189,7 @@ function createPathRegexpHandler(domain, re, opts) {
  *     instance: 'fallbackHandler' to run if no match
  *     (rather than returning URL back)
  */
-function createHostRegexpHandler(domain, re, opts) {
+nodemapper.createHostRegexpHandler = function(domain, re, opts) {
   if (!opts) opts = {};
   return function(url, host, path) {
     var m = re.exec(host);
@@ -205,7 +198,7 @@ function createHostRegexpHandler(domain, re, opts) {
     }
     return "sgn://" + domain + "/?ident=" + m[1].toLowerCase();
   };
-}
+};
 
 /**
  * returns an sgn parser function which parses URLs with
@@ -215,12 +208,12 @@ function createHostRegexpHandler(domain, re, opts) {
  * @param {Object} opts Options supported by createPathRegexpHandler
  * @return {String} Clean socialgraph identifier, if URL type is
  *     known, else same URL back.
- * @see #createPathRegexpHandler
+ * @see nodemapper#createPathRegexpHandler
  */
-function createSlashUsernameHandler(domain, opts) {
+nodemapper.createSlashUsernameHandler = function(domain, opts) {
   var slashUsernameRE = /^\/(\w+)\/?$/;
-  return createPathRegexpHandler(domain, slashUsernameRE, opts);
-}
+  return nodemapper.createPathRegexpHandler(domain, slashUsernameRE, opts);
+};
 
 
 /**
@@ -232,15 +225,15 @@ function createSlashUsernameHandler(domain, opts) {
  * @param {Object} opts Options supported by createPathRegexpHandler
  * @return {String} Clean socialgraph identifier, if URL type is
  *     known, else same URL back.
- * @see #createPathRegexpHandler
+ * @see nodemapper#createPathRegexpHandler
  */
-function createSomethingSlashUsernameHandler(prefix,
-                                             domain,
-                                             opts) {
+nodemapper.createSomethingSlashUsernameHandler = function(prefix,
+                                                          domain,
+                                                          opts) {
   var slashSomethingUserRE = new RegExp("^/" + prefix + "/" +
                                         "(\\w+)(?:/|$)");
-  return createPathRegexpHandler(domain, slashSomethingUserRE, opts);
-}
+  return nodemapper.createPathRegexpHandler(domain, slashSomethingUserRE, opts);
+};
 
 
 /**
@@ -252,10 +245,10 @@ function createSomethingSlashUsernameHandler(prefix,
  *     if you want to match "brad" in "brad.livejournal.com".
  * @return {Function} URL to sgn:// handler.
  */
-function createUserIsSubdomainHandler(domain) {
+nodemapper.createUserIsSubdomainHandler = function(domain) {
   // yes, domain isn't escaped, but that doesn't matter,
   // as nobody will call this outside of a registerDomain'd
   // block of code, where the domain has already been matched
   var subdomainRE = new RegExp("([\\w\\-]+)\." + domain + "$", "i");
-  return createHostRegexpHandler(domain, subdomainRE);
-}
+  return nodemapper.createHostRegexpHandler(domain, subdomainRE);
+};

@@ -22,7 +22,7 @@
  */
 var AIM_REGEX = /^aim:(?:goim\?screenname=)?([\w \+]+)/i;
 
-NodeMapper.registerNonHTTPHandler(function(url) {
+nodemapper.registerNonHTTPHandler(function(url) {
   var m = AIM_REGEX.exec(url);
   if (m) {
     var screenname = m[1].toLowerCase().replace(/[\s\+]/g, "");
@@ -30,11 +30,11 @@ NodeMapper.registerNonHTTPHandler(function(url) {
   }
 });
 
-registerDomain("openid.aol.com", {
- urlToGraphNode: createSlashUsernameHandler("aol.com"),
+nodemapper.registerDomain("openid.aol.com", {
+ urlToGraphNode: nodemapper.createSlashUsernameHandler("aol.com"),
 });
 
-registerDomain("aimpages.com", {
+nodemapper.registerDomain("aimpages.com", {
  urlToGraphNode: function(url, host, path) {
    var slashProfile = /^\/{1,2}([\w\+]+)(?:\/(?:profile\.html)?|$)/;
    var m;

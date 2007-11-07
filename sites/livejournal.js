@@ -31,8 +31,8 @@ var LJCOM_MAIN_DOMAIN_REGEX = /^\/(?:~|users\/|community\/)(\w+)(?:\/|$)/;
  */
 var LJCOM_USERINFO_BML_REGEX = /^\/userinfo\.bml\?(user|userid)=(\w+)/;
 
-registerDomain(["users.livejournal.com",
-                "community.livejournal.com"], {
+nodemapper.registerDomain(["users.livejournal.com",
+                           "community.livejournal.com"], {
   urlToGraphNode: function(url, host, path) {
     var slashUserMaybeProfile = /^\/(\w+)(?:\/|\/profile|$)/;
     var m;
@@ -42,7 +42,7 @@ registerDomain(["users.livejournal.com",
   },
 });
 
-registerDomain("livejournal.com", {
+nodemapper.registerDomain("livejournal.com", {
  urlToGraphNode: function(url, host, path) {
    if (host == "www.livejournal.com" || host == "livejournal.com") {
      if (m = LJCOM_MAIN_DOMAIN_REGEX.exec(path)) {

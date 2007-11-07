@@ -73,14 +73,14 @@ function urlToGraphNodeMySpace(url, host, path) {
   return url;
 };
 
-registerDomain("myspace.com", {
-  urlToGraphNode: createSlashUsernameHandler("myspace.com", {
+nodemapper.registerDomain("myspace.com", {
+  urlToGraphNode: nodemapper.createSlashUsernameHandler("myspace.com", {
     fallbackHandler: urlToGraphNodeMySpace,
   }),
 });
 
-registerDomain(["profile.myspace.com",
-                "blog.myspace.com"], {
+nodemapper.registerDomain(["profile.myspace.com",
+                           "blog.myspace.com"], {
  urlToGraphNode: urlToGraphNodeMySpace,
 });
 

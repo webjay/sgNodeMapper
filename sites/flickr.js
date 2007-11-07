@@ -24,9 +24,10 @@ function urlToGraphNodeFlickr(url, host, path) {
   return m ? "sgn://flickr.com/?pk=" + m[1] : path;
 };
 
-registerDomain("flickr.com", {
-  urlToGraphNode: createSomethingSlashUsernameHandler("(?:people|photos)",
-                                                      "flickr.com", {
+nodemapper.registerDomain("flickr.com", {
+  urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+      "(?:people|photos)",
+      "flickr.com", {
     fallbackHandler: urlToGraphNodeFlickr,
   }),
 });
