@@ -20,10 +20,10 @@
  *
  * @type RegExp
  */
-var AOL_RE = /^aim:(?:goim\?screenname=)?([\w \+]+)/i;
+var AIM_REGEX = /^aim:(?:goim\?screenname=)?([\w \+]+)/i;
 
 NodeMapper.registerNonHTTPHandler(function(url) {
-  var m = AOL_RE.exec(url);
+  var m = AIM_REGEX.exec(url);
   if (m) {
     var screenname = m[1].toLowerCase().replace(/[\s\+]/g, "");
     return "sgn://aol.com/?ident=" + screenname;

@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- **/
+ */
 
 
 /**
@@ -73,7 +73,7 @@ registerDomain = NodeMapper.registerDomain;
  *
  * @type RegExp
  */
-NodeMapper.HTTP_RE = new RegExp("^http://([^/]+)(.*)");
+NodeMapper.HTTP_REGEX = new RegExp("^http://([^/]+)(.*)");
 
 
 /**
@@ -87,7 +87,7 @@ NodeMapper.HTTP_RE = new RegExp("^http://([^/]+)(.*)");
  *     known, else same URL back.
  */
 NodeMapper.urlToGraphNode = function(url) {
-  var m = NodeMapper.HTTP_RE.exec(url);
+  var m = NodeMapper.HTTP_REGEX.exec(url);
   if (!m) {
     // non-HTTP is rare; pass it to separate handler.  the rest
     // of this function deals with HTTP specifically

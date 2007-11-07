@@ -20,7 +20,7 @@
  *
  * @type RegExp
  */
-var MYSPACE_PATH_RE = /index\.cfm\?fuseaction=(.+)&friendID=(\d+)/i;
+var ACTION_REGEX = /index\.cfm\?fuseaction=(.+)&friendID=(\d+)/i;
 
 
 /**
@@ -30,7 +30,7 @@ var MYSPACE_PATH_RE = /index\.cfm\?fuseaction=(.+)&friendID=(\d+)/i;
  *
  * @type RegExp
  */
-var MYSPACE_PATH_SLASH_WHATEVER = /^\/(\d+)|([a-z]\w*)(?:\?|$)/;
+var SLASH_WHATEVER_REGEX = /^\/(\d+)|([a-z]\w*)(?:\?|$)/;
 
 
 /**
@@ -49,7 +49,7 @@ var MYSPACE_USER_ACTIONS = {
  * MySpace-specific URL handler
  */
 function urlToGraphNodeMySpace(url, host, path) {
-  var m = MYSPACE_PATH_RE.exec(path);
+  var m = ACTION_REGEX.exec(path);
   if (m) {
     var action = m[1].toLowerCase();
     var userid = m[2];
@@ -58,7 +58,7 @@ function urlToGraphNodeMySpace(url, host, path) {
     }
   }
   if (host == "profile.myspace.com") {
-    m = MYSPACE_PATH_SLASH_WHATEVER.exec(path);
+    m = SLASH_WHATEVER_REGEX.exec(path);
     if (m) {
       if (m[1]) {
         return "sgn://myspace.com/?pk=" + m[1];

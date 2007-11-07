@@ -22,10 +22,10 @@
  *
  * @type RegExp
  */
-var BLOGSPOT_RE = /^(?:www\.)?([\w\-]+)\.blogspot\.com$/;
+var BLOGSPOT_REGEX = /^(?:www\.)?([\w\-]+)\.blogspot\.com$/;
 
 registerDomain("blogspot.com", {
-  urlToGraphNode: createHostRegexpHandler("blogspot.com", BLOGSPOT_RE),
+  urlToGraphNode: createHostRegexpHandler("blogspot.com", BLOGSPOT_REGEX),
 });
 
 __END__
