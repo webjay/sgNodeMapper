@@ -32,8 +32,8 @@ nodemapper = {};
 
 
 /**
- * Mapping of domain names to handler objects,
- * maintained by NodeMapper.registerDomain().
+ * Mapping of domain names to handler objects, maintained by
+ * NodeMapper.registerDomain().
  *
  * @see NodeMapper#registerDomain
  * @type Object
@@ -44,9 +44,8 @@ nodemapper.handlers = {};
 /**
  * Register a handler for a domain.
  *
- * @param {String|Array.<String>} domain Domain name
- *     (e.g. "foo.com.cn", "myspace.com") or an array of
- *     domain names to register handlers for.
+ * @param {String|Array.<String>} domain Domain name (e.g. "foo.com.cn",
+ *     "myspace.com") or an array of domain names to register handlers for.
  *
  * @param {Object} handler Object with functions as properties:
  *     'urlToGraphNode': function(url,host,path) -> ident/URL (more coming
@@ -123,7 +122,7 @@ nodemapper.nonHTTPHandlers = [];
 
 
 /**
- * registers handlers for non-HTTP URLs
+ * Registers handlers for non-HTTP URLs
  *
  * @param {Function} Function taking URL, returning either a social
  *     graph node identifier, or nothing if parse didn't match.
@@ -134,7 +133,7 @@ nodemapper.registerNonHTTPHandler = function(handler) {
 
 
 /**
- * returns a social graph node URL, given a non-HTTP URL, or
+ * Returns a social graph node URL, given a non-HTTP URL, or
  * returns the same URL, if scheme/pattern isn't recognized.
  *
  * @param {String} url non-HTTP URL of a person
@@ -151,7 +150,7 @@ nodemapper.urlToGraphNodeNotHTTP = function(url) {
 
 
 /**
- * returns an sgn parser function, given a domain and regular
+ * Returns an sgn parser function, given a domain and regular
  * expression that operates on the path of a URL.
  *
  * @param {String} domain sgn:// domain to return on match
@@ -201,7 +200,7 @@ nodemapper.createHostRegexpHandler = function(domain, re, opts) {
 };
 
 /**
- * returns an sgn parser function which parses URLs with
+ * Returns an sgn parser function which parses URLs with
  * paths of the form /[username]/ (with optional trailing slash)
  *
  * @param {String} domain sgn:// domain to return on match
@@ -217,7 +216,7 @@ nodemapper.createSlashUsernameHandler = function(domain, opts) {
 
 
 /**
- * returns an sgn parser function which parses URLs with
+ * Returns an sgn parser function which parses URLs with
  * paths of the form /[prefix]/[username]/ (with optional trailing slash)
  *
  * @param {String} prefix The prefix path before the username
