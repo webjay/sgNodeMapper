@@ -17,6 +17,16 @@ nodemapper.registerDomain("jaiku.com", {
   urlToGraphNode: nodemapper.createUserIsSubdomainHandler("jaiku.com"),
 });
 
+nodemapper.registerDomain("linkedin.com", {
+  urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("in",
+                                                                 "linkedin.com"),
+});
+
+nodemapper.registerDomain("ma.gnolia.com", {
+  urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("people",
+                                                                 "ma.gnolia.com"),
+});
+
 nodemapper.registerDomain("mugshot.org", {
  urlToGraphNode: nodemapper.createPathRegexpHandler("mugshot.org",
                                                     /^\/person\?who=(\w+)/,
@@ -53,6 +63,13 @@ http://pownce.com/A/   sgn://pownce.com/?ident=a
 
 http://bradfitz.jaiku.com/   sgn://jaiku.com/?ident=bradfitz
 http://BRADFITZ.JAIKU.COM/   sgn://jaiku.com/?ident=bradfitz
+
+http://linkedin.com/in/foobar	sgn://linkedin.com/?ident=foobar
+http://linkedin.com/in/foobar/	sgn://linkedin.com/?ident=foobar
+http://www.linkedin.com/in/foobar/	sgn://linkedin.com/?ident=foobar
+
+http://ma.gnolia.com/people/daveman692	sgn://ma.gnolia.com/?ident=daveman692
+http://ma.gnolia.com/people/daveman692/	sgn://ma.gnolia.com/?ident=daveman692
 
 # case sensitive identifiers!
 http://mugshot.org/person?who=7ACcH9gn7zv4YG  sgn://mugshot.org/?ident=7ACcH9gn7zv4YG
