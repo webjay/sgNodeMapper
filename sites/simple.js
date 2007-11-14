@@ -1,51 +1,53 @@
 // -*-java-*-
 
-nodemapper.registerDomain("digg.com", {
-  urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("users",
-                                                                 "digg.com"),
-});
+nodemapper.registerDomain(
+    "digg.com",
+    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+        "users",
+        "digg.com")});
 
-nodemapper.registerDomain("twitter.com", {
-  urlToGraphNode: nodemapper.createSlashUsernameHandler("twitter.com"),
-});
+nodemapper.registerDomain(
+    "twitter.com",
+    {urlToGraphNode: nodemapper.createSlashUsernameHandler("twitter.com")});
 
-nodemapper.registerDomain("pownce.com", {
-  urlToGraphNode: nodemapper.createSlashUsernameHandler("pownce.com"),
-});
+nodemapper.registerDomain(
+    "pownce.com",
+    {urlToGraphNode: nodemapper.createSlashUsernameHandler("pownce.com")});
 
-nodemapper.registerDomain("jaiku.com", {
-  urlToGraphNode: nodemapper.createUserIsSubdomainHandler("jaiku.com"),
-});
+nodemapper.registerDomain(
+    "jaiku.com",
+    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("jaiku.com")});
 
-nodemapper.registerDomain("linkedin.com", {
-  urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("in",
-                                                                 "linkedin.com"),
-});
+nodemapper.registerDomain(
+    "mugshot.org",
+    {urlToGraphNode: nodemapper.createPathRegexpHandler(
+        "mugshot.org",
+        /^\/person\?who=(\w+)/,
+        {casePreserve: 1})});
 
-nodemapper.registerDomain("ma.gnolia.com", {
-  urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("people",
-                                                                 "ma.gnolia.com"),
-});
+nodemapper.registerDomain(
+    "linkedin.com",
+    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+        "in",
+        "linkedin.com")});
 
-nodemapper.registerDomain("mugshot.org", {
- urlToGraphNode: nodemapper.createPathRegexpHandler("mugshot.org",
-                                                    /^\/person\?who=(\w+)/,
-                                                    { casePreserve: 1 }),
-});
+nodemapper.registerDomain(
+    "ma.gnolia.com",
+    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+        "people",
+        "ma.gnolia.com")});
 
-nodemapper.registerDomain("ziki.com", {
-  urlToGraphNode: nodemapper.createPathRegexpHandler(
-      "ziki.com",
-      /^\/\w\w\/people\/(\w+)\/?/
-      ),
-});
+nodemapper.registerDomain(
+    "ziki.com",
+    {urlToGraphNode: nodemapper.createPathRegexpHandler(
+        "ziki.com",
+        /^\/\w\w\/people\/(\w+)\/?/)});
 
-nodemapper.registerDomain("wordpress.com", {
-  urlToGraphNode: nodemapper.createHostRegexpHandler(
-      "wordpress.com",
-      /^(?:www\.)?([\w\-]+)\.wordpress\.com$/
-      ),
-});
+nodemapper.registerDomain(
+    "wordpress.com",
+    {urlToGraphNode: nodemapper.createHostRegexpHandler(
+        "wordpress.com",
+        /^(?:www\.)?([\w\-]+)\.wordpress\.com$/)});
 
 __END__
 

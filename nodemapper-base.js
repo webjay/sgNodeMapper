@@ -156,7 +156,7 @@ nodemapper.urlToGraphNodeNotHTTP = function(url) {
  * @param {String} domain sgn:// domain to return on match
  * @param {RegExp} re Regular expression to match.  Capture #1
  *     must match the username.
- * @param {Object} opts Optional object with extra options, for
+ * @param {Object} opt_opts Optional object with extra options, for
  *     instance: 'fallbackHandler' to run if no match
  *     (rather than returning URL back), 'casePreserve',
  *     a bool, to not lowercase the username.
@@ -164,15 +164,17 @@ nodemapper.urlToGraphNodeNotHTTP = function(url) {
  *     an sgn:// URL (ideally, if recognized), or the same provided
  *     URL back if URL isn't recognized by a registered parser.
  */
-nodemapper.createPathRegexpHandler = function(domain, re, opts) {
-  if (!opts) opts = {};
+nodemapper.createPathRegexpHandler = function(domain, re, opt_opts) {
+  if (!opt_opts) opt_opts = {};
   return function(url, host, path) {
     var m = re.exec(path);
     if (!m) {
-      return opts.fallbackHandler ? opts.fallbackHandler(url, host, path) : url;
+      return opt_opts.fallbackHandler ?
+          opt_opts.fallbackHandler(url, host, path) :
+          url;
     }
     return "sgn://" + domain + "/?ident=" +
-        (opts.casePreserve ? m[1] : m[1].toLowerCase());
+        (opt_opts.casePreserve ? m[1] : m[1].toLowerCase());
   };
 };
 
@@ -184,16 +186,18 @@ nodemapper.createPathRegexpHandler = function(domain, re, opts) {
  * @param {String} domain sgn:// domain to return on match
  * @param {RegExp} re Regular expression to match.  Capture #1
  *     must match the username.
- * @param {Object} opts Optional object with extra options, for
+ * @param {Object} opt_opts Optional object with extra options, for
  *     instance: 'fallbackHandler' to run if no match
  *     (rather than returning URL back)
  */
-nodemapper.createHostRegexpHandler = function(domain, re, opts) {
-  if (!opts) opts = {};
+nodemapper.createHostRegexpHandler = function(domain, re, opt_opts) {
+  if (!opt_opts) opt_opts = {};
   return function(url, host, path) {
     var m = re.exec(host);
     if (!m) {
-      return opts.fallbackHandler ? opts.fallbackHandler(url, host, path) : url;
+      return opt_opts.fallbackHandler ?
+          opt_opts.fallbackHandler(url, host, path) :
+          url;
     }
     return "sgn://" + domain + "/?ident=" + m[1].toLowerCase();
   };
@@ -204,14 +208,14 @@ nodemapper.createHostRegexpHandler = function(domain, re, opts) {
  * paths of the form /[username]/ (with optional trailing slash)
  *
  * @param {String} domain sgn:// domain to return on match
- * @param {Object} opts Options supported by createPathRegexpHandler
+ * @param {Object} opt_opts Options supported by createPathRegexpHandler
  * @return {String} Clean socialgraph identifier, if URL type is
  *     known, else same URL back.
  * @see nodemapper#createPathRegexpHandler
  */
-nodemapper.createSlashUsernameHandler = function(domain, opts) {
+nodemapper.createSlashUsernameHandler = function(domain, opt_opts) {
   var slashUsernameRE = /^\/(\w+)\/?$/;
-  return nodemapper.createPathRegexpHandler(domain, slashUsernameRE, opts);
+  return nodemapper.createPathRegexpHandler(domain, slashUsernameRE, opt_opts);
 };
 
 
@@ -221,17 +225,19 @@ nodemapper.createSlashUsernameHandler = function(domain, opts) {
  *
  * @param {String} prefix The prefix path before the username
  * @param {String} domain sgn:// domain to return on match
- * @param {Object} opts Options supported by createPathRegexpHandler
+ * @param {Object} opt_opts Options supported by createPathRegexpHandler
  * @return {String} Clean socialgraph identifier, if URL type is
  *     known, else same URL back.
  * @see nodemapper#createPathRegexpHandler
  */
 nodemapper.createSomethingSlashUsernameHandler = function(prefix,
                                                           domain,
-                                                          opts) {
+                                                          opt_opts) {
   var slashSomethingUserRE = new RegExp("^/" + prefix + "/" +
                                         "(\\w+)(?:/|$)");
-  return nodemapper.createPathRegexpHandler(domain, slashSomethingUserRE, opts);
+  return nodemapper.createPathRegexpHandler(domain,
+                                            slashSomethingUserRE,
+                                            opt_opts);
 };
 
 

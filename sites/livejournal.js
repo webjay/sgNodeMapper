@@ -15,6 +15,7 @@
  * limitations under the License.
  **/
 
+
 /**
  * Regular expression for user URLs hosted on www.livejournal.com or
  * livejournal.com.
@@ -22,6 +23,7 @@
  * @type RegExp
  */
 var LJCOM_MAIN_DOMAIN_REGEX = /^\/(?:~|users\/|community\/)(\w+)(?:\/|$)/;
+
 
 /**
  * Regular expression for the old URL of profile pages hosted on
@@ -31,41 +33,59 @@ var LJCOM_MAIN_DOMAIN_REGEX = /^\/(?:~|users\/|community\/)(\w+)(?:\/|$)/;
  */
 var LJCOM_USERINFO_BML_REGEX = /^\/userinfo\.bml\?(user|userid)=(\w+)/;
 
+
+/**
+ * Handler for URLs on 'users.' or 'community.' subdomains.
+ *
+ * @type Function
+ */
+var urlToGraphNodeUsersCommunity = function(url, host, path) {
+  var slashUserMaybeProfile = /^\/(\w+)(?:\/|\/profile|$)/;
+  var m;
+  if (!(m = slashUserMaybeProfile.exec(path)))
+  return url;
+  return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
+};
+
+
 nodemapper.registerDomain(["users.livejournal.com",
-                           "community.livejournal.com"], {
-  urlToGraphNode: function(url, host, path) {
-    var slashUserMaybeProfile = /^\/(\w+)(?:\/|\/profile|$)/;
-    var m;
-    if (!(m = slashUserMaybeProfile.exec(path)))
-      return url;
-    return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
-  },
-});
+                           "community.livejournal.com"],
+                          {urlToGraphNode:urlToGraphNodeUsersCommunity});
 
-nodemapper.registerDomain("livejournal.com", {
- urlToGraphNode: function(url, host, path) {
-   if (host == "www.livejournal.com" || host == "livejournal.com") {
-     if (m = LJCOM_MAIN_DOMAIN_REGEX.exec(path)) {
-       return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
-     }
 
-     if (m = LJCOM_USERINFO_BML_REGEX.exec(path)) {
-       if (m[1] == "user") {
-         return "sgn://livejournal.com/?ident=" + m[2];
-       } else {
-         return "sgn://livejournal.com/?pk=" + m[2];
-       }
-     }
+/**
+ * Handler for URLs on all other livejournal domains which aren't
+ * otherwise handled by urlToGraphNodeUsersCommunity.
+ *
+ * @type Function
+ */
+var urlToGraphNodeGeneral = function(url, host, path) {
+  var m;
+  if (host == "www.livejournal.com" || host == "livejournal.com") {
+    if (m = LJCOM_MAIN_DOMAIN_REGEX.exec(path)) {
+      return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
+    }
 
-     // fall through... couldn't match
-     return url;
-   }
+    if (m = LJCOM_USERINFO_BML_REGEX.exec(path)) {
+      if (m[1] == "user") {
+        return "sgn://livejournal.com/?ident=" + m[2];
+      } else {
+        return "sgn://livejournal.com/?pk=" + m[2];
+      }
+    }
 
-   var hostparts = host.split(".");
-   var user = hostparts[0].replace(/-/g, "_");
-   return "sgn://livejournal.com/?ident=" + user;
- },
-});
+    // fall through... couldn't match
+    return url;
+  }
+
+  var hostparts = host.split(".");
+  var user = hostparts[0].replace(/-/g, "_");
+  return "sgn://livejournal.com/?ident=" + user;
+};
+
+
+nodemapper.registerDomain("livejournal.com",
+                          {urlToGraphNode:urlToGraphNodeGeneral});
 
 __END__
 

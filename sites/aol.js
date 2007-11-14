@@ -15,12 +15,14 @@
  * limitations under the License.
  **/
 
+
 /**
  * Regular expression for AOL's aim: URL scheme.
  *
  * @type RegExp
  */
 var AIM_REGEX = /^aim:(?:goim\?screenname=)?([\w \+]+)/i;
+
 
 nodemapper.registerNonHTTPHandler(function(url) {
   var m = AIM_REGEX.exec(url);
@@ -30,19 +32,24 @@ nodemapper.registerNonHTTPHandler(function(url) {
   }
 });
 
+
 nodemapper.registerDomain("openid.aol.com", {
  urlToGraphNode: nodemapper.createSlashUsernameHandler("aol.com"),
 });
 
-nodemapper.registerDomain("aimpages.com", {
- urlToGraphNode: function(url, host, path) {
-   var slashProfile = /^\/{1,2}([\w\+]+)(?:\/(?:profile\.html)?|$)/;
-   var m;
-   if (!(m = slashProfile.exec(path)))
-     return url;
-   return "sgn://aol.com/?ident=" + m[1].toLowerCase().replace(/[\s\+]/g, "");
- },
-});
+
+var aimPagesHandler = function(url, host, path) {
+  var slashProfile = /^\/{1,2}([\w\+]+)(?:\/(?:profile\.html)?|$)/;
+  var m;
+  if (!(m = slashProfile.exec(path)))
+  return url;
+  return "sgn://aol.com/?ident=" + m[1].toLowerCase().replace(/[\s\+]/g, "");
+};
+
+
+nodemapper.registerDomain(
+    "aimpages.com",
+    {urlToGraphNode: aimPagesHandler});
 
 __END__
 

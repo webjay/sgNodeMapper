@@ -18,19 +18,20 @@
 /**
  * Flickr-specific URL handler.
  */
-function urlToGraphNodeFlickr(url, host, path) {
+function urlToGraphNodeFlickrFallback(url, host, path) {
   var flickerPathRE = /^\/(?:people|photos)\/(\d+@\w+)\/?$/;
   var m = flickerPathRE.exec(path);
   return m ? "sgn://flickr.com/?pk=" + m[1] : path;
 };
 
-nodemapper.registerDomain("flickr.com", {
-  urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
-      "(?:people|photos)",
-      "flickr.com", {
-    fallbackHandler: urlToGraphNodeFlickr,
-  }),
-});
+var urlToGraphNodeFlickr =
+    nodemapper.createSomethingSlashUsernameHandler(
+        "(?:people|photos)",
+        "flickr.com",
+        {fallbackHandler: urlToGraphNodeFlickrFallback});
+
+nodemapper.registerDomain(
+    "flickr.com", {urlToGraphNode: urlToGraphNodeFlickr});
 
 __END__
 

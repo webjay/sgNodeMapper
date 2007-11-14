@@ -32,32 +32,33 @@
  * @type Array.<String>
  */
 var LAST_FM_DOMAINS = [
-    "cn.last.fm",
-    "last.fm",
-    "lastfm.excite.co.jp",
-    "lastfm.spiegel.de",
-    "www.last.fm",
-    "www.lastfm.com.br",
-    "www.lastfm.at",
-    "www.lastfm.ch",
-    "www.lastfm.co.kr",
-    "www.lastfm.com.br",
-    "www.lastfm.com.tr",
-    "www.lastfm.de",
-    "www.lastfm.es",
-    "www.lastfm.fr",
-    "www.lastfm.it",
-    "www.lastfm.jp",
-    "www.lastfm.pl",
-    "www.lastfm.pt",
-    "www.lastfm.ru",
-    "www.lastfm.se"
-    ];
+  "cn.last.fm",
+  "last.fm",
+  "lastfm.excite.co.jp",
+  "lastfm.spiegel.de",
+  "www.last.fm",
+  "www.lastfm.com.br",
+  "www.lastfm.at",
+  "www.lastfm.ch",
+  "www.lastfm.co.kr",
+  "www.lastfm.com.br",
+  "www.lastfm.com.tr",
+  "www.lastfm.de",
+  "www.lastfm.es",
+  "www.lastfm.fr",
+  "www.lastfm.it",
+  "www.lastfm.jp",
+  "www.lastfm.pl",
+  "www.lastfm.pt",
+  "www.lastfm.ru",
+  "www.lastfm.se"
+];
 
-nodemapper.registerDomain(LAST_FM_DOMAINS, {
- urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("user",
-                                                                "last.fm"),
-                     });
+nodemapper.registerDomain(
+    LAST_FM_DOMAINS,
+    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+        "user",
+        "last.fm")});
 
 __END__
 

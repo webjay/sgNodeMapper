@@ -26,7 +26,7 @@ var BLOGSPOT_REGEX = /^(?:www\.)?([\w\-]+)\.blogspot\.com$/;
 
 nodemapper.registerDomain("blogspot.com", {
   urlToGraphNode: nodemapper.createHostRegexpHandler("blogspot.com",
-                                                     BLOGSPOT_REGEX),
+                                                     BLOGSPOT_REGEX)
 });
 
 __END__
