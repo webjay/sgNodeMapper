@@ -92,6 +92,10 @@ __END__
 # usernames go in front of livejournal.com
 http://brad.livejournal.com/		sgn://livejournal.com/?ident=brad
 http://brad.livejournal.com/profile	sgn://livejournal.com/?ident=brad
+http://brad.livejournal.com/data/foaf	sgn://livejournal.com/?ident=brad
+http://brad.livejournal.com/data/rss    sgn://livejournal.com/?ident=brad
+http://brad.livejournal.com/data/atom	sgn://livejournal.com/?ident=brad
+
 content(sgn://livejournal.com/?ident=brad)	http://brad.livejournal.com/
 
 # but underscores map to hyphens:
