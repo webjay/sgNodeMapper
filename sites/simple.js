@@ -70,6 +70,9 @@ http://linkedin.com/in/foobar	sgn://linkedin.com/?ident=foobar
 http://linkedin.com/in/foobar/	sgn://linkedin.com/?ident=foobar
 http://www.linkedin.com/in/foobar/	sgn://linkedin.com/?ident=foobar
 
+# TODO(bradfitz): pk URLs for these types:
+# http://www.linkedin.com/pub/5/512/39a
+
 http://ma.gnolia.com/people/daveman692	sgn://ma.gnolia.com/?ident=daveman692
 http://ma.gnolia.com/people/daveman692/	sgn://ma.gnolia.com/?ident=daveman692
 
