@@ -1,0 +1,619 @@
+# Here's a raw dump of a bunch of the data we use to power pulse
+# It's in HDF, but the relevant point is we have regexes and canonical URLs for tons of services
+# Many of these should be turned into JavaScript handlers...
+#
+# Note: This is internal Plaxo code, so please don't republish it!
+# Contact: Joseph Smarr (joseph@plaxo.com)
+
+FeedTypes {
+  Flickr {
+    type = 2
+    pretty_name = Flickr
+    category : CategoryTypes.photo
+    external = 1
+    site_url = http://www.flickr.com/
+    profile_url = http://flickr.com/photos/%s
+    profile_regex = http://(?:www\.)?flickr\.com/(?:people|photos)/([^/]*)(?:/.*)?
+    icon = Flickr.gif
+    subtitle [Lang] = posted photos on Flickr
+    show_digest = 1
+  }
+  AmazonWishList {
+    type = 3
+    pretty_name = Amazon Wish List
+    category : CategoryTypes.wishlist
+    external = 1
+    site_url = http://www.amazon.com/gp/registry/wishlist
+    credential : CredentialTypes.email
+    profile_url = http://www.amazon.com/gp/pdp/profile/%s
+    profile_regex = http://(?:www\.)?amazon\.com/gp/pdp/profile/([^/]*)
+    icon = AmazonWishList.gif
+    subtitle [Lang] = added items to an Amazon wishlist
+    show_digest = 1
+  }
+  Blog {
+    type = 5
+    pretty_name = Blog
+    category : CategoryTypes.blog
+    site_url = http://en.wikipedia.org/wiki/Blog
+    external = 1
+    logo = Blog.gif
+    subtitle [Lang] = posted a blog entry
+    show_digest = 1
+  }
+  Picasa {
+    type = 6
+    pretty_name = Picasa
+    category : CategoryTypes.photo
+    external = 1
+    site_url = http://www.picasa.com/
+    credential : CredentialTypes.username
+    profile_url = http://picasaweb.google.com/%s
+    profile_regex = http://picasaweb\.google\.com/([^/]*)(?:/.*)?
+    logo = Picasa.gif
+    subtitle [Lang] = posted photos on Picasa
+    show_digest = 1
+  }
+  Digg {
+    type = 7
+    pretty_name = Digg
+    category : CategoryTypes.bookmark
+    external = 1
+    site_url = http://www.digg.com/
+    feed_url = http://digg.com/rss/%s/index2.xml
+    profile_url = http://digg.com/users/%s
+    profile_regex = http://(?:www\.)?digg\.com/users/([^/]*)(?:/.*)?
+    credential : CredentialTypes.username
+    logo = Digg.gif
+    subtitle [Lang] = dugg a story
+    show_digest = 1
+  }
+  Delicious {
+    type = 8
+    pretty_name = del.icio.us
+    category : CategoryTypes.bookmark
+    external = 1
+    site_url = http://del.icio.us/
+    feed_url = http://del.icio.us/rss/%s
+    profile_url = http://del.icio.us/%s
+    profile_regex = http://del\.icio\.us/([^/]*)(?:/.*)?
+    credential : CredentialTypes.username
+    logo = Delicious.gif
+    subtitle [Lang] = shared a link via Del.ico.us
+    show_digest = 1
+  }
+  LastFM {
+    type = 9
+    pretty_name = Last.fm
+    category : CategoryTypes.audio
+    external = 1
+    site_url = http://www.last.fm/
+    feed_url = http://ws.audioscrobbler.com/1.0/user/%s/weeklyartistchart.xml
+    profile_url = http://last.fm/user/%s
+    profile_regex = http://(?:www\.)?last.fm/user/([^/]*)(?:/.*)?
+    credential : CredentialTypes.nickname
+    logo = LastFM.gif
+    subtitle [Lang] = posted weekly top artists at Last.fm
+    show_digest = 1
+  }
+  Yelp {
+    type = 11
+    pretty_name = Yelp
+    category : CategoryTypes.review
+    external = 1
+    site_url = http://www.yelp.com/
+    feed_url = http://www.yelp.com/syndicate/user/%s/rss.xml
+    profile_url = http://yelp.com/user_details?userid=%s
+    profile_regex = http://(?:www\.)?yelp\.com/user_details\?userid=([^&]*)(?:&.*)?
+    credential : CredentialTypes.email
+    logo = Yelp.gif
+    subtitle [Lang] = posted a new review on Yelp
+    show_digest = 1
+  }
+  YouTube {
+    type = 12
+    pretty_name = YouTube
+    category : CategoryTypes.video
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://www.youtube.com/
+    feed_url = http://www.youtube.com/rss/user/%s/videos.rss
+    profile_url = http://youtube.com/user/%s
+    profile_regex = http://(?:www\.)?youtube\.com/(?:user/)?([^/]*)(?:/.*)?
+    logo = YouTube.gif
+    subtitle [Lang] = uploaded a video on Youtube
+    show_digest = 1
+  }
+  Twitter {
+    type = 13
+    pretty_name = Twitter
+    category : CategoryTypes.blog
+    external = 1
+    site_url = http://www.twitter.com/
+    feed_url = http://twitter.com/statuses/user_timeline/%s.rss
+    #feed_url = http://twitter.com/statuses/user_timeline/%s.rss?since=Tue%2C+27+Mar+2007+22%3A55%3A48+GMT
+    profile_url = http://twitter.com/%s
+    profile_regex = http://(?:www\.)?twitter\.com/([^/]*)(?:/.*)?
+    credential : CredentialTypes.username
+    logo = Twitter.gif
+    subtitle [Lang] = shared a message using Twitter
+    show_digest = 0
+  }
+  WebShots {
+    type = 14
+    pretty_name = WebShots
+    category : CategoryTypes.photo
+    external = 1
+    site_url = http://www.webshots.com/
+    feed_url = http://community.webshots.com/rss?contentType=rss&type=user&value=%s
+    credential : CredentialTypes.username
+    profile_url = http://community.webshots.com/user/%s
+    profile_regex = http://community\.webshots\.com/user/([^/]*)(?:/.*)?
+    logo = WebShots.gif
+    subtitle [Lang] = posted new photos on Webshots
+    show_digest = 1
+  }
+  LinkedIn {
+    type = 15
+    pretty_name = LinkedIn
+    category : CategoryTypes.socialNetwork
+    external = 1
+    site_url = http://www.linkedin.com/
+    profile_url = http://linkedin.com/in/%s
+    profile_regex = http://(?:www\.)?linkedin\.com/in/([^/]*)(?:/.*)?
+    logo = LinkedIn.gif
+    subtitle [Lang] = updated LinkedIn profile
+    show_digest = 1
+  }
+  SmugMug {
+    type = 16
+    pretty_name = SmugMug
+    category : CategoryTypes.photo
+    external = 1
+    credential : CredentialTypes.nickname
+    site_url = http://www.smugmug.com/
+    feed_url = http://%s.smugmug.com/hack/feed.mg?Type=nicknameRecent&Data=%s&format=atom03 
+    profile_url = http://%s.smugmug.com
+    profile_regex = http://([^/?]+)\.smugmug\.com(?:/.*)?
+    logo = SmugMug.gif
+    subtitle [Lang] = posted new photos on SmugMug
+    show_digest = 1
+  }
+  Photobucket {
+    type = 17
+    pretty_name = Photobucket
+    category : CategoryTypes.photo
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://www.photobucket.com/
+    feed_url = http://feed167.photobucket.com/albums/u144/%s/feed.rss
+    # TODO: How do we get the "bb294" part?
+    #profile_url = http://www.photobucket.com/albums/bb294/%s/
+    logo = Photobucket.gif
+    subtitle [Lang] = posted new photos on Photobucket
+    show_digest = 1
+  }
+  Pownce {
+    type = 18
+    pretty_name = Pownce
+    category : CategoryTypes.blog
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://www.pownce.com
+    #feed_url = http://pipes.yahoo.com/pipes/pipe.run?Username=%s&_id=sH73Tl413BGHo_QVjknRlg&_render=rss&_run=1
+    feed_url = http://www.pownce.com/feeds/public/%s/
+    profile_url = http://pownce.com/%s
+    profile_regex = http://(?:www\.)?pownce\.com/([^/]*)(?:/.*)?
+    logo = Pownce.gif
+    subtitle [Lang] = sent an event using Pownce
+    show_digest = 1
+  }
+  Magnolia {
+    type = 19
+    pretty_name = Ma.gnolia
+    category : CategoryTypes.bookmark
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://ma.gnolia.com/
+    feed_url = http://ma.gnolia.com/rss/full/people/%s
+    #feed_url = http://ma.gnolia.com/rss/lite/people/%s
+    profile_url = http://ma.gnolia.com/people/%s
+    profile_regex = http://ma\.gnolia\.com/people/([^/]*)(?:/.*)?
+    logo = Magnolia.gif
+    subtitle [Lang] = shared a link via Ma.gnolia
+    show_digest = 1
+  }
+  Jaiku {
+    type = 20
+    pretty_name = Jaiku
+    category : CategoryTypes.blog
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://www.jaiku.com/
+    feed_url = http://%s.jaiku.com/feed/rss
+    profile_url = http://%s.jaiku.com/
+    profile_regex = http://([^/?]+)\.jaiku\.com(?:/.*)?
+    logo = Jaiku.gif
+    subtitle [Lang] = shared a message using Jaiku
+    show_digest = 1
+  }
+   AOLPics {
+    type = 21
+    pretty_name = AOL Pictures
+    category : CategoryTypes.photo
+    external = 1
+    credential : CredentialTypes.screenname
+    site_url = http://pictures.aol.com/
+    feed_url = http://pictures.aol.com/galleries/%s/atom.xml
+    profile_url = http://pictures.aol.com/galleries/%s
+    profile_regex = http://pictures\.aol\.com/galleries/([^/]*)(?:/.*)?
+    logo = AOLPics.gif
+    subtitle [Lang] = posted new photos on AOL
+    show_digest = 1
+  }
+  Tumblr {
+    type = 22
+    pretty_name = Tumblr
+    category : CategoryTypes.blog
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://www.tumblr.com/
+    feed_url = http://%s.tumblr.com/rss
+    profile_url = http://%s.tumblr.com
+    profile_regex = http://([^/?]+)\.tumblr\.com(?:/.*)?
+    logo = Tumblr.gif
+    subtitle [Lang] = linked a site on Tumblr
+    show_digest = 1
+  }
+  FacebookPosts {
+    type = 23
+    pretty_name = Facebook Posted Items
+    category : CategoryTypes.socialNetwork
+    external = 1
+    credential : CredentialTypes.feed_url
+    feed_url = %s
+    site_url = http://www.facebook.com/
+    logo = FacebookPosts.gif
+    subtitle [Lang] = posted something on Facebook
+    show_digest = 1
+  }
+  FacebookNotes {
+    type = 24
+    pretty_name = Facebook Notes
+    category : CategoryTypes.socialNetwork
+    external = 1
+    credential : CredentialTypes.feed_url
+    feed_url = %s
+    site_url = http://www.facebook.com/
+    logo = FacebookNotes.gif
+    subtitle [Lang] = posted notes on Facebook
+    show_digest = 1
+  }
+  MySpaceBlog {
+    type = 26
+    pretty_name = MySpace
+    category : CategoryTypes.socialNetwork
+    external = 1
+    credential : CredentialTypes.nickname
+    site_url = http://blog.myspace.com/
+    feed_url = http://blog.myspace.com/blog/rss.cfm?friendID=%s
+    profile_url = http://myspace.com/%s
+    profile_regex = http://(?:www\.)myspace\.com/([^/]*)(?:/.*)?
+    logo = MySpaceBlog.gif
+    subtitle [Lang] = posted a blog entry on MySpace
+    show_digest = 1
+  }
+  LiveJournal {
+    type = 27
+    pretty_name = LiveJournal
+    category : CategoryTypes.blog
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://www.livejournal.com/
+    feed_url = http://%s.livejournal.com/data/atom
+    profile_url = http://%s.livejournal.com
+    profile_regex = http://([^/?]+)\.livejournal\.com(?:/.*)?
+    logo = LiveJournal.gif
+    subtitle [Lang] = posted a blog entry on LiveJournal
+    show_digest = 1
+  }
+  Xanga {
+    type = 28
+    pretty_name = Xanga
+    category : CategoryTypes.blog
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://www.xanga.com/
+    feed_url = http://www.xanga.com/%s/rss
+    profile_url = http://xanga.com/%s
+    profile_regex = http://(?:www\.)?xanga\.com/([^/]*)(?:/.*)?
+    logo = Xanga.gif
+    subtitle [Lang] = posted a blog entry on Xanga
+    show_digest = 1
+  }
+  Yahoo360 {
+    type = 29
+    pretty_name = Yahoo! 360
+    category : CategoryTypes.socialNetwork
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://360.yahoo.com/
+    feed_url = http://blog.360.yahoo.com/%s
+    profile_url = http://360.yahoo.com/%s
+    profile_regex = http://(?:[^/?]+\.)?360\.yahoo\.com/([^/]*)(?:/.*)?
+    logo = Yahoo360.gif
+    subtitle [Lang] = posted a blog entry on Yahoo360
+    show_digest = 1
+  }
+  WindowsSpaces {
+    type = 30
+    pretty_name = Windows Live Spaces
+    category : CategoryTypes.socialNetwork
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://spaces.live.com/
+    feed_url = http://%s.spaces.live.com/feed.rss
+    profile_url = http://%s.spaces.live.com
+    profile_regex = http://([^/?]+)\.spaces\.live\.com(?:/.*)?
+    logo = WindowsSpaces.gif
+    subtitle [Lang] = posted a blog entry on Windows Spaces
+    show_digest = 1
+  }
+  StumbleUpon {
+    type = 31
+    pretty_name = StumbleUpon
+    category : CategoryTypes.bookmark
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://www.stumbleupon.com/
+    feed_url = http://www.stumbleupon.com/syndicate.php?stumbler=%s
+    profile_url = http://%s.stumbleupon.com
+    profile_regex = http://([^/?]+)\.stumbleupon\.com(?:/.*)?
+    logo = StumbleUpon.gif
+    subtitle [Lang] = StumbledUpon something
+    show_digest = 1
+  }
+  TravelPod {
+    type = 32
+    pretty_name = TravelPod
+    category : CategoryTypes.blog
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://www.travelpod.com
+    feed_url = http://www.travelpod.com/syndication/rss/%s
+    profile_url = http://travelpod.com/members/%s
+    profile_regex = http://(?:www\.)?travelpod\.com/members/([^/]*)(?:/.*)?
+    logo = TravelPod.gif
+    subtitle [Lang] = posted an entry on TravelPod
+    show_digest = 1
+  }
+  GoogleReader {
+    type = 33
+    pretty_name = Google Reader
+    category : CategoryTypes.bookmark
+    external = 1
+    credential : CredentialTypes.feed_url
+    site_url = http://www.google.com/reader
+    feed_url = %s
+    profile_url = http://www.google.com/reader/shared/%s
+    profile_regex = http://(?:www\.)?google\.com/reader/shared/([0-9]+)
+    logo = GoogleReader.gif
+    subtitle [Lang] = posted an entry on Google Reader
+    show_digest = 1
+  }
+  ImageShack {
+    type = 34
+    pretty_name = ImageShack
+    category : CategoryTypes.photo
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://www.imageshack.us
+    feed_url = http://rss.imageshack.us/user/%s/rss/
+    profile_url = http://profile.imageshack.us/user/%s
+    profile_regex = http://profile\.imageshack.us/user/([^/]*)(?:/.*)?
+    logo = ImageShack.gif
+    subtitle [Lang] = posted images on ImageShack
+    show_digest = 1
+  }
+  
+  # Current status: Unable to add because RSS feed doesn't return dates (Garret, Nov 2007)
+  Netflix {
+    type = 35
+    pretty_name = Netflix Reviews
+    category : CategoryTypes.video
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://www.netflix.com
+    feed_url = http://rss.netflix.com/ReviewsRSS?id=%s
+    logo = NetFlix.gif
+    subtitle [Lang] = posted a review on Netflix
+    show_digest = 1
+  }
+  Bloglines {
+    type = 36
+    pretty_name = Bloglines
+    category : CategoryTypes.blog
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://www.bloglines.com
+    feed_url = http://www.bloglines.com/blog/%s/rss
+    profile_url = http://bloglines.com/blog/%s
+    profile_regex = http://(?:www\.)?bloglines\.com/(?:blog|public)/([^/]*)(?:/.*)?
+    logo = Bloglines.gif
+    subtitle [Lang] = linked a blog on Bloglines
+    show_digest = 1
+  }
+  Upcoming {
+    type = 37
+    pretty_name = Upcoming
+    category : CategoryTypes.event
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://upcoming.yahoo.com
+    # userid (NOT username) is used in the profile and feed URLs
+    feed_url = http://upcoming.yahoo.com/syndicate/v2/my_events/%s
+    profile_url = http://upcoming.yahoo.com/user/%s
+    profile_regex = http://upcoming\.yahoo\.com/user/([^/]*)(?:/.*)?
+    logo = Upcoming.gif
+    subtitle [Lang] = posted an entry on Upcoming
+    show_digest = 1
+  }
+  Socializr {
+    type = 38
+    pretty_name = Socializr
+    category : CategoryTypes.event
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://www.socializr.com
+    feed_url = http://feeds.socializr.com/rss/userupcomingevents/%s/rss.xml
+    profile_url = http://socializr.com/user/%s
+    profile_regex = http://(?:www\.)?socializr\.com/user/([^/]*)(?:/.*)?
+    logo = Socializr.gif
+    subtitle [Lang] = posted an entry on Socializr
+    show_digest = 1
+  }
+  Bebo {
+    type = 39
+    pretty_name = Bebo
+    category : CategoryTypes.socialNetwork
+    external = 1
+    credential : CredentialTypes.username
+    site_url = http://www.bebo.com
+    profile_url = http://bebo.com/Profile.jsp?MemberId=%s
+    profile_regex = http://(?:www\.)?bebo.com/Profile.jsp?MemberId=([^/]*)(?:/.*)?
+    feed_url = http://bebo.com/api/BlogRss.jsp?MemberId=%s
+    logo = Socializr.gif
+    subtitle [Lang] = posted an entry on Bebo
+    show_digest = 1
+  }
+  Reddit {
+    type = 40
+    pretty_name = reddit
+    category : CategoryTypes.bookmark
+    external = 1
+    site_url = http://www.reddit.com
+    feed_url = http://reddit.com/user/%s/submitted.rss
+    profile_url = http://reddit.com/user/%s
+    profile_regex = http://(?:[^/?]+)\.reddit\.com/user/([^/]*)(?:/.*)?
+    credential : CredentialTypes.username
+    logo = Reddit.gif
+    subtitle [Lang] = commented on a story via reddit
+    show_digest = 1
+  }
+  Furl {
+    type = 41
+    pretty_name = Furl
+    category : CategoryTypes.bookmark
+    external = 1
+    site_url = http://www.furl.net
+    feed_url = http://www.furl.net/members/%s/rss.xml
+    profile_url = http://www.furl.net/members/%s
+    profile_regex = http://(?:www\.)?furl.net/members/([^/]*)(?:/.*)?
+    credential : CredentialTypes.username
+    logo = Furl.gif
+    subtitle [Lang] = shared a link via Furl
+    show_digest = 1
+  }
+  Ilike {
+    type = 42
+    pretty_name = iLike
+    category : CategoryTypes.audio
+    external = 1
+    site_url = http://www.ilike.com
+    feed_url = http://www.ilike.com/user/%s/songs_ilike.rss
+    profile_url = http://www.ilike.com/user/%s
+    profile_regex = http://(?:www\.)?ilike\.com/user/([^/]*)(?:/.*)?
+    credential : CredentialTypes.username
+    logo = Ilike.gif
+    subtitle [Lang] = liked a song via iLike
+    show_digest = 1
+  }
+  Zooomr {
+    type = 43
+    pretty_name = Zooomr
+    category : CategoryTypes.photo
+    external = 1
+    site_url = http://www.zooomr.com/
+    profile_url = http://zooomr.com/photos/%s
+    profile_regex = http://(?:www\.)?zooomr\.com/(?:people|photos)/([^/]*)(?:/.*)?
+    feed_url = http://www.zooomr.com/services/feeds/public_photos/?id=%s&format=rss_200
+    icon = Zooomr.gif
+    subtitle [Lang] = posted photos on Zooomr
+    show_digest = 1
+  }
+  Multiply {
+    type = 44
+    pretty_name = Multiply
+    category : CategoryTypes.socialNetwork
+    external = 1
+    site_url = http://www.multiply.com/
+    profile_url = http://%s.multiply.com/
+    profile_regex = http://([^/?]+)\.multiply\.com(?:/.*)?
+    feed_url = http://%s.multiply.com/feed.rss
+    icon = Multiply.gif
+    subtitle [Lang] = made a Multiply site update
+    show_digest = 1
+  }  
+}
+
+# common types of credentials for feed sites to ask user for
+CredentialTypes {
+  username [Lang] = Username
+  nickname [Lang] = Nickname
+  email [Lang] = E-mail address
+  screenname [Lang] = Screen name
+  feed_url [Lang] = Feed URL
+}
+
+CategoryTypes {
+  photo = 1
+  socialNetwork = 2
+  blog = 3
+  bookmark = 4
+  video = 5
+  audio = 5
+  calendar = 6
+  event = 6
+  wishlist = 7
+  review = 7
+}
+
+# FeedType members that can be generically served by crawling RSS
+RSSFeedTypes {
+  0 : FeedTypes.Blog.type
+  1 : FeedTypes.Digg.type
+  2 : FeedTypes.Delicious.type
+  3 : FeedTypes.Twitter.type
+  4 : FeedTypes.WebShots.type
+  5 : FeedTypes.SmugMug.type
+  6 : FeedTypes.Yelp.type
+  7 : FeedTypes.Photobucket.type
+  8 : FeedTypes.Pownce.type
+  9 : FeedTypes.Magnolia.type
+  10 : FeedTypes.Jaiku.type
+  11 : FeedTypes.AOLPics.type
+  12 : FeedTypes.Tumblr.type
+  13 : FeedTypes.YouTube.type
+  14 : FeedTypes.FacebookPosts.type
+  15 : FeedTypes.FacebookNotes.type
+  16 : FeedTypes.OtherRSS.type
+  17 : FeedTypes.MySpaceBlog.type
+  18 : FeedTypes.LiveJournal.type
+  19 : FeedTypes.Xanga.type
+  20 : FeedTypes.Yahoo360.type
+  21 : FeedTypes.WindowsSpaces.type
+  22 : FeedTypes.StumbleUpon.type
+  23 : FeedTypes.TravelPod.type
+  24 : FeedTypes.GoogleReader.type
+  25 : FeedTypes.ImageShack.type
+  26 : FeedTypes.Netflix.type
+  27 : FeedTypes.Bloglines.type
+  28 : FeedTypes.Upcoming.type
+  29 : FeedTypes.Socializr.type
+  39 : FeedTypes.Bebo.type
+  40 : FeedTypes.Reddit.type
+  41 : FeedTypes.Furl.type
+  42 : FeedTypes.Ilike.type
+  43 : FeedTypes.Zooomr.type
+  44 : FeedTypes.Multiply.type
+}
