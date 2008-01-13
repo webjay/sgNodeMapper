@@ -1,0 +1,13 @@
+You should implement "ident_to_<foo>" for the following URL types:
+
+ rss
+ atom
+ profile -- the "profile" page of the user, with their bio/pic/overview, etc
+ content -- the HTML content page of the user.  may be their profile.
+ chat    -- chat URL.  likely "aim:" or "xmpp:" or "callto:", etc.
+ openid  -- openid server endpoint
+ addfriend -- URL to add them
+
+'feed' -- tries first atom, then rss
+
+

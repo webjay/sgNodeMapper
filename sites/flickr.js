@@ -31,7 +31,24 @@ var urlToGraphNodeFlickr =
         {fallbackHandler: urlToGraphNodeFlickrFallback});
 
 nodemapper.registerDomain(
-    "flickr.com", {urlToGraphNode: urlToGraphNodeFlickr});
+  "flickr.com", {
+  urlToGraphNode: urlToGraphNodeFlickr,
+  pk_to_rss: function (pk) {
+    return "http://api.flickr.com/services/feeds/photos_public.gne?id=" + pk + "&lang=en-us&format=rss_200"; },
+  pk_to_atom: function (pk) {
+    return "http://api.flickr.com/services/feeds/photos_public.gne?id=" + pk + "&lang=en-us&format=atom"; },
+
+  ident_to_profile: function (ident) {
+      return "http://www.flickr.com/people/" + ident + "/";
+  },
+  ident_to_addfriend: function (ident) {
+      return "http://www.flickr.com/people/" + ident + "/relationship/";
+  },
+  ident_to_content: function (ident) {
+      return "http://www.flickr.com/photos/" + ident + "/";
+  }
+
+});
 
 __END__
 
@@ -47,5 +64,5 @@ profile(sgn://flickr.com/?ident=crucially)	http://www.flickr.com/people/cruciall
 content(sgn://flickr.com/?ident=crucially)	http://www.flickr.com/photos/crucially/
 addfriend(sgn://flickr.com/?ident=crucially)	http://www.flickr.com/people/crucially/relationship/
 
-rss(sgn://flicker.com/?pk=15738836@N00)		http://api.flickr.com/services/feeds/photos_public.gne?id=15738836@N00&lang=en-us&format=rss_200
-atom(sgn://flicker.com/?pk=15738836@N00)	http://api.flickr.com/services/feeds/photos_public.gne?id=15738836@N00&lang=en-us&format=atom
+rss(sgn://flickr.com/?pk=15738836@N00)		http://api.flickr.com/services/feeds/photos_public.gne?id=15738836@N00&lang=en-us&format=rss_200
+atom(sgn://flickr.com/?pk=15738836@N00)	http://api.flickr.com/services/feeds/photos_public.gne?id=15738836@N00&lang=en-us&format=atom
