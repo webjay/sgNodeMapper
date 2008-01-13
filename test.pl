@@ -38,17 +38,17 @@ while (<$fh>) {
   next unless $input =~ /$pattern/o || $expected =~ /$pattern/o;
   my $actual;
 
+  my $test_name;
   if ($input =~ /^(\w+)\((.+)\)$/) {
-    # TODO: mapping from sgn:// nodes to URLs not yet
-    # supported or tested.
-
-    # for now, pass on these
-    next;
+    my ($type, $sgn_node) = ($1, $2);
+    $actual = $mapper->graph_node_to_url($sgn_node, $type);
+    $test_name = "URL of $type($sgn_node)";
   } else {
     $actual = $mapper->graph_node_from_url($input);
+    $test_name = "Mapping $input";
   }
 
-  is($actual, $expected, "Mapping $input");
+  is($actual, $expected, $test_name);
 
   if ($actual ne $expected) {
     push @errors, {

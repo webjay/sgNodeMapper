@@ -51,6 +51,12 @@ nodemapper.registerDomain(
     "aimpages.com",
     {urlToGraphNode: aimPagesHandler});
 
+
+nodemapper.registerDomain(
+   "aol.com",
+{ident_to_openid: function (ident) { return "http://openid.aol.com/" + ident; }}
+   );
+
 __END__
 
 aim:GoIM?screenname=fooBar			sgn://aol.com/?ident=foobar

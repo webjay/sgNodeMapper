@@ -112,6 +112,34 @@ nodemapper.urlToGraphNode = function(url) {
   return graphnode;
 };
 
+nodemapper.SGN_REGEX = new RegExp("^sgn://([^/]+)/\\?(ident|pk)=(.*)");
+
+nodemapper.urlFromGraphNode = function(sgnUrl, type) {
+    // is it even an sgn URL?
+    var m = nodemapper.SGN_REGEX.exec(sgnUrl);
+    if (!m) {
+	return;
+    }
+
+    var nodeHost = m[1];
+    var nodeType = m[2];
+    var nodeValue = m[3];
+
+    // see if there's a handler.
+    var handler = nodemapper.handlers[nodeHost];
+    if (!handler) {
+	return;
+    }
+
+    // see if there's a to<Type> handler
+    var attrName = nodeType + "_to_" + type;
+    var toFunc = handler[attrName];
+    if (!toFunc) {
+	return;
+    }
+
+    return toFunc(nodeValue);
+};
 
 /**
  * List of functions registered with RegisterNonHTTPHandler

@@ -61,4 +61,12 @@ sub graph_node_from_url {
   return $self->{_last_return_value};
 }
 
+sub graph_node_to_url {
+  my ($self, $sgn_url, $type) = @_;
+  # TODO: javascript-escape $url
+  $self->{js}->eval("_set_return_value(nodemapper.urlFromGraphNode(\"$sgn_url\", \"$type\"));")
+    or die $@;
+  return $self->{_last_return_value};
+}
+
 1;
