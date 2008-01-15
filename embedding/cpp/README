@@ -1,0 +1,27 @@
+Notes for building and using the C++ embedding
+Contact: Joseph Smarr (joseph@plaxo.com)
+----------------------------------------
+
+1. Install spidermonkey (Mozilla's JavaScript-C Engine)
+
+   We're using verion 1.5: 
+   http://ftp.mozilla.org/pub/mozilla.org/js/older-packages/js-1.5.tar.gz
+   Extract it and run "make -f Makefile.ref" in the js/src dir
+
+2. Point the Makefile to your spidermonkey installation
+
+   Edit the JS_ROOT line in the Makefile in this dir to point to the js dir in spidermonkey
+
+3. Build the library libsgnodemapper.so
+
+   Type make in this dir (if you get errors, make sure you build and pointed to spidermonkey)
+
+4. Add the library to your environment
+
+   Move libsgnodemapper.so to a known library dir in your system, or add the dir with 
+   libsgnodemapper.so to your LD_LIBRARY_PATH
+
+5. Call the code from your program
+
+   Look at the sample sgnodemapper_util program to see how to use it.
+

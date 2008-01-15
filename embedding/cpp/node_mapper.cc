@@ -3,7 +3,7 @@
 
 #define XP_UNIX
 extern "C" {
-#include "smjs/jsapi.h"
+#include "jsapi.h"
 }
 
 #include "node_mapper.h"
