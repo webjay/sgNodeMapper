@@ -60,6 +60,9 @@ nodemapper.registerDomain(
         "user",
         "last.fm")});
 
+nodemapper.addSimpleHandler("last.fm", "ident_to_profile",
+			    "http://www.last.fm/user/", "/");
+
 __END__
 
 http://www.last.fm/user/aa123/             sgn://last.fm/?ident=aa123
@@ -67,4 +70,5 @@ http://www.last.fm/user/aa123              sgn://last.fm/?ident=aa123
 http://lastfm.excite.co.jp/user/SomeCaps/  sgn://last.fm/?ident=somecaps
 http://www.last.fm/user/after/addedevents/ sgn://last.fm/?ident=after
 http://www.lastfm.pl/user/foo/?setlang=pl  sgn://last.fm/?ident=foo
-url(sgn://last.fm/?ident=foo)              http://www.last.fm/user/foo/
+
+profile(sgn://last.fm/?ident=foo)              http://www.last.fm/user/foo/

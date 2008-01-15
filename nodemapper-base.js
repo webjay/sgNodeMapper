@@ -77,14 +77,20 @@ nodemapper.registerDomain = function(domain, handler) {
  * @param {String} prefix Prefix that goes before the pk= or ident=
  *                        value of the sgn:// node, when generating
  *                        the http:// URL.
+ *
+ * @param {String} suffix Suffix that goes after the pk= or ident=
+ *                        value of the sgn:// node, when generating
+ *                        the http:// URL.
  */
-nodemapper.addSimpleHandler = function(domain, handler_name, prefix) {
+nodemapper.addSimpleHandler = function(domain, handler_name,
+				       prefix, suffix) {
     var handlers = nodemapper.handlers[domain];
     if (! handlers) {
 	handlers = nodemapper.handlers[domain] = {};
     }
+    if (!suffix) { suffix = ""; }
     handlers[handler_name] = function (pk_or_ident) {
-	return prefix + pk_or_ident;
+	return prefix + pk_or_ident + suffix;
     };
 };
 
