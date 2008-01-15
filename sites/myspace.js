@@ -88,8 +88,32 @@ var urlToGraphNodeMySpaceUsername =
 
 nodemapper.registerDomain(
     "myspace.com",
-    {urlToGraphNode: urlToGraphNodeMySpaceUsername});
+    {urlToGraphNode: urlToGraphNodeMySpaceUsername,
+});
 
+nodemapper.addSimpleHandler(
+    "myspace.com", "ident_to_profile",
+    "http://myspace.com/");
+
+nodemapper.addSimpleHandler(
+    "myspace.com", "ident_to_content",
+    "http://myspace.com/");
+
+nodemapper.addSimpleHandler(
+    "myspace.com", "pk_to_profile",
+    "http://profile.myspace.com/index.cfm?fuseaction=user.viewprofile&friendid=");
+
+nodemapper.addSimpleHandler(
+    "myspace.com", "pk_to_content",
+    "http://profile.myspace.com/index.cfm?fuseaction=user.viewprofile&friendid=");
+
+nodemapper.addSimpleHandler(
+    "myspace.com", "pk_to_rss",
+    "http://blog.myspace.com/blog/rss.cfm?friendID=");
+
+nodemapper.addSimpleHandler(
+    "myspace.com", "pk_to_blog",
+    "http://blog.myspace.com/index.cfm?fuseaction=blog.ListAll&friendID=");
 
 nodemapper.registerDomain(
     ["profile.myspace.com", "blog.myspace.com"],
@@ -116,3 +140,6 @@ http://profile.myspace.com/index.cfm?fuseaction=user.viewProfile&friendID=347185
 profile(sgn://myspace.com/?pk=123)	http://profile.myspace.com/index.cfm?fuseaction=user.viewprofile&friendid=123
 blog(sgn://myspace.com/?pk=123)		http://blog.myspace.com/index.cfm?fuseaction=blog.ListAll&friendID=123
 rss(sgn://myspace.com/?pk=123)		http://blog.myspace.com/blog/rss.cfm?friendID=123
+
+profile(sgn://myspace.com/?ident=foobar) http://myspace.com/foobar
+content(sgn://myspace.com/?ident=foobar) http://myspace.com/foobar

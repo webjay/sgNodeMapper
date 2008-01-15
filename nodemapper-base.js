@@ -65,6 +65,31 @@ nodemapper.registerDomain = function(domain, handler) {
 
 
 /**
+ * Registers a simple sgn:// to http:// handler for a domain,
+ * auto-generating a handler function which simply appends
+ * its argument (a primary key or identifier) to your provided
+ * prefix.
+ *
+ * @param {String} domain Domain name (e.g. "myspace.com")
+ *
+ * @param {String} handler_name Name of handler (e.g. "pk_to_rss")
+ *
+ * @param {String} prefix Prefix that goes before the pk= or ident=
+ *                        value of the sgn:// node, when generating
+ *                        the http:// URL.
+ */
+nodemapper.addSimpleHandler = function(domain, handler_name, prefix) {
+    var handlers = nodemapper.handlers[domain];
+    if (! handlers) {
+	handlers = nodemapper.handlers[domain] = {};
+    }
+    handlers[handler_name] = function (pk_or_ident) {
+	return prefix + pk_or_ident;
+    };
+};
+
+
+/**
  * Regular expression to test if URL is http, capturing: 1) domain
  * (including port) and 2) the path, if any.
  *
@@ -140,6 +165,7 @@ nodemapper.urlFromGraphNode = function(sgnUrl, type) {
 
     return toFunc(nodeValue);
 };
+
 
 /**
  * List of functions registered with RegisterNonHTTPHandler

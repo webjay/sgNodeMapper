@@ -1,9 +1,13 @@
 You should implement "ident_to_<foo>" for the following URL types:
 
- rss
- atom
+ rss     -- of content
+ atom    -- of content
  profile -- the "profile" page of the user, with their bio/pic/overview, etc
- content -- the HTML content page of the user.  may be their profile.
+ content -- the HTML content page of the user.  may be their profile.  whatever
+            the notable thing on this site normally is.  for myspace, for instance,
+	    this is the profile page, since blogs aren't commonly used/linked
+	    on myspace.
+ blog    -- url to their blog.
  chat    -- chat URL.  likely "aim:" or "xmpp:" or "callto:", etc.
  openid  -- openid server endpoint
  addfriend -- URL to add them
