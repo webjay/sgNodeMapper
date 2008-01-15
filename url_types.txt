@@ -9,7 +9,8 @@ You should implement "ident_to_<foo>" for the following URL types:
 	    on myspace.
  blog    -- url to their blog.
  chat    -- chat URL.  likely "aim:" or "xmpp:" or "callto:", etc.
- openid  -- openid server endpoint
+ openid  -- openid identity URL (either the actual identity for openid 1.x, or
+            the base site for openid 2.0 directed identity)
  addfriend -- URL to add them
  foaf      -- URL to foaf document
 

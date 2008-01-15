@@ -83,9 +83,33 @@ var urlToGraphNodeGeneral = function(url, host, path) {
   return "sgn://livejournal.com/?ident=" + user;
 };
 
+var journalBase = function (ident) {
+    if (ident.indexOf("_") == 0) {
+	return "http://www.livejournal.com/~" + ident + "/";
+    }
+    return "http://" + ident.replace("_", "-") + ".livejournal.com/";
+};
+
+var appendToBase = function (suffix) {
+    return function(ident) { return journalBase(ident) + suffix; };
+};
+
+var identToContent = journalBase;
+var identToRss = appendToBase("data/rss");
+var identToAtom = appendToBase("data/atom");
+var identToFoaf = appendToBase("data/foaf");
+var identToProfile = appendToBase("profile");
+var identToOpenid = journalBase;
 
 nodemapper.registerDomain("livejournal.com",
-                          {urlToGraphNode:urlToGraphNodeGeneral});
+                          {urlToGraphNode: urlToGraphNodeGeneral,
+			  ident_to_content: identToContent,
+			  ident_to_rss: identToRss,
+			  ident_to_atom: identToAtom,
+			  ident_to_foaf: identToFoaf,
+			  ident_to_profile: identToProfile,
+			  ident_to_openid: identToOpenid,
+			 });
 
 __END__
 
@@ -123,6 +147,7 @@ http://livejournal.com/users/bob/               sgn://livejournal.com/?ident=bob
 
 rss(sgn://livejournal.com/?ident=abc)		http://abc.livejournal.com/data/rss
 atom(sgn://livejournal.com/?ident=abc)		http://abc.livejournal.com/data/atom
+foaf(sgn://livejournal.com/?ident=abc)		http://abc.livejournal.com/data/foaf
 openid(sgn://livejournal.com/?ident=abc)	http://abc.livejournal.com/
 openid(sgn://livejournal.com/?ident=abc)	http://abc.livejournal.com/
 
@@ -131,3 +156,5 @@ http://www.livejournal.com/userinfo.bml?userid=123&t=I sgn://livejournal.com/?pk
 http://www.livejournal.com/userinfo.bml?userid=123     sgn://livejournal.com/?pk=123
 http://www.livejournal.com/userinfo.bml?user=bob       sgn://livejournal.com/?ident=bob
 http://www.livejournal.com/userinfo.bml?user=bob&mode=full  sgn://livejournal.com/?ident=bob
+
+profile(sgn://livejournal.com/?ident=bob)   http://bob.livejournal.com/profile
