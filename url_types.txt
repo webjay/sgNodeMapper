@@ -11,6 +11,7 @@ You should implement "ident_to_<foo>" for the following URL types:
  chat    -- chat URL.  likely "aim:" or "xmpp:" or "callto:", etc.
  openid  -- openid server endpoint
  addfriend -- URL to add them
+ foaf      -- URL to foaf document
 
 'feed' -- tries first atom, then rss
 
