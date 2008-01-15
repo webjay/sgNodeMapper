@@ -6,6 +6,9 @@ nodemapper.registerDomain(
         "users",
         "digg.com")});
 
+nodemapper.addSimpleHandler("digg.com", "ident_to_profile",
+			    "http://digg.com/users/", "/");
+
 nodemapper.registerDomain(
     "twitter.com",
     {urlToGraphNode: nodemapper.createSlashUsernameHandler("twitter.com")});
