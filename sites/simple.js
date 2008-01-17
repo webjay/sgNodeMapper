@@ -15,7 +15,9 @@ nodemapper.registerDomain(
 
 nodemapper.registerDomain(
     "pownce.com",
-    {urlToGraphNode: nodemapper.createSlashUsernameHandler("pownce.com")});
+    {urlToGraphNode: nodemapper.createSlashUsernameHandler(
+        "pownce.com",
+        { slashAnything: 1 })});
 
 nodemapper.registerDomain(
     "jaiku.com",
@@ -65,6 +67,8 @@ http://twitter.com/Brad/   sgn://twitter.com/?ident=brad
 http://pownce.com/a   sgn://pownce.com/?ident=a
 http://pownce.com/A   sgn://pownce.com/?ident=a
 http://pownce.com/A/   sgn://pownce.com/?ident=a
+http://pownce.com/A/public/   sgn://pownce.com/?ident=a
+http://pownce.com/A/public/with_friends   sgn://pownce.com/?ident=a
 
 http://bradfitz.jaiku.com/   sgn://jaiku.com/?ident=bradfitz
 http://BRADFITZ.JAIKU.COM/   sgn://jaiku.com/?ident=bradfitz

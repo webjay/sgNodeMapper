@@ -268,13 +268,17 @@ nodemapper.createHostRegexpHandler = function(domain, re, opt_opts) {
  * paths of the form /[username]/ (with optional trailing slash)
  *
  * @param {String} domain sgn:// domain to return on match
- * @param {Object} opt_opts Options supported by createPathRegexpHandler
+ * @param {Object} opt_opts Options supported by createPathRegexpHandler,
+ *     or 'slashAnything': 1 to not anchor the end.
  * @return {String} Clean socialgraph identifier, if URL type is
  *     known, else same URL back.
  * @see nodemapper#createPathRegexpHandler
  */
 nodemapper.createSlashUsernameHandler = function(domain, opt_opts) {
   var slashUsernameRE = /^\/(\w+)\/?$/;
+  if (opt_opts && opt_opts.slashAnything) {
+      slashUsernameRE = /^\/(\w+)(?:\/|$)/;
+  }
   return nodemapper.createPathRegexpHandler(domain, slashUsernameRE, opt_opts);
 };
 
