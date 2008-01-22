@@ -136,7 +136,7 @@ nodemapper.urlToGraphNode = function(url) {
   }
 
   // no handler? just return URL unmodified.
-  if (!handler) return url;
+  if (!(handler && handler.urlToGraphNode)) return url;
 
   var graphnode = handler.urlToGraphNode(url, host, path);
   if (!graphnode) return url;
