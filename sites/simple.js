@@ -25,14 +25,30 @@ nodemapper.addSimpleHandler("digg.com", "ident_to_profile",
 			    "http://digg.com/users/", "/");
 
 nodemapper.registerDomain(
+    "twitter.com",
+    {urlToGraphNode: nodemapper.createSlashUsernameHandler("twitter.com")});
+nodemapper.addSimpleHandler("twitter.com", "ident_to_profile", 
+    "http://twitter.com/");
+nodemapper.addSimpleHandler("twitter.com", "ident_to_rss", 
+    "http://twitter.com/statuses/user_timeline/", ".rss");
+nodemapper.addSimpleHandler("twitter.com", "ident_to_atom", 
+    "http://twitter.com/statuses/user_timeline/", ".atom");
+
+nodemapper.registerDomain(
     "pownce.com",
     {urlToGraphNode: nodemapper.createSlashUsernameHandler(
         "pownce.com",
         { slashAnything: 1 })});
+nodemapper.addSimpleHandler("pownce.com", "ident_to_profile", 
+    "http://pownce.com/");
 
 nodemapper.registerDomain(
     "jaiku.com",
     {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("jaiku.com")});
+nodemapper.addSimpleHandler("jaiku.com", "ident_to_profile", 
+    "http://", ".jaiku.com");
+nodemapper.addSimpleHandler("jaiku.com", "ident_to_rss", 
+    "http://", ".jaiku.com/feed/rss");
 
 nodemapper.registerDomain(
     "mugshot.org",
@@ -52,6 +68,10 @@ nodemapper.registerDomain(
     {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
         "people",
         "ma.gnolia.com")});
+nodemapper.addSimpleHandler("ma.gnolia.com", "ident_to_profile", 
+    "http://ma.gnolia.com/people/");
+nodemapper.addSimpleHandler("ma.gnolia.com", "ident_to_rss", 
+    "http://ma.gnolia.com/rss/full/people/");
 
 nodemapper.registerDomain(
     "ziki.com",
@@ -65,20 +85,81 @@ nodemapper.registerDomain(
         "wordpress.com",
         /^(?:www\.)?([\w\-]+)\.wordpress\.com$/)});
 
+nodemapper.registerDomain(
+    "picasaweb.google.com",
+    {urlToGraphNode: nodemapper.createSlashUsernameHandler(
+        "picasaweb.google.com")});
+nodemapper.addSimpleHandler("picasaweb.google.com", "ident_to_profile", 
+    "http://picasaweb.google.com/");
+nodemapper.addSimpleHandler("picasaweb.google.com", "ident_to_rss", 
+    "http://picasaweb.google.com/data/feed/base/user/", 
+    "?kind=album&alt=rss&hl=en_US&access=public");
+
+nodemapper.registerDomain(
+    "del.icio.us",
+    {urlToGraphNode: nodemapper.createSlashUsernameHandler("del.icio.us")});
+nodemapper.addSimpleHandler("del.icio.us", "ident_to_profile", 
+    "http://del.icio.us/");
+nodemapper.addSimpleHandler("del.icio.us", "ident_to_rss", 
+    "http://del.icio.us/rss/");
+
+nodemapper.registerDomain(
+  "youtube.com",
+  {urlToGraphNode: nodemapper.createPathRegexpHandler(
+    "youtube.com",
+    /^\/(?:user\/)?([^\/]*)/)});
+nodemapper.addSimpleHandler("youtube.com", "ident_to_profile", 
+    "http://youtube.com/");
+
+nodemapper.registerDomain("community.webshots.com",
+  {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("user", 
+      "webshots.com")});
+nodemapper.addSimpleHandler("webshots.com", "ident_to_profile", 
+    "http://community.webshots.com/user/");
+nodemapper.addSimpleHandler("webshots.com", "ident_to_rss", 
+    "http://community.webshots.com/rss?contentType=rss&type=user&value=");
+
+nodemapper.registerDomain(
+    "smugmug.com",
+    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("smugmug.com")});
+nodemapper.addSimpleHandler("smugmug.com", "ident_to_profile", 
+    "http://", ".smugmug.com");
+nodemapper.addSimpleHandler("smugmug.com", "ident_to_atom", 
+    "http://www.smugmug.com/hack/feed.mg?Type=nicknameRecentPhotos&Data=", 
+    "&format=atom03");
+
+nodemapper.registerDomain(
+    "tumblr.com",
+    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("tumblr.com")});
+nodemapper.addSimpleHandler("tumblr.com", "ident_to_profile", 
+    "http://", ".tumblr.com");
+nodemapper.addSimpleHandler("tumblr.com", "ident_to_rss", 
+    "http://", ".tumblr.com/rss");
+
 __END__
 
 http://digg.com/users/foobar	sgn://digg.com/?ident=foobar
 http://digg.com/users/foobar/	sgn://digg.com/?ident=foobar
 profile(sgn://digg.com/?ident=foobar)	http://digg.com/users/foobar/
 
+http://twitter.com/brad   sgn://twitter.com/?ident=brad
+http://twitter.com/Brad   sgn://twitter.com/?ident=brad
+http://twitter.com/Brad/   sgn://twitter.com/?ident=brad
+profile(sgn://twitter.com/?ident=brad) http://twitter.com/brad
+rss(sgn://twitter.com/?ident=brad) http://twitter.com/statuses/user_timeline/brad.rss
+atom(sgn://twitter.com/?ident=brad) http://twitter.com/statuses/user_timeline/brad.atom
+
 http://pownce.com/a   sgn://pownce.com/?ident=a
 http://pownce.com/A   sgn://pownce.com/?ident=a
 http://pownce.com/A/   sgn://pownce.com/?ident=a
 http://pownce.com/A/public/   sgn://pownce.com/?ident=a
 http://pownce.com/A/public/with_friends   sgn://pownce.com/?ident=a
+profile(sgn://pownce.com/?ident=a) http://pownce.com/a
 
 http://bradfitz.jaiku.com/   sgn://jaiku.com/?ident=bradfitz
 http://BRADFITZ.JAIKU.COM/   sgn://jaiku.com/?ident=bradfitz
+profile(sgn://jaiku.com/?ident=bradfitz) http://bradfitz.jaiku.com
+rss(sgn://jaiku.com/?ident=bradfitz) http://bradfitz.jaiku.com/feed/rss
 
 http://linkedin.com/in/foobar	sgn://linkedin.com/?ident=foobar
 http://linkedin.com/in/foobar/	sgn://linkedin.com/?ident=foobar
@@ -89,6 +170,8 @@ http://www.linkedin.com/in/foobar/	sgn://linkedin.com/?ident=foobar
 
 http://ma.gnolia.com/people/daveman692	sgn://ma.gnolia.com/?ident=daveman692
 http://ma.gnolia.com/people/daveman692/	sgn://ma.gnolia.com/?ident=daveman692
+profile(sgn://ma.gnolia.com/?ident=daveman692) http://ma.gnolia.com/people/daveman692
+rss(sgn://ma.gnolia.com/?ident=daveman692) http://ma.gnolia.com/rss/full/people/daveman692
 
 # case sensitive identifiers!
 http://mugshot.org/person?who=7ACcH9gn7zv4YG  sgn://mugshot.org/?ident=7ACcH9gn7zv4YG
@@ -99,3 +182,27 @@ http://www.ziki.com/fr/people/bob/extrastuff sgn://ziki.com/?ident=bob
 
 http://foo.wordpress.com/  sgn://wordpress.com/?ident=foo
 http://www.foo.wordpress.com/  sgn://wordpress.com/?ident=foo
+
+http://picasaweb.google.com/jsmarr	sgn://picasaweb.google.com/?ident=jsmarr
+profile(sgn://picasaweb.google.com/?ident=jsmarr) http://picasaweb.google.com/jsmarr
+rss(sgn://picasaweb.google.com/?ident=jsmarr) http://picasaweb.google.com/data/feed/base/user/jsmarr?kind=album&alt=rss&hl=en_US&access=public
+
+http://del.icio.us/jsmarr	sgn://del.icio.us/?ident=jsmarr
+profile(sgn://del.icio.us/?ident=jsmarr)	http://del.icio.us/jsmarr
+rss(sgn://del.icio.us/?ident=jsmarr)	http://del.icio.us/rss/jsmarr
+
+http://youtube.com/jsmarr sgn://youtube.com/?ident=jsmarr
+http://www.youtube.com/user/jsmarr sgn://youtube.com/?ident=jsmarr
+profile(sgn://youtube.com/?ident=jsmarr) http://youtube.com/jsmarr
+
+http://community.webshots.com/user/bob sgn://webshots.com/?ident=bob
+profile(sgn://webshots.com/?ident=bob) http://community.webshots.com/user/bob
+rss(sgn://webshots.com/?ident=bob) http://community.webshots.com/rss?contentType=rss&type=user&value=bob
+
+http://jsmarr.smugmug.com sgn://smugmug.com/?ident=jsmarr
+profile(sgn://smugmug.com/?ident=jsmarr) http://jsmarr.smugmug.com
+atom(sgn://smugmug.com/?ident=jsmarr) http://www.smugmug.com/hack/feed.mg?Type=nicknameRecentPhotos&Data=jsmarr&format=atom03
+
+http://bradfitz.tumblr.com/   sgn://tumblr.com/?ident=bradfitz
+profile(sgn://tumblr.com/?ident=bradfitz) http://bradfitz.tumblr.com
+rss(sgn://tumblr.com/?ident=bradfitz) http://bradfitz.tumblr.com/rss

@@ -62,6 +62,16 @@ nodemapper.registerDomain(
  }
 });
 
+// TODO: unify this with core AOL.com sgn? 
+// But then how can I specify these custom profile/atom handlers?
+nodemapper.registerDomain("pictures.aol.com",
+  {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("galleries", 
+      "pictures.aol.com")});
+nodemapper.addSimpleHandler("pictures.aol.com", "ident_to_profile", 
+      "http://pictures.aol.com/galleries/");
+nodemapper.addSimpleHandler("pictures.aol.com", "ident_to_atom", 
+      "http://pictures.aol.com/galleries/", "/atom.xml");
+
 __END__
 
 aim:GoIM?screenname=fooBar			sgn://aol.com/?ident=foobar
@@ -79,3 +89,7 @@ http://openid.aol.com/foobar/		sgn://aol.com/?ident=foobar
 openid(sgn://aol.com/?ident=foobar)		http://openid.aol.com/foobar
 chat(sgn://aol.com/?ident=foobar)		aim:GoIM?screenname=foobar
 profile(sgn://aol.com/?ident=foobar)		http://www.aimpages.com/foobar/profile.html
+
+http://pictures.aol.com/galleries/josephsmarr sgn://pictures.aol.com/?ident=josephsmarr
+profile(sgn://pictures.aol.com/?ident=josephsmarr) http://pictures.aol.com/galleries/josephsmarr
+atom(sgn://pictures.aol.com/?ident=josephsmarr) http://pictures.aol.com/galleries/josephsmarr/atom.xml
