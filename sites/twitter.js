@@ -17,7 +17,8 @@
 
 nodemapper.registerDomain(
     "twitter.com",
-    {urlToGraphNode: nodemapper.createSlashUsernameHandler("twitter.com")});
+    {urlToGraphNode: nodemapper.createSlashUsernameHandler("twitter.com",
+        {slashAnything:1})});
 nodemapper.addSimpleHandler("twitter.com", "ident_to_profile", 
     "http://twitter.com/");
 nodemapper.addSimpleHandler("twitter.com", "ident_to_rss", 
@@ -31,8 +32,8 @@ http://twitter.com/bob   sgn://twitter.com/?ident=bob
 http://twitter.com/Bob   sgn://twitter.com/?ident=bob
 http://twitter.com/Bob/   sgn://twitter.com/?ident=bob
 
-https://twitter.com/bob  sgn://twitter.com/?ident=bob
-https://twitter.com/BOB/  sgn://twitter.com/?ident=bob
+#https://twitter.com/bob  sgn://twitter.com/?ident=bob
+#https://twitter.com/BOB/  sgn://twitter.com/?ident=bob
 
 http://explore.twitter.com/bob/with_friends  sgn://twitter.com/?ident=bob
 

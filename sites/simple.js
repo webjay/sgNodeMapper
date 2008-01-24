@@ -20,9 +20,10 @@ nodemapper.registerDomain(
     {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
         "users",
         "digg.com")});
-
 nodemapper.addSimpleHandler("digg.com", "ident_to_profile",
 			    "http://digg.com/users/", "/");
+nodemapper.addSimpleHandler("digg.com", "ident_to_rss",
+			    "http://digg.com/rss/", "/index2.xml");
 
 nodemapper.registerDomain(
     "pownce.com",
@@ -126,11 +127,70 @@ nodemapper.addSimpleHandler("tumblr.com", "ident_to_profile",
 nodemapper.addSimpleHandler("tumblr.com", "ident_to_rss", 
     "http://", ".tumblr.com/rss");
 
+nodemapper.registerDomain(
+    "xanga.com",
+    {urlToGraphNode: nodemapper.createSlashUsernameHandler(
+        "xanga.com",
+        { slashAnything: 1 })});
+nodemapper.addSimpleHandler("xanga.com", "ident_to_profile", 
+    "http://xanga.com/");
+nodemapper.addSimpleHandler("xanga.com", "ident_to_rss", 
+    "http://xanga.com/", "/rss");
+
+nodemapper.registerDomain(
+    "360.yahoo.com",
+    {urlToGraphNode: nodemapper.createSlashUsernameHandler(
+        "360.yahoo.com",
+        { slashAnything: 1 })});
+nodemapper.addSimpleHandler("360.yahoo.com", "ident_to_profile", 
+    "http://360.yahoo.com/");
+nodemapper.addSimpleHandler("360.yahoo.com", "ident_to_rss", 
+    "http://blog.360.yahoo.com/");
+
+nodemapper.registerDomain(
+    "spaces.live.com",
+    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler(
+        "spaces.live.com")});
+nodemapper.addSimpleHandler("spaces.live.com", "ident_to_profile", 
+    "http://", ".spaces.live.com");
+nodemapper.addSimpleHandler("spaces.live.com", "ident_to_rss", 
+    "http://", ".spaces.live.com/feed.rss");
+
+nodemapper.registerDomain(
+    "stumbleupon.com",
+    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler(
+        "stumbleupon.com")});
+nodemapper.addSimpleHandler("stumbleupon.com", "ident_to_profile", 
+    "http://", ".stumbleupon.com");
+nodemapper.addSimpleHandler("stumbleupon.com", "ident_to_rss", 
+    "http://www.stumbleupon.com/syndicate.php?stumbler=");
+
+nodemapper.registerDomain(
+    "travelpod.com",
+    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+        "members",
+        "travelpod.com")});
+nodemapper.addSimpleHandler("travelpod.com", "ident_to_profile",
+			    "http://travelpod.com/members/");
+nodemapper.addSimpleHandler("travelpod.com", "ident_to_rss",
+			    "http://travelpod.com/syndication/rss/");
+
+nodemapper.registerDomain(
+    "imageshack.us",
+    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+        "user",
+        "imageshack.us")});
+nodemapper.addSimpleHandler("imageshack.us", "ident_to_profile",
+			    "http://profile.imageshack.us/user/");
+nodemapper.addSimpleHandler("imageshack.us", "ident_to_rss",
+			    "http://rss.imageshack.us/user/", "/rss/");
+
 __END__
 
 http://digg.com/users/foobar	sgn://digg.com/?ident=foobar
 http://digg.com/users/foobar/	sgn://digg.com/?ident=foobar
 profile(sgn://digg.com/?ident=foobar)	http://digg.com/users/foobar/
+rss(sgn://digg.com/?ident=foobar)	http://digg.com/rss/foobar/index2.xml
 
 http://pownce.com/a   sgn://pownce.com/?ident=a
 http://pownce.com/A   sgn://pownce.com/?ident=a
@@ -189,3 +249,30 @@ atom(sgn://smugmug.com/?ident=jsmarr) http://www.smugmug.com/hack/feed.mg?Type=n
 http://bradfitz.tumblr.com/   sgn://tumblr.com/?ident=bradfitz
 profile(sgn://tumblr.com/?ident=bradfitz) http://bradfitz.tumblr.com
 rss(sgn://tumblr.com/?ident=bradfitz) http://bradfitz.tumblr.com/rss
+
+http://xanga.com/a/   sgn://xanga.com/?ident=a
+profile(sgn://xanga.com/?ident=a) http://xanga.com/a
+rss(sgn://xanga.com/?ident=a) http://xanga.com/a/rss
+
+http://360.yahoo.com/a/   sgn://360.yahoo.com/?ident=a
+profile(sgn://360.yahoo.com/?ident=a) http://360.yahoo.com/a
+rss(sgn://360.yahoo.com/?ident=a) http://blog.360.yahoo.com/a
+
+http://bradfitz.spaces.live.com/   sgn://spaces.live.com/?ident=bradfitz
+profile(sgn://spaces.live.com/?ident=bradfitz) http://bradfitz.spaces.live.com
+rss(sgn://spaces.live.com/?ident=bradfitz) http://bradfitz.spaces.live.com/feed.rss
+
+http://bradfitz.stumbleupon.com/   sgn://stumbleupon.com/?ident=bradfitz
+profile(sgn://stumbleupon.com/?ident=bradfitz) http://bradfitz.stumbleupon.com
+rss(sgn://stumbleupon.com/?ident=bradfitz) http://www.stumbleupon.com/syndicate.php?stumbler=bradfitz
+
+http://www.travelpod.com/members/foobar	sgn://travelpod.com/?ident=foobar
+http://travelpod.com/members/foobar/	sgn://travelpod.com/?ident=foobar
+profile(sgn://travelpod.com/?ident=foobar)	http://travelpod.com/members/foobar
+rss(sgn://travelpod.com/?ident=foobar)	http://travelpod.com/syndication/rss/foobar
+
+http://www.imageshack.us/user/foobar	sgn://imageshack.us/?ident=foobar
+http://imageshack.us/user/foobar/	sgn://imageshack.us/?ident=foobar
+profile(sgn://imageshack.us/?ident=foobar)	http://profile.imageshack.us/user/foobar
+rss(sgn://imageshack.us/?ident=foobar)	http://rss.imageshack.us/user/foobar/rss/
+
