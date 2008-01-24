@@ -1,5 +1,20 @@
 // -*-java-*-
 
+/**
+ * Copyright 2007 Google Inc.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ **/
+
 nodemapper.registerDomain(
     "digg.com",
     {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
@@ -8,10 +23,6 @@ nodemapper.registerDomain(
 
 nodemapper.addSimpleHandler("digg.com", "ident_to_profile",
 			    "http://digg.com/users/", "/");
-
-nodemapper.registerDomain(
-    "twitter.com",
-    {urlToGraphNode: nodemapper.createSlashUsernameHandler("twitter.com")});
 
 nodemapper.registerDomain(
     "pownce.com",
@@ -59,10 +70,6 @@ __END__
 http://digg.com/users/foobar	sgn://digg.com/?ident=foobar
 http://digg.com/users/foobar/	sgn://digg.com/?ident=foobar
 profile(sgn://digg.com/?ident=foobar)	http://digg.com/users/foobar/
-
-http://twitter.com/brad   sgn://twitter.com/?ident=brad
-http://twitter.com/Brad   sgn://twitter.com/?ident=brad
-http://twitter.com/Brad/   sgn://twitter.com/?ident=brad
 
 http://pownce.com/a   sgn://pownce.com/?ident=a
 http://pownce.com/A   sgn://pownce.com/?ident=a
