@@ -97,8 +97,7 @@ nodemapper.addSimpleHandler("del.icio.us", "ident_to_rss",
 nodemapper.registerDomain(
   "youtube.com",
   {urlToGraphNode: nodemapper.createPathRegexpHandler(
-    "youtube.com",
-    /^\/(?:user\/)?([^\/]*)/)});
+    "youtube.com", /^\/(?:user\/)?([^\/]*)/)});
 nodemapper.addSimpleHandler("youtube.com", "ident_to_profile", 
     "http://youtube.com/");
 
@@ -130,8 +129,7 @@ nodemapper.addSimpleHandler("tumblr.com", "ident_to_rss",
 nodemapper.registerDomain(
     "xanga.com",
     {urlToGraphNode: nodemapper.createSlashUsernameHandler(
-        "xanga.com",
-        { slashAnything: 1 })});
+        "xanga.com", { slashAnything: 1 })});
 nodemapper.addSimpleHandler("xanga.com", "ident_to_profile", 
     "http://xanga.com/");
 nodemapper.addSimpleHandler("xanga.com", "ident_to_rss", 
@@ -140,8 +138,7 @@ nodemapper.addSimpleHandler("xanga.com", "ident_to_rss",
 nodemapper.registerDomain(
     "360.yahoo.com",
     {urlToGraphNode: nodemapper.createSlashUsernameHandler(
-        "360.yahoo.com",
-        { slashAnything: 1 })});
+        "360.yahoo.com", { slashAnything: 1 })});
 nodemapper.addSimpleHandler("360.yahoo.com", "ident_to_profile", 
     "http://360.yahoo.com/");
 nodemapper.addSimpleHandler("360.yahoo.com", "ident_to_rss", 
@@ -168,8 +165,7 @@ nodemapper.addSimpleHandler("stumbleupon.com", "ident_to_rss",
 nodemapper.registerDomain(
     "travelpod.com",
     {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
-        "members",
-        "travelpod.com")});
+        "members", "travelpod.com")});
 nodemapper.addSimpleHandler("travelpod.com", "ident_to_profile",
 			    "http://travelpod.com/members/");
 nodemapper.addSimpleHandler("travelpod.com", "ident_to_rss",
@@ -178,12 +174,79 @@ nodemapper.addSimpleHandler("travelpod.com", "ident_to_rss",
 nodemapper.registerDomain(
     "imageshack.us",
     {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
-        "user",
-        "imageshack.us")});
+        "user", "imageshack.us")});
 nodemapper.addSimpleHandler("imageshack.us", "ident_to_profile",
 			    "http://profile.imageshack.us/user/");
 nodemapper.addSimpleHandler("imageshack.us", "ident_to_rss",
 			    "http://rss.imageshack.us/user/", "/rss/");
+
+nodemapper.registerDomain("bloglines.com",
+  {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+      "(?:blog|public)", "bloglines.com", {slashAnything: 1})});
+nodemapper.addSimpleHandler("bloglines.com", "ident_to_profile", 
+    "http://www.bloglines.com/blog/");
+nodemapper.addSimpleHandler("bloglines.com", "ident_to_rss", 
+    "http://www.bloglines.com/blog/", "/rss");
+
+upcomingHandler = nodemapper.createSomethingSlashUsernameHandler("user", 
+    "upcoming.yahoo.com", {keyName: "pk"});
+nodemapper.registerDomain("upcoming.yahoo.com",
+  {urlToGraphNode: upcomingHandler});
+nodemapper.registerDomain("upcoming.org",
+  {urlToGraphNode: upcomingHandler});
+nodemapper.addSimpleHandler("upcoming.yahoo.com", "pk_to_profile", 
+    "http://upcoming.yahoo.com/user/", "/");
+nodemapper.addSimpleHandler("upcoming.yahoo.com", "pk_to_rss", 
+    "http://upcoming.yahoo.com/syndicate/v2/my_events/");
+
+nodemapper.registerDomain("socializr.com",
+  {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+      "user", "socializr.com")});
+nodemapper.addSimpleHandler("socializr.com", "ident_to_profile", 
+    "http://www.socializr.com/user/");
+nodemapper.addSimpleHandler("socializr.com", "ident_to_rss", 
+    "http://www.socializr.com/rss/user/", "/rss.xml");
+
+nodemapper.registerDomain("bebo.com",
+  {urlToGraphNode: nodemapper.createPathRegexpHandler(
+      "bebo.com", /^\/Profile.jsp\?MemberId=([^&]*)/)});
+nodemapper.addSimpleHandler("bebo.com", "ident_to_profile", 
+    "http://bebo.com/Profile.jsp?MemberId=");
+nodemapper.addSimpleHandler("bebo.com", "ident_to_rss", 
+    "http://bebo.com/api/BlogRss.jsp?MemberId=");
+
+nodemapper.registerDomain("reddit.com",
+  {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+      "user", "reddit.com", {slashAnything: 1})});
+nodemapper.addSimpleHandler("reddit.com", "ident_to_profile", 
+    "http://reddit.com/user/");
+nodemapper.addSimpleHandler("reddit.com", "ident_to_rss", 
+    "http://reddit.com/user/", "/submitted.rss");
+
+nodemapper.registerDomain("ilike.com",
+  {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+      "user", "ilike.com", {slashAnything: 1})});
+nodemapper.addSimpleHandler("ilike.com", "ident_to_profile", 
+    "http://www.ilike.com/user/");
+nodemapper.addSimpleHandler("ilike.com", "ident_to_rss", 
+    "http://www.ilike.com/user/", "/songs_ilike.rss");
+
+nodemapper.registerDomain("zooomr.com",
+  {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+      "(?:photos|people)", "zooomr.com", {slashAnything: 1})});
+nodemapper.addSimpleHandler("zooomr.com", "ident_to_profile", 
+    "http://www.zooomr.com/people/");
+nodemapper.addSimpleHandler("zooomr.com", "ident_to_rss", 
+    "http://www.zooomr.com/services/feeds/public_photos/?id=", 
+    "&format=rss_200");
+
+nodemapper.registerDomain(
+    "multiply.com",
+    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("multiply.com")});
+nodemapper.addSimpleHandler("multiply.com", "ident_to_profile", 
+    "http://", ".multiply.com");
+nodemapper.addSimpleHandler("multiply.com", "ident_to_rss", 
+    "http://", ".multiply.com/feed.rss");
 
 __END__
 
@@ -275,4 +338,43 @@ http://www.imageshack.us/user/foobar	sgn://imageshack.us/?ident=foobar
 http://imageshack.us/user/foobar/	sgn://imageshack.us/?ident=foobar
 profile(sgn://imageshack.us/?ident=foobar)	http://profile.imageshack.us/user/foobar
 rss(sgn://imageshack.us/?ident=foobar)	http://rss.imageshack.us/user/foobar/rss/
+
+http://www.bloglines.com/blog/jsmarr sgn://bloglines.com/?ident=jsmarr
+http://www.bloglines.com/blog/jsmarr/rss sgn://bloglines.com/?ident=jsmarr
+http://www.bloglines.com/public/jsmarr sgn://bloglines.com/?ident=jsmarr
+profile(sgn://bloglines.com/?ident=jsmarr) http://www.bloglines.com/blog/jsmarr
+rss(sgn://bloglines.com/?ident=jsmarr) http://www.bloglines.com/blog/jsmarr/rss
+
+http://upcoming.yahoo.com/user/75587/ sgn://upcoming.yahoo.com/?pk=75587
+# upcoming.org redirects to upcoming.yahoo.com but some ppl still use it
+http://upcoming.org/user/75587/ sgn://upcoming.yahoo.com/?pk=75587
+profile(sgn://upcoming.yahoo.com/?pk=75587) http://upcoming.yahoo.com/user/75587/
+rss(sgn://upcoming.yahoo.com/?pk=75587) http://upcoming.yahoo.com/syndicate/v2/my_events/75587
+
+http://www.socializr.com/user/jsmarr sgn://socializr.com/?ident=jsmarr
+profile(sgn://socializr.com/?ident=jsmarr) http://www.socializr.com/user/jsmarr
+rss(sgn://socializr.com/?ident=jsmarr) http://www.socializr.com/rss/user/jsmarr/rss.xml
+
+http://bebo.com/Profile.jsp?MemberId=jsmarr sgn://bebo.com/?ident=jsmarr
+profile(sgn://bebo.com/?ident=jsmarr) http://bebo.com/Profile.jsp?MemberId=jsmarr
+rss(sgn://bebo.com/?ident=jsmarr) http://bebo.com/api/BlogRss.jsp?MemberId=jsmarr
+
+http://reddit.com/user/jsmarr sgn://reddit.com/?ident=jsmarr
+http://reddit.com/user/jsmarr/submitted.rss sgn://reddit.com/?ident=jsmarr
+profile(sgn://reddit.com/?ident=jsmarr) http://reddit.com/user/jsmarr
+rss(sgn://reddit.com/?ident=jsmarr) http://reddit.com/user/jsmarr/submitted.rss 
+
+http://www.ilike.com/user/jsmarr sgn://ilike.com/?ident=jsmarr
+http://ilike.com/user/jsmarr/songs_ilike.rss sgn://ilike.com/?ident=jsmarr
+profile(sgn://ilike.com/?ident=jsmarr) http://www.ilike.com/user/jsmarr
+rss(sgn://ilike.com/?ident=jsmarr) http://www.ilike.com/user/jsmarr/songs_ilike.rss 
+
+http://www.zooomr.com/photos/jsmarr sgn://zooomr.com/?ident=jsmarr
+http://www.zooomr.com/people/jsmarr sgn://zooomr.com/?ident=jsmarr
+profile(sgn://zooomr.com/?ident=jsmarr) http://www.zooomr.com/people/jsmarr
+rss(sgn://zooomr.com/?ident=jsmarr) http://www.zooomr.com/services/feeds/public_photos/?id=jsmarr&format=rss_200
+
+http://bradfitz.multiply.com/   sgn://multiply.com/?ident=bradfitz
+profile(sgn://multiply.com/?ident=bradfitz) http://bradfitz.multiply.com
+rss(sgn://multiply.com/?ident=bradfitz) http://bradfitz.multiply.com/feed.rss
 
