@@ -216,10 +216,11 @@ nodemapper.urlToGraphNodeNotHTTP = function(url) {
  * @param {String} domain sgn:// domain to return on match
  * @param {RegExp} re Regular expression to match.  Capture #1
  *     must match the username.
- * @param {Object} opt_opts Optional object with extra options, for
- *     instance: 'fallbackHandler' to run if no match
- *     (rather than returning URL back), 'casePreserve',
- *     a bool, to not lowercase the username.
+ * @param {Object} opt_opts Optional object with extra options:
+ *     - casePreserve: if true, don't lowercase the ident/pk
+ *     - fallbackHandler: to run if no match (rather than returning URL back)
+ *     - keyName: type of identifier in the URL (default: "ident", or "pk")
+ *     - slashAnything: if true, allow (and ignore) any /xyz/abc after the match
  * @return {Function} function of (url, host, path) which returns
  *     an sgn:// URL (ideally, if recognized), or the same provided
  *     URL back if URL isn't recognized by a registered parser.
@@ -247,9 +248,8 @@ nodemapper.createPathRegexpHandler = function(domain, re, opt_opts) {
  * @param {String} domain sgn:// domain to return on match
  * @param {RegExp} re Regular expression to match.  Capture #1
  *     must match the username.
- * @param {Object} opt_opts Optional object with extra options, for
- *     instance: 'fallbackHandler' to run if no match
- *     (rather than returning URL back)
+ * @param {Object} opt_opts Optional object with extra options
+ *     (see list options in nodemapper.createPathRegexpHandler method comment)
  */
 nodemapper.createHostRegexpHandler = function(domain, re, opt_opts) {
   if (!opt_opts) opt_opts = {};
@@ -269,8 +269,8 @@ nodemapper.createHostRegexpHandler = function(domain, re, opt_opts) {
  * paths of the form /[username]/ (with optional trailing slash)
  *
  * @param {String} domain sgn:// domain to return on match
- * @param {Object} opt_opts Options supported by createPathRegexpHandler,
- *     or 'slashAnything': 1 to not anchor the end.
+ * @param {Object} opt_opts Optional object with extra options
+ *     (see list options in nodemapper.createPathRegexpHandler method comment)
  * @return {String} Clean socialgraph identifier, if URL type is
  *     known, else same URL back.
  * @see nodemapper#createPathRegexpHandler
@@ -290,7 +290,8 @@ nodemapper.createSlashUsernameHandler = function(domain, opt_opts) {
  *
  * @param {String} prefix The prefix path before the username
  * @param {String} domain sgn:// domain to return on match
- * @param {Object} opt_opts Options supported by createPathRegexpHandler
+ * @param {Object} opt_opts Optional object with extra options
+ *     (see list options in nodemapper.createPathRegexpHandler method comment)
  * @return {String} Clean socialgraph identifier, if URL type is
  *     known, else same URL back.
  * @see nodemapper#createPathRegexpHandler
