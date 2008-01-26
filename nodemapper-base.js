@@ -233,7 +233,8 @@ nodemapper.createPathRegexpHandler = function(domain, re, opt_opts) {
           opt_opts.fallbackHandler(url, host, path) :
           url;
     }
-    return "sgn://" + domain + "/?ident=" +
+    var keyName = opt_opts.keyName || 'ident'; // ident= or pk=; TODO: enforce valid key names?
+    return "sgn://" + domain + "/?" + keyName + "=" +
         (opt_opts.casePreserve ? m[1] : m[1].toLowerCase());
   };
 };
