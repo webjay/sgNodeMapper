@@ -29,8 +29,17 @@ nodemapper.registerDomain("blogspot.com", {
                                                      BLOGSPOT_REGEX)
 });
 
+nodemapper.addSimpleHandler("blogspot.com", "ident_to_blog",
+			    "http://", ".blogspot.com/");
+nodemapper.addSimpleHandler("blogspot.com", "ident_to_content",
+			    "http://", ".blogspot.com/");
+
+
 __END__
 
 http://foo.blogspot.com/          sgn://blogspot.com/?ident=foo
 http://www.foo.blogspot.com/      sgn://blogspot.com/?ident=foo
 http://foo.blogspot.com/path/blah sgn://blogspot.com/?ident=foo
+
+content(sgn://blogspot.com/?ident=foo) http://foo.blogspot.com/
+blog(sgn://blogspot.com/?ident=foo)    http://foo.blogspot.com/
