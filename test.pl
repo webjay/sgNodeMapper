@@ -30,6 +30,7 @@ open(my $fh, "nodemapper_expected.dat")
   or die "Couldn't open nodemapper_expected.dat: $!";
 
 my @errors;
+my @warnings;
 
 while (<$fh>) {
   s/^\s*\#.*//;
@@ -43,6 +44,15 @@ while (<$fh>) {
     my ($type, $sgn_node) = ($1, $2);
     $actual = $mapper->graph_node_to_url($sgn_node, $type);
     $test_name = "URL of $type($sgn_node)";
+
+    # and test that it round-trips back to the sgn node
+    if ($actual eq $expected) {
+	my $back_sgn = $mapper->graph_node_from_url($expected);
+	unless ($back_sgn eq $sgn_node) {
+	    push @warnings, "$type($sgn_node) doesn't round-trip on URL: $expected ";
+	}
+    }
+
   } else {
     $actual = $mapper->graph_node_from_url($input);
     $test_name = "Mapping $input";
@@ -59,8 +69,15 @@ while (<$fh>) {
   }
 }
 
+if (@warnings) {
+    print "WARNINGS:\n";
+    foreach (@warnings) {
+	print "  * $_\n";
+    }
+}
+
 if (@errors) {
-  warn "SUMMARY OF ERRORS:\n";
+  print "SUMMARY OF ERRORS:\n";
   foreach my $e (@errors) {
     print "\n";
     print "$e->{input}\n";
