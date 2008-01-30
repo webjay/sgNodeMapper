@@ -54,6 +54,9 @@ nodemapper.registerDomain(
         "in",
         "linkedin.com")});
 
+nodemapper.addSimpleHandler("linkedin.com", "ident_to_profile",
+			    "http://www.linkedin.com/in/", "");
+
 nodemapper.registerDomain(
     "ma.gnolia.com",
     {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
@@ -75,6 +78,9 @@ nodemapper.registerDomain(
     {urlToGraphNode: nodemapper.createHostRegexpHandler(
         "wordpress.com",
         /^(?:www\.)?([\w\-]+)\.wordpress\.com$/)});
+
+nodemapper.addSimpleHandler("wordpress.com", "ident_to_blog",
+			    "http://", ".wordpress.com/");
 
 nodemapper.registerDomain(
     "picasaweb.google.com",
@@ -270,6 +276,8 @@ rss(sgn://jaiku.com/?ident=bradfitz) http://bradfitz.jaiku.com/feed/rss
 http://linkedin.com/in/foobar	sgn://linkedin.com/?ident=foobar
 http://linkedin.com/in/foobar/	sgn://linkedin.com/?ident=foobar
 http://www.linkedin.com/in/foobar/	sgn://linkedin.com/?ident=foobar
+http://www.linkedin.com/in/foobar	sgn://linkedin.com/?ident=foobar
+profile(sgn://linkedin.com/?ident=foobar)  http://www.linkedin.com/in/foobar
 
 # TODO(bradfitz): pk URLs for these types:
 # http://www.linkedin.com/pub/5/512/39a
@@ -288,6 +296,7 @@ http://www.ziki.com/fr/people/bob/extrastuff sgn://ziki.com/?ident=bob
 
 http://foo.wordpress.com/  sgn://wordpress.com/?ident=foo
 http://www.foo.wordpress.com/  sgn://wordpress.com/?ident=foo
+blog(sgn://wordpress.com/?ident=foo) http://foo.wordpress.com/
 
 http://picasaweb.google.com/jsmarr	sgn://picasaweb.google.com/?ident=jsmarr
 profile(sgn://picasaweb.google.com/?ident=jsmarr) http://picasaweb.google.com/jsmarr

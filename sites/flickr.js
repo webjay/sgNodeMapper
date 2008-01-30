@@ -41,13 +41,18 @@ nodemapper.registerDomain(
   ident_to_profile: function (ident) {
       return "http://www.flickr.com/people/" + ident + "/";
   },
+  pk_to_profile: function (ident) {
+      return "http://www.flickr.com/people/" + ident + "/";
+  },
   ident_to_addfriend: function (ident) {
       return "http://www.flickr.com/people/" + ident + "/relationship/";
   },
   ident_to_content: function (ident) {
       return "http://www.flickr.com/photos/" + ident + "/";
+  },
+  pk_to_content: function (ident) {
+      return "http://www.flickr.com/photos/" + ident + "/";
   }
-
 });
 
 __END__
@@ -66,3 +71,6 @@ addfriend(sgn://flickr.com/?ident=crucially)	http://www.flickr.com/people/crucia
 
 rss(sgn://flickr.com/?pk=15738836@N00)		http://api.flickr.com/services/feeds/photos_public.gne?id=15738836@N00&lang=en-us&format=rss_200
 atom(sgn://flickr.com/?pk=15738836@N00)	http://api.flickr.com/services/feeds/photos_public.gne?id=15738836@N00&lang=en-us&format=atom
+
+content(sgn://flickr.com/?pk=15738836@N00)   http://www.flickr.com/photos/15738836@N00/
+profile(sgn://flickr.com/?pk=15738836@N00)   http://www.flickr.com/people/15738836@N00/
