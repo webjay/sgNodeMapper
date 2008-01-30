@@ -29,6 +29,8 @@ nodemapper.registerDomain("meetup.com", {
  urlToGraphNode: meetupHandler,
 });
 
+nodemapper.addSimpleHandler("meetup.com", "pk_to_profile",
+			    "http://www.meetup.com/members/", "/");
 
 __END__
 
@@ -38,5 +40,6 @@ http://coffee.meetup.com/171/members/2949792/          sgn://meetup.com/?pk=2949
 
 http://www.meetup.com/members/65         sgn://meetup.com/?pk=65
 http://www.meetup.com/members/65/        sgn://meetup.com/?pk=65
-http://MEETup.com/members/65            sgn://meetup.com/?pk=65
+http://MEETup.com/members/65             sgn://meetup.com/?pk=65
 http://meetup.com/members/65/            sgn://meetup.com/?pk=65
+profile(sgn://meetup.com/?pk=65)         http://www.meetup.com/members/65/

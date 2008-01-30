@@ -48,6 +48,9 @@ nodemapper.registerDomain(
         /^\/person\?who=(\w+)/,
         {casePreserve: 1})});
 
+nodemapper.addSimpleHandler("mugshot.org", "ident_to_profile",
+			    "http://mugshot.org/person?who=", "");
+
 nodemapper.registerDomain(
     "linkedin.com",
     {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
@@ -72,6 +75,9 @@ nodemapper.registerDomain(
     {urlToGraphNode: nodemapper.createPathRegexpHandler(
         "ziki.com",
         /^\/\w\w\/people\/(\w+)\/?/)});
+
+nodemapper.addSimpleHandler("ziki.com", "ident_to_profile",
+			    "http://www.ziki.com/people/", "");
 
 nodemapper.registerDomain(
     "wordpress.com",
@@ -289,10 +295,12 @@ rss(sgn://ma.gnolia.com/?ident=daveman692) http://ma.gnolia.com/rss/full/people/
 
 # case sensitive identifiers!
 http://mugshot.org/person?who=7ACcH9gn7zv4YG  sgn://mugshot.org/?ident=7ACcH9gn7zv4YG
+profile(sgn://mugshot.org/?ident=7ACcH9gn7zv4YG)  http://mugshot.org/person?who=7ACcH9gn7zv4YG
 
 http://www.ziki.com/en/people/bob   sgn://ziki.com/?ident=bob
 http://www.ziki.com/fr/people/bob/  sgn://ziki.com/?ident=bob
 http://www.ziki.com/fr/people/bob/extrastuff sgn://ziki.com/?ident=bob
+profile(sgn://ziki.com/?ident=bob)  http://www.ziki.com/people/bob
 
 http://foo.wordpress.com/  sgn://wordpress.com/?ident=foo
 http://www.foo.wordpress.com/  sgn://wordpress.com/?ident=foo

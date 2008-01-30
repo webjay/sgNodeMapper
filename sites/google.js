@@ -17,6 +17,10 @@ googleMasterHandler = function(url, host, path) {
 
 nodemapper.registerDomain("google.com", {urlToGraphNode: googleMasterHandler});
 
+nodemapper.addSimpleHandler("reader.google.com", "pk_to_content",
+			    "http://www.google.com/reader/shared/", "");
+
 __END__
 
 http://www.google.com/reader/shared/12649763491721032377 sgn://reader.google.com/?pk=12649763491721032377
+content(sgn://reader.google.com/?pk=12649763491721032377) http://www.google.com/reader/shared/12649763491721032377
