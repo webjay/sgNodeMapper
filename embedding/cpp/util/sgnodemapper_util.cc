@@ -13,6 +13,10 @@ int main(int argc, char** argv) {
   for (int i = 1; i < argc; ++i) {
     std::string out;
     mapper.GraphNodeFromURL(argv[i], &out);
-    std::cout << out << "\n";
+    std::cout << out << std::endl;
+
+    std::string profileUrl;
+    mapper.GraphNodeToURL(out, "profile", &profileUrl);
+    std::cout << "profile(" << out << ") = " << profileUrl << std::endl;
   }
 }

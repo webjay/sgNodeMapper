@@ -46,6 +46,13 @@ class NodeMapper {
   // contain then the original URL)
   bool GraphNodeFromURL(const string& url, string* output);
 
+  // Given an sgn:// url and a url type (profile, rss, etc.), puts the 
+  // canonical URL into *output. currently always returns true if it doesn't
+  // fail, but TODO(bradfitz): future will return false if no special
+  // transformation was done. (although *output will still
+  // contain then the original URL)
+  bool GraphNodeToURL(const string& sgnUrl, const string& type, string* output);
+
  private:
   NodeMapper();
   void Init(const string& javascript_source);
