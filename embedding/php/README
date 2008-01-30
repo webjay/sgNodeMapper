@@ -29,6 +29,7 @@ Contact: Joseph Smarr (joseph@plaxo.com)
 
 6. Enable the sgnodemapper.so php module
 
+   Copy sgnodemapper.so from modules/ to /usr/lib/php/modules/
    Copy the included sgnodemapper.ini to /etc/php.d or add "extension=sgnodemapper.so" to your php.ini
 
 7. Call the code from your program. Here's a command line example:

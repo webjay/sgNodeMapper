@@ -152,7 +152,7 @@ bool NodeMapper::GraphNodeToURL(const string& sgnUrl, const string& type, string
   args[0] = STRING_TO_JSVAL(JS_NewStringCopyZ(cx_, sgnUrl.c_str()));
   args[1] = STRING_TO_JSVAL(JS_NewStringCopyZ(cx_, type.c_str()));
   JSBool ok = JS_CallFunctionName(cx_, global_, "URLFromGraphNode",
-                                  1, args, &rval);
+                                  2, args, &rval);
   if (!ok) {
     cerr << "error calling URLFromGraphNode" << endl;
     assert(0);
