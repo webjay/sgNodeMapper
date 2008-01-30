@@ -1,0 +1,42 @@
+Notes for building and using the PHP embedding
+Contact: Joseph Smarr (joseph@plaxo.com)
+----------------------------------------
+
+1. Install spidermonkey (Mozilla's JavaScript-C Engine)
+
+   We're using verion 1.5: 
+   http://ftp.mozilla.org/pub/mozilla.org/js/older-packages/js-1.5.tar.gz
+   Extract it and run "make -f Makefile.ref" in the js/src dir
+
+2. Build the C++ embedding library, see ../cpp/README. If you want a self contained php module that doesn't depend on any
+   other shared libraries, pass --disable-shared to configure on the command line when configuring the C++ library.
+
+3. Run phpize to prep the build environment:
+
+   phpize
+
+4. Tell configure where your spidermonkey library is
+
+  ./configure --with-sm-obj=path_to_obj_dir
+
+  For example, if spidermonkey is located in /home/joseph/js on a linux system, the configure line might look like this:
+
+  ./configure --with-sm-obj=/home/joseph/js/src/Linux_All_DBG.OBJ
+
+5. Build the library sgnodemapper.so
+
+   Type make in this dir (if you get errors, make sure you build and pointed to spidermonkey)
+
+6. Enable the sgnodemapper.so php module
+
+   Copy the included sgnodemapper.ini to /etc/php.d or add "extension=sgnodemapper.so" to your php.ini
+
+7. Call the code from your program. Here's a command line example:
+
+   php -r ' $nodeMapper = new SGNodeMapper("../../nodemapper.js"); echo $nodeMapper->graphNodeFromURL("http://www.flickr.com/photos/jsmarr");'
+
+   The above command produces the following output:
+
+   sgn://flickr.com/?ident=jsmarr
+
+

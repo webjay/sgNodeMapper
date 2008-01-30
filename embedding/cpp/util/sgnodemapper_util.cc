@@ -5,7 +5,7 @@
 #include "node_mapper.h"
 
 int main(int argc, char** argv) {
-  sgnodemapper::NodeMapper mapper("../../nodemapper.js");
+  sgnodemapper::NodeMapper mapper("../../../nodemapper.js");
   if (argc < 2) {
     std::cerr << "Usage: " << argv[0] << " url [url2 ...]" << std::endl;
   }

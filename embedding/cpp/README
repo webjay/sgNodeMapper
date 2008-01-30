@@ -8,9 +8,13 @@ Contact: Joseph Smarr (joseph@plaxo.com)
    http://ftp.mozilla.org/pub/mozilla.org/js/older-packages/js-1.5.tar.gz
    Extract it and run "make -f Makefile.ref" in the js/src dir
 
-2. Point the Makefile to your spidermonkey installation
+2. Tell configure where your spidermonkey source is
 
-   Edit the JS_ROOT line in the Makefile in this dir to point to the js dir in spidermonkey
+  ./configure --with-sm-src=path_to_js_src_dir --with-sm-obj=path_to_obj_dir
+
+  For example, if spidermonkey is located in /home/joseph/js on a linux system, the configure line might look like this:
+
+  ./configure --with-sm-src=/home/joseph/js/src --with-sm-obj=/home/joseph/js/src/Linux_All_DBG.OBJ
 
 3. Build the library libsgnodemapper.so
 
@@ -20,6 +24,8 @@ Contact: Joseph Smarr (joseph@plaxo.com)
 
    Move libsgnodemapper.so to a known library dir in your system, or add the dir with 
    libsgnodemapper.so to your LD_LIBRARY_PATH
+   
+   You can also just type "make install"
 
 5. Call the code from your program
 
