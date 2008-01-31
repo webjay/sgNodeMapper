@@ -40,4 +40,7 @@ Contact: Joseph Smarr (joseph@plaxo.com)
 
    sgn://flickr.com/?ident=jsmarr
 
+   You can also run the provided example php script test.php, e.g.:
+ 
+   php test.php http://flickr.com/photos/jsmarr
 
