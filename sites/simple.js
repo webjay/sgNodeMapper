@@ -37,7 +37,7 @@ nodemapper.registerDomain(
     "jaiku.com",
     {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("jaiku.com")});
 nodemapper.addSimpleHandler("jaiku.com", "ident_to_profile", 
-    "http://", ".jaiku.com");
+    "http://", ".jaiku.com/");
 nodemapper.addSimpleHandler("jaiku.com", "ident_to_rss", 
     "http://", ".jaiku.com/feed/rss");
 
@@ -125,16 +125,30 @@ nodemapper.registerDomain(
     "smugmug.com",
     {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("smugmug.com")});
 nodemapper.addSimpleHandler("smugmug.com", "ident_to_profile", 
-    "http://", ".smugmug.com");
+    "http://", ".smugmug.com/");
 nodemapper.addSimpleHandler("smugmug.com", "ident_to_atom", 
     "http://www.smugmug.com/hack/feed.mg?Type=nicknameRecentPhotos&Data=", 
     "&format=atom03");
 
 nodemapper.registerDomain(
+    "vox.com",
+    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("vox.com")});
+nodemapper.addSimpleHandler("vox.com", "ident_to_content", 
+    "http://", ".vox.com/");
+nodemapper.addSimpleHandler("vox.com", "ident_to_profile",
+    "http://", ".vox.com/profile/");
+nodemapper.addSimpleHandler("vox.com", "ident_to_rss",
+    "http://", ".vox.com/library/rss-full.xml");
+nodemapper.addSimpleHandler("vox.com", "ident_to_atom",
+    "http://", ".vox.com/library/atom-full.xml");
+nodemapper.addSimpleHandler("vox.com", "ident_to_foaf",
+    "http://", ".vox.com/profile/foaf.rdf");
+
+nodemapper.registerDomain(
     "tumblr.com",
     {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("tumblr.com")});
 nodemapper.addSimpleHandler("tumblr.com", "ident_to_profile", 
-    "http://", ".tumblr.com");
+    "http://", ".tumblr.com/");
 nodemapper.addSimpleHandler("tumblr.com", "ident_to_rss", 
     "http://", ".tumblr.com/rss");
 
@@ -256,7 +270,7 @@ nodemapper.registerDomain(
     "multiply.com",
     {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("multiply.com")});
 nodemapper.addSimpleHandler("multiply.com", "ident_to_profile", 
-    "http://", ".multiply.com");
+    "http://", ".multiply.com/");
 nodemapper.addSimpleHandler("multiply.com", "ident_to_rss", 
     "http://", ".multiply.com/feed.rss");
 
@@ -276,7 +290,7 @@ profile(sgn://pownce.com/?ident=a) http://pownce.com/a
 
 http://bradfitz.jaiku.com/   sgn://jaiku.com/?ident=bradfitz
 http://BRADFITZ.JAIKU.COM/   sgn://jaiku.com/?ident=bradfitz
-profile(sgn://jaiku.com/?ident=bradfitz) http://bradfitz.jaiku.com
+profile(sgn://jaiku.com/?ident=bradfitz) http://bradfitz.jaiku.com/
 rss(sgn://jaiku.com/?ident=bradfitz) http://bradfitz.jaiku.com/feed/rss
 
 http://linkedin.com/in/foobar	sgn://linkedin.com/?ident=foobar
@@ -323,11 +337,11 @@ profile(sgn://webshots.com/?ident=bob) http://community.webshots.com/user/bob
 rss(sgn://webshots.com/?ident=bob) http://community.webshots.com/rss?contentType=rss&type=user&value=bob
 
 http://jsmarr.smugmug.com sgn://smugmug.com/?ident=jsmarr
-profile(sgn://smugmug.com/?ident=jsmarr) http://jsmarr.smugmug.com
+profile(sgn://smugmug.com/?ident=jsmarr) http://jsmarr.smugmug.com/
 atom(sgn://smugmug.com/?ident=jsmarr) http://www.smugmug.com/hack/feed.mg?Type=nicknameRecentPhotos&Data=jsmarr&format=atom03
 
 http://bradfitz.tumblr.com/   sgn://tumblr.com/?ident=bradfitz
-profile(sgn://tumblr.com/?ident=bradfitz) http://bradfitz.tumblr.com
+profile(sgn://tumblr.com/?ident=bradfitz) http://bradfitz.tumblr.com/
 rss(sgn://tumblr.com/?ident=bradfitz) http://bradfitz.tumblr.com/rss
 
 http://xanga.com/a/   sgn://xanga.com/?ident=a
@@ -392,6 +406,12 @@ profile(sgn://zooomr.com/?ident=jsmarr) http://www.zooomr.com/people/jsmarr
 rss(sgn://zooomr.com/?ident=jsmarr) http://www.zooomr.com/services/feeds/public_photos/?id=jsmarr&format=rss_200
 
 http://bradfitz.multiply.com/   sgn://multiply.com/?ident=bradfitz
-profile(sgn://multiply.com/?ident=bradfitz) http://bradfitz.multiply.com
+profile(sgn://multiply.com/?ident=bradfitz) http://bradfitz.multiply.com/
 rss(sgn://multiply.com/?ident=bradfitz) http://bradfitz.multiply.com/feed.rss
 
+http://btrott.vox.com/   sgn://vox.com/?ident=btrott
+http://btrott.vox.com/profile/foaf.rdf   sgn://vox.com/?ident=btrott
+profile(sgn://vox.com/?ident=btrott)  http://btrott.vox.com/profile/
+foaf(sgn://vox.com/?ident=btrott)  http://btrott.vox.com/profile/foaf.rdf
+atom(sgn://vox.com/?ident=btrott)  http://btrott.vox.com/library/atom-full.xml
+rss(sgn://vox.com/?ident=btrott)  http://btrott.vox.com/library/rss-full.xml
