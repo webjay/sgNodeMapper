@@ -411,6 +411,9 @@ rss(sgn://multiply.com/?ident=bradfitz) http://bradfitz.multiply.com/feed.rss
 
 http://btrott.vox.com/   sgn://vox.com/?ident=btrott
 http://btrott.vox.com/profile/foaf.rdf   sgn://vox.com/?ident=btrott
+http://btrott.vox.com/profile/ sgn://vox.com/?ident=btrott
+http://btrott.vox.com/library/audio/6a00b8ea0714f01bc000e398d429800003.html sgn://vox.com/?ident=btrott
+
 profile(sgn://vox.com/?ident=btrott)  http://btrott.vox.com/profile/
 foaf(sgn://vox.com/?ident=btrott)  http://btrott.vox.com/profile/foaf.rdf
 atom(sgn://vox.com/?ident=btrott)  http://btrott.vox.com/library/atom-full.xml
