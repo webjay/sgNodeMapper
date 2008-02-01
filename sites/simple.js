@@ -106,12 +106,6 @@ nodemapper.addSimpleHandler("del.icio.us", "ident_to_profile",
 nodemapper.addSimpleHandler("del.icio.us", "ident_to_rss", 
     "http://del.icio.us/rss/");
 
-nodemapper.registerDomain(
-  "youtube.com",
-  {urlToGraphNode: nodemapper.createPathRegexpHandler(
-    "youtube.com", /^\/(?:user\/)?([^\/]*)/)});
-nodemapper.addSimpleHandler("youtube.com", "ident_to_profile", 
-    "http://youtube.com/");
 
 nodemapper.registerDomain("community.webshots.com",
   {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("user", 
@@ -327,10 +321,6 @@ rss(sgn://picasaweb.google.com/?ident=jsmarr) http://picasaweb.google.com/data/f
 http://del.icio.us/jsmarr	sgn://del.icio.us/?ident=jsmarr
 profile(sgn://del.icio.us/?ident=jsmarr)	http://del.icio.us/jsmarr
 rss(sgn://del.icio.us/?ident=jsmarr)	http://del.icio.us/rss/jsmarr
-
-http://youtube.com/jsmarr sgn://youtube.com/?ident=jsmarr
-http://www.youtube.com/user/jsmarr sgn://youtube.com/?ident=jsmarr
-profile(sgn://youtube.com/?ident=jsmarr) http://youtube.com/jsmarr
 
 http://community.webshots.com/user/bob sgn://webshots.com/?ident=bob
 profile(sgn://webshots.com/?ident=bob) http://community.webshots.com/user/bob
