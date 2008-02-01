@@ -96,12 +96,12 @@ nodemapper.addSimpleHandler = function(domain, handler_name,
 
 
 /**
- * Regular expression to test if URL is http, capturing: 1) domain
- * (including port) and 2) the path, if any.
+ * Regular expression to test if URL is http or https, capturing: 1) the scheme,
+ * 2) the domain (including port) and 3) the path, if any.
  *
  * @type RegExp
  */
-nodemapper.HTTP_REGEX = new RegExp("^http://([^/]+)(.*)");
+nodemapper.HTTP_REGEX = new RegExp("^(https?)://([^/]+)(.*)");
 
 
 /**
@@ -121,8 +121,9 @@ nodemapper.urlToGraphNode = function(url) {
     // of this function deals with HTTP specifically
     return nodemapper.urlToGraphNodeNotHTTP(url);
   }
-  var host = m[1].toLowerCase();
-  var path = m[2];
+  var scheme = m[1];
+  var host = m[2].toLowerCase();
+  var path = m[3];
 
   // from user.site.co.uk, lookup handlers for
   // "user.site.co.uk", "site.co.uk", "co.uk", "uk"
@@ -137,6 +138,13 @@ nodemapper.urlToGraphNode = function(url) {
 
   // no handler? just return URL unmodified.
   if (!(handler && handler.urlToGraphNode)) return url;
+
+  // if this is https, and the domain hasn't declare that
+  // its https is the same as http, use the normal
+  // non-HTTP handler.
+  if (scheme == "https" && !handler.httpsLikeHttp) {
+    return nodemapper.urlToGraphNodeNotHTTP(url);
+  }
 
   var graphnode = handler.urlToGraphNode(url, host, path);
   if (!graphnode) return url;

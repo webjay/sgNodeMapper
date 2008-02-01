@@ -17,13 +17,16 @@
 
 nodemapper.registerDomain(
     "twitter.com",
-    {urlToGraphNode: nodemapper.createSlashUsernameHandler("twitter.com",
-        {slashAnything:1})});
-nodemapper.addSimpleHandler("twitter.com", "ident_to_profile", 
+    { httpsLikeHttp: 1,
+      urlToGraphNode: nodemapper.createSlashUsernameHandler(
+          "twitter.com",
+          {slashAnything:1})});
+
+nodemapper.addSimpleHandler("twitter.com", "ident_to_profile",
     "http://twitter.com/");
-nodemapper.addSimpleHandler("twitter.com", "ident_to_rss", 
+nodemapper.addSimpleHandler("twitter.com", "ident_to_rss",
     "http://twitter.com/statuses/user_timeline/", ".rss");
-nodemapper.addSimpleHandler("twitter.com", "ident_to_atom", 
+nodemapper.addSimpleHandler("twitter.com", "ident_to_atom",
     "http://twitter.com/statuses/user_timeline/", ".atom");
 
 __END__
@@ -32,10 +35,11 @@ http://twitter.com/bob   sgn://twitter.com/?ident=bob
 http://twitter.com/Bob   sgn://twitter.com/?ident=bob
 http://twitter.com/Bob/   sgn://twitter.com/?ident=bob
 
-#https://twitter.com/bob  sgn://twitter.com/?ident=bob
-#https://twitter.com/BOB/  sgn://twitter.com/?ident=bob
+https://twitter.com/bob  sgn://twitter.com/?ident=bob
+https://twitter.com/BOB/  sgn://twitter.com/?ident=bob
 
 http://explore.twitter.com/bob/with_friends  sgn://twitter.com/?ident=bob
+http://greekshow.twitter.com/bob/with_friends  sgn://twitter.com/?ident=bob
 
 profile(sgn://twitter.com/?ident=brad) http://twitter.com/brad
 rss(sgn://twitter.com/?ident=brad) http://twitter.com/statuses/user_timeline/brad.rss
