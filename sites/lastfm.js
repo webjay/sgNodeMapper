@@ -54,11 +54,12 @@ var LAST_FM_DOMAINS = [
   "www.lastfm.se"
 ];
 
+var lastFmHttpToSgn = nodemapper.createPathRegexpHandler(
+    "last.fm", /^\/user\/([\w\-]+)(?:\/|$)/);
+
 nodemapper.registerDomain(
     LAST_FM_DOMAINS,
-    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
-        "user",
-        "last.fm")});
+    {urlToGraphNode: lastFmHttpToSgn});
 
 nodemapper.addSimpleHandler("last.fm", "ident_to_profile",
 			    "http://www.last.fm/user/", "/");
@@ -70,5 +71,9 @@ http://www.last.fm/user/aa123              sgn://last.fm/?ident=aa123
 http://lastfm.excite.co.jp/user/SomeCaps/  sgn://last.fm/?ident=somecaps
 http://www.last.fm/user/after/addedevents/ sgn://last.fm/?ident=after
 http://www.lastfm.pl/user/foo/?setlang=pl  sgn://last.fm/?ident=foo
+
+http://www.lastfm.com.br/user/Steph-Tara/?setlang=tr  sgn://last.fm/?ident=steph-tara
+http://www.lastfm.com.tr/user/Steph-Tara/charts/?setlang=tr sgn://last.fm/?ident=steph-tara
+http://cn.last.fm/user/Steph-Tara/neighbours/  sgn://last.fm/?ident=steph-tara
 
 profile(sgn://last.fm/?ident=foo)              http://www.last.fm/user/foo/
