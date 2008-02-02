@@ -1,7 +1,7 @@
 *.js files in this directory are concatenated together, after
  nodemapper-base.js, to form the master nodemapper.js file.
 
-Everything past the  __END__ line in the JS files is interpretted
+Everything past the  __END__ line in the JS files is interpreted
 as tests for that file.  The tests lines are to be one of two forms:
 
 1) URL to node identifier:
