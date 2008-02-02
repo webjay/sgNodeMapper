@@ -17,6 +17,11 @@ while (<$fh>) {
       ($func, $sgn_node) = ($1, $2);
   } else {
       $sgn_node = $expected;
+      if ($expected !~ /^sgn:/) {
+	  # we don't care about tests that test the non-sgn-ificiation
+	  # of URLs.
+	  next;
+      }
   }
   ($sgn_host, $sgn_type) = parse_sgn_node($sgn_node);
 
