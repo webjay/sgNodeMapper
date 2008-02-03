@@ -268,6 +268,13 @@ nodemapper.addSimpleHandler("multiply.com", "ident_to_profile",
 nodemapper.addSimpleHandler("multiply.com", "ident_to_rss", 
     "http://", ".multiply.com/feed.rss");
 
+nodemapper.registerDomain(
+    "dopplr.com",
+    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+        "traveller", "dopplr.com")});
+nodemapper.addSimpleHandler("dopplr.com", "ident_to_profile",
+			    "http://www.dopplr.com/traveller/", "");
+
 __END__
 
 http://digg.com/users/foobar	sgn://digg.com/?ident=foobar
@@ -408,3 +415,11 @@ profile(sgn://vox.com/?ident=btrott)  http://btrott.vox.com/profile/
 foaf(sgn://vox.com/?ident=btrott)  http://btrott.vox.com/profile/foaf.rdf
 atom(sgn://vox.com/?ident=btrott)  http://btrott.vox.com/library/atom-full.xml
 rss(sgn://vox.com/?ident=btrott)  http://btrott.vox.com/library/rss-full.xml
+
+http://www.dopplr.com/traveller/bradfitz/           sgn://dopplr.com/?ident=bradfitz
+http://dopplr.com/traveller/bradfitz/               sgn://dopplr.com/?ident=bradfitz
+http://www.dopplr.com/traveller/bradfitz            sgn://dopplr.com/?ident=bradfitz
+http://www.dopplr.com/traveller/bradfitz/something  sgn://dopplr.com/?ident=bradfitz
+
+profile(sgn://dopplr.com/?ident=bradfitz) http://www.dopplr.com/traveller/bradfitz
+
