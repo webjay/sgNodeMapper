@@ -331,3 +331,18 @@ nodemapper.createUserIsSubdomainHandler = function(domain) {
   var subdomainRE = new RegExp("([\\w\\-]+)\." + domain + "$", "i");
   return nodemapper.createHostRegexpHandler(domain, subdomainRE);
 };
+
+// return a composed handler, returning the result of the first one that
+// returns a different value from its inputs.
+nodemapper.createFirstMatchHandler = function(handlerList) {
+    return function (url, host, path) {
+	for (var i = 0; i < handlerList.length; i++) {
+	    var out = handlerList[i](url, host, path);
+	    if (out != url) {
+		return out;
+	    }
+	}
+	return url;  // unchanged
+    };
+};
+
