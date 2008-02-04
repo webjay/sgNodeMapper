@@ -99,7 +99,7 @@ nodemapper.addSimpleHandler("picasaweb.google.com", "ident_to_rss",
     "?kind=album&alt=rss&hl=en_US&access=public");
 
 nodemapper.registerDomain(
-    "del.icio.us",
+    ["del.icio.us", "delicious.com"],
     {urlToGraphNode: nodemapper.createSlashUsernameHandler("del.icio.us")});
 nodemapper.addSimpleHandler("del.icio.us", "ident_to_profile", 
     "http://del.icio.us/");
@@ -326,6 +326,7 @@ profile(sgn://picasaweb.google.com/?ident=jsmarr) http://picasaweb.google.com/js
 rss(sgn://picasaweb.google.com/?ident=jsmarr) http://picasaweb.google.com/data/feed/base/user/jsmarr?kind=album&alt=rss&hl=en_US&access=public
 
 http://del.icio.us/jsmarr	sgn://del.icio.us/?ident=jsmarr
+http://delicious.com/jsmarr	sgn://del.icio.us/?ident=jsmarr
 profile(sgn://del.icio.us/?ident=jsmarr)	http://del.icio.us/jsmarr
 rss(sgn://del.icio.us/?ident=jsmarr)	http://del.icio.us/rss/jsmarr
 
