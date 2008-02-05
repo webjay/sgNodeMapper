@@ -4,6 +4,9 @@ nodemapper.js: build.pl nodemapper-base.js sites/*.js
 test: nodemapper.js
 	./test.pl
 
+testjava: nodemapper.js
+	./test-java.sh
+
 # To get this target to work, unzip http://jsdoctoolkit.org/ to
 # the directory 'jsdoc_toolkit'
 docs: nodemapper.js
