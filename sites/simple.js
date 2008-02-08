@@ -275,6 +275,15 @@ nodemapper.registerDomain(
 nodemapper.addSimpleHandler("dopplr.com", "ident_to_profile",
 			    "http://www.dopplr.com/traveller/", "");
 
+nodemapper.registerDomain(
+    "friendfeed.com",
+    {urlToGraphNode: nodemapper.createSlashUsernameHandler("friendfeed.com")});
+nodemapper.addSimpleHandler("friendfeed.com", "ident_to_profile",
+    "http://friendfeed.com/");
+nodemapper.addSimpleHandler("friendfeed.com", "ident_to_atom",
+    "http://friendfeed.com/", "?format=atom");
+  
+
 __END__
 
 http://digg.com/users/foobar	sgn://digg.com/?ident=foobar
@@ -424,3 +433,7 @@ http://www.dopplr.com/traveller/bradfitz/something  sgn://dopplr.com/?ident=brad
 
 profile(sgn://dopplr.com/?ident=bradfitz) http://www.dopplr.com/traveller/bradfitz
 
+http://friendfeed.com/ade       sgn://friendfeed.com/?ident=ade
+http://www.friendfeed.com/ade   sgn://friendfeed.com/?ident=ade
+profile(sgn://friendfeed.com/?ident=ade)	http://friendfeed.com/ade
+atom(sgn://friendfeed.com/?ident=ade)		http://friendfeed.com/ade?format=atom

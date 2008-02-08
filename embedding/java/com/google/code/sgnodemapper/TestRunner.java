@@ -54,61 +54,63 @@ public class TestRunner {
       //Split on one or more spaces
       String[] urls = line.split("\\s+");
       String input = urls[0];
-      String expected = urls[1];
+      String expectedUrl = urls[1];
       if (!testsToRunPattern.matcher(input).matches() 
-          && !testsToRunPattern.matcher(expected).matches()) {
+          && !testsToRunPattern.matcher(expectedUrl).matches()) {
         continue;
       }
 
-      String actual, testName;
+      String actualUrl, testName;
       Pattern compiledInputPattern = Pattern.compile("^(\\w+)\\((.+)\\)");
       Matcher inputMatcher = compiledInputPattern.matcher(input);
       if (inputMatcher.matches()) {
         String urlType = inputMatcher.group(1);
         String sgnNode = inputMatcher.group(2);
         
-        actual = nodeMapper.urlFromGraphNode(sgnNode, urlType);
+        actualUrl = nodeMapper.urlFromGraphNode(sgnNode, urlType);
         testName = "URL of " + urlType +"(" + sgnNode + ")";
         
         //verify the round-tripping from the url back to the sgn node
-        if (actual.equals(expected)) {
-          String sgnNodeCreatedFromUrl =  nodeMapper.urlToGraphNode(expected);
+        if (actualUrl.equals(expectedUrl)) {
+          String sgnNodeCreatedFromUrl = nodeMapper.urlToGraphNode(expectedUrl);
           if (!sgnNodeCreatedFromUrl.equals(sgnNode)) {
-            warnings.add(createWarningMessage(expected, urlType, sgnNode));
+            warnings.add(createWarningMessage(expectedUrl, urlType, sgnNode));
           }
         }
       } else {
-        actual = nodeMapper.urlToGraphNode(input);
+        actualUrl = nodeMapper.urlToGraphNode(input);
         testName = "Mapping " + input;
       }
       
-      if (!actual.equals(expected)) {
-        errors.add(createErrorMessage(input, expected, actual));
+      if (!actualUrl.equals(expectedUrl)) {
+        errors.add(createErrorMessage(input, expectedUrl, actualUrl));
       }
     }
     
     printStatus(errors, warnings);
   }
 
-  private String createErrorMessage(String input, String expected, 
-      String actual) {
-    return "\n" + input + "\n     GOT: " + actual 
-        + "\n     WANTED: " + expected + "\n";
+  private String createErrorMessage(String input, String expectedUrl, 
+      String actualUrl) {
+    return "\n" + input + "\n     GOT: " + actualUrl 
+        + "\n     WANTED: " + expectedUrl + "\n";
   }
 
-  private String createWarningMessage(String expected, String urlType, 
+  private String createWarningMessage(String expectedUrl, String urlType, 
       String sgnNode) {
     String warning = urlType + "(" + sgnNode + ") doesn't round-trip on URL: " 
-      + expected;
+      + expectedUrl;
     return warning;
   }
-
-  
   
   private void printStatus(List<String> errors, List<String> warnings) {
     for (String warning : warnings) {
       System.err.println(warning);
     }
+    if (!warnings.isEmpty()) {
+      System.err.println("There were " + warnings.size() + " warnings");
+    }
+    
     
     if (errors.isEmpty()) {
       System.err.println("tests passed");
@@ -116,6 +118,7 @@ public class TestRunner {
       for(String error : errors) {
         System.err.println(error);
       }
+      System.err.println("There were " + errors.size() + " errors");
     }
   }
 
