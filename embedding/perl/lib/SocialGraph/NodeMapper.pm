@@ -34,10 +34,11 @@ sub load_javascript {
   my ($self, $jsfile) = @_;
   open(my $fh, $jsfile) or die "Couldn't open $jsfile: $!";
   my $all_js = do { local $/; <$fh>; };
-  $self->{js}->eval($all_js) or die $@;
 
-  # always override this debug function.
+  # install the debug function (before eval)
   $self->{js}->function_set("debug", sub { print STDERR "DEBUG: @_\n"; });
+
+  $self->{js}->eval($all_js) or die $@;
 
   # bummer: JavaScript-SpiderMonkey-0.19 didn't wrap JS_CallFunction,
   # so we have to do this indirect method
