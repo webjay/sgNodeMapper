@@ -47,7 +47,7 @@ public class TestRunner {
     List<String> errors = new ArrayList<String>();
     List<String> warnings = new ArrayList<String>();
     for (String line : expectedData.split("\n")) {
-      if (line.matches("^\\s*#.*") || line.trim().isEmpty()) {
+      if (line.matches("^\\s*#.*") || line.trim().length() == 0) {
         continue;
       }
       
