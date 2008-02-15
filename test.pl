@@ -47,9 +47,11 @@ while (<$fh>) {
 
     # and test that it round-trips back to the sgn node
     if ($actual eq $expected) {
-	my $back_sgn = $mapper->graph_node_from_url($expected);
+	my $http = $expected;
+	my $back_sgn = $mapper->graph_node_from_url($http);
 	unless ($back_sgn eq $sgn_node) {
-	    push @warnings, "$type($sgn_node) doesn't round-trip on URL: $expected ";
+	    push @warnings, "$type($sgn_node) doesn't round-trip on URL $expected.  Got $back_sgn, not expected $sgn_node";
+	    warn $warnings[-1];
 	}
     }
 
