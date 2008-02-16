@@ -21,7 +21,10 @@
 function urlToGraphNodeFlickrFallback(url, host, path) {
   var flickerPathRE = /^\/(?:people|photos)\/(\d+@\w+)\/?$/;
   var m = flickerPathRE.exec(path);
-  return m ? "sgn://flickr.com/?pk=" + m[1] : path;
+  if (m) {
+      return "sgn://flickr.com/?pk=" + m[1];
+  }
+  return; // undef
 };
 
 var urlToGraphNodeFlickr =
@@ -33,27 +36,24 @@ var urlToGraphNodeFlickr =
 nodemapper.registerDomain(
   "flickr.com", {
   urlToGraphNode: urlToGraphNodeFlickr,
-  pk_to_rss: function (pk) {
-    return "http://api.flickr.com/services/feeds/photos_public.gne?id=" + pk + "&lang=en-us&format=rss_200"; },
-  pk_to_atom: function (pk) {
-    return "http://api.flickr.com/services/feeds/photos_public.gne?id=" + pk + "&lang=en-us&format=atom"; },
-
-  ident_to_profile: function (ident) {
-      return "http://www.flickr.com/people/" + ident + "/";
-  },
-  pk_to_profile: function (ident) {
-      return "http://www.flickr.com/people/" + ident + "/";
-  },
-  ident_to_addfriend: function (ident) {
-      return "http://www.flickr.com/people/" + ident + "/relationship/";
-  },
-  ident_to_content: function (ident) {
-      return "http://www.flickr.com/photos/" + ident + "/";
-  },
-  pk_to_content: function (ident) {
-      return "http://www.flickr.com/photos/" + ident + "/";
-  }
+  pkRegexp: /^\d+@\w\d+$/,
 });
+
+nodemapper.addSimpleHandler("flickr.com", "pk_to_rss",
+			    "http://api.flickr.com/services/feeds/photos_public.gne?id=", "&lang=en-us&format=rss_200");
+nodemapper.addSimpleHandler("flickr.com", "pk_to_atom",
+			    "http://api.flickr.com/services/feeds/photos_public.gne?id=", "&lang=en-us&format=atom");
+
+for (var i = 0; i < 2; i++) {
+    var type = ["pk", "ident"][i];
+    nodemapper.addSimpleHandler("flickr.com", type + "_to_profile",
+				"http://www.flickr.com/people/", "/");
+    nodemapper.addSimpleHandler("flickr.com", type + "_to_addfriend",
+				"http://www.flickr.com/people/", "/relationship/");
+    nodemapper.addSimpleHandler("flickr.com", type + "_to_content",
+				"http://www.flickr.com/photos/", "/");
+}
+
 
 __END__
 

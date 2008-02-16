@@ -20,13 +20,24 @@ nodemapper.registerDomain(
     { httpsLikeHttp: 1,
       urlToGraphNode: nodemapper.createSlashUsernameHandler(
           "twitter.com",
-          {slashAnything:1})});
+          {slashAnything: 1,
+	   notUsernames: {
+	      "statuses": 1
+           }
+	  })
+   });
+
 
 nodemapper.addSimpleHandler("twitter.com", "ident_to_profile",
     "http://twitter.com/");
 nodemapper.addSimpleHandler("twitter.com", "ident_to_rss",
     "http://twitter.com/statuses/user_timeline/", ".rss");
 nodemapper.addSimpleHandler("twitter.com", "ident_to_atom",
+    "http://twitter.com/statuses/user_timeline/", ".atom");
+
+nodemapper.addSimpleHandler("twitter.com", "pk_to_rss",
+    "http://twitter.com/statuses/user_timeline/", ".rss");
+nodemapper.addSimpleHandler("twitter.com", "pk_to_atom",
     "http://twitter.com/statuses/user_timeline/", ".atom");
 
 __END__
@@ -44,3 +55,8 @@ http://greekshow.twitter.com/bob/with_friends  sgn://twitter.com/?ident=bob
 profile(sgn://twitter.com/?ident=brad) http://twitter.com/brad
 rss(sgn://twitter.com/?ident=brad) http://twitter.com/statuses/user_timeline/brad.rss
 atom(sgn://twitter.com/?ident=brad) http://twitter.com/statuses/user_timeline/brad.atom
+
+
+http://twitter.com/statuses/user_timeline/BRAD.rss  sgn://twitter.com/?ident=brad
+http://twitter.com/statuses/user_timeline/1234.rss  sgn://twitter.com/?pk=1234
+

@@ -21,8 +21,17 @@ for my $file ("$Bin/nodemapper-base.js", glob("$Bin/sites/*.js")) {
     or die "Error opening $file for read: $!";
   my $hit_end = 0;
   my $buffer = "";
+  my %pragma;
   while (<$ifh>) {
-    if (/__END__/) {
+      if (m!^//\s*pragma (\w+) (.+)!) {
+	  $pragma{$1} = $2;
+	  next;
+      }
+      if (/^\s*debug.*FINE/) {
+	  next unless $pragma{DEBUG_FINE};
+      }
+
+      if (/__END__/) {
       $hit_end = 1;
       next;
     }

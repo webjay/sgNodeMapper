@@ -1,4 +1,5 @@
 // -*-java-*-
+// pragma DEBUG_FINE 0
 
 /**
  * Copyright 2007 Google Inc.
@@ -32,6 +33,22 @@ nodemapper = {};
 
 
 /**
+ * Default regular expressions used if a domain is registered
+ * without specifying their own.
+ */
+
+nodemapper.IDENT_REGEXP = /^\w*[a-zA-Z]+\w*$/;
+nodemapper.PK_REGEXP = /^\d+$/;
+
+nodemapper.pkRegexp = function(handler) {
+    return handler.pkRegexp ? handler.pkRegexp : nodemapper.PK_REGEXP;
+};
+
+nodemapper.identRegexp = function(handler) {
+    return handler.identRegexp ? handler.identRegexp : nodemapper.IDENT_REGEXP;
+};
+
+/**
  * Mapping of domain names to handler objects, maintained by
  * NodeMapper.registerDomain().
  *
@@ -52,8 +69,20 @@ nodemapper.handlers = {};
  *     in the future).  A handler deals with parsing a URL to an sgn://
  *     URL, and also mapping from sgn:// URLs back to different classes of
  *     http:// URLs for that sgn:// resource.
+ *     'caseSensitiveIdent': if true, username is case-sensitive.
+ *     'pk_to_foo': function that maps primary key to 'foo' http URL
+ *     'ident_to_foo': function that maps primary key to 'foo' http URL
+ *     'identRegexp'
+ *     'pkRegexp'
+ *     'httpsLikeHttp': bool.  if true, https should be treated like http.
  */
 nodemapper.registerDomain = function(domain, handler) {
+  if (!handler.identRegexp) {
+    handler.identRegexp = nodemapper.IDENT_REGEXP;
+  }
+  if (!handler.pkRegexp) {
+    handler.pkRegexp = nodemapper.PK_REGEXP;
+  }
   if (domain instanceof Array) {
     for (var i=0; i<domain.length; i++) {
       nodemapper.handlers[domain[i]] = handler;
@@ -72,7 +101,7 @@ nodemapper.registerDomain = function(domain, handler) {
  *
  * @param {String} domain Domain name (e.g. "myspace.com")
  *
- * @param {String} handler_name Name of handler (e.g. "pk_to_rss")
+ * @param {String} handlerName Name of handler (e.g. "pk_to_rss")
  *
  * @param {String} prefix Prefix that goes before the pk= or ident=
  *                        value of the sgn:// node, when generating
@@ -82,14 +111,26 @@ nodemapper.registerDomain = function(domain, handler) {
  *                        value of the sgn:// node, when generating
  *                        the http:// URL.
  */
-nodemapper.addSimpleHandler = function(domain, handler_name,
+nodemapper.addSimpleHandler = function(domain, handlerName,
 				       prefix, suffix) {
     var handlers = nodemapper.handlers[domain];
-    if (! handlers) {
+    if (!handlers) {
 	handlers = nodemapper.handlers[domain] = {};
     }
     if (!suffix) { suffix = ""; }
-    handlers[handler_name] = function (pk_or_ident) {
+
+    var sgnType;
+    var m;
+    if (m = /^(ident|pk)_to_/.exec(handlerName)) {
+	sgnType = m[1];
+    }
+    
+    if (!handlers.sgnToHttpPatterns) {
+	handlers.sgnToHttpPatterns = [];
+    }
+    handlers.sgnToHttpPatterns.push([prefix, suffix, sgnType]);
+
+    handlers[handlerName] = function (pk_or_ident) {
 	return prefix + pk_or_ident + suffix;
     };
 };
@@ -130,25 +171,99 @@ nodemapper.urlToGraphNode = function(url) {
   // until first handler is found, then stop.
   var hostparts = host.split(".");
   var handler;
+  var matchedDomain; // the domain that matched tightest
   for (var i = 0; i < hostparts.length; ++i) {
     var subhost = hostparts.slice(i, hostparts.length);
-    handler = nodemapper.handlers[subhost.join(".")];
-    if (handler) break;
+    matchedDomain = subhost.join(".");
+    debug("urlToGraphNode: " + [url, matchedDomain]); // FINE
+    handler = nodemapper.handlers[matchedDomain];
+    if (!handler) continue;
+    debug(" ... are handlers"); // FINE
+
+    var graphNode;
+
+    // if this is https, and the domain hasn't declare that
+    // its https is the same as http, use the normal
+    // non-HTTP handler.
+    if (scheme == "https" && !handler.httpsLikeHttp) {
+	graphNode = nodemapper.urlToGraphNodeNotHTTP(url);
+    }
+
+    // Try the registered http-to-sgn handler.
+    if (handler.urlToGraphNode) {
+	graphNode = handler.urlToGraphNode(url, host, path);
+    }
+
+    // If the http-to-sgn handler didn't do anything (or didn't
+    // exist), try matching using all the registered sgn-to-http rules
+    // in reverse.
+    if (!graphNode || graphNode == url) {
+	graphNode = nodemapper.sgnFromHttpUsingToHttpRules(matchedDomain, url);
+    }
+
+    // If still nothing, try the next domain.
+    if (!graphNode || graphNode == url) {
+	continue;
+    }
+
+    // We mapped to something different.
+    return graphNode;
   }
 
-  // no handler? just return URL unmodified.
-  if (!(handler && handler.urlToGraphNode)) return url;
+  // wasn't handled above?  return http URL unmodified.
+  return url;
+};
 
-  // if this is https, and the domain hasn't declare that
-  // its https is the same as http, use the normal
-  // non-HTTP handler.
-  if (scheme == "https" && !handler.httpsLikeHttp) {
-    return nodemapper.urlToGraphNodeNotHTTP(url);
-  }
-
-  var graphnode = handler.urlToGraphNode(url, host, path);
-  if (!graphnode) return url;
-  return graphnode;
+/**
+ * Attempts to do http->sgn mapping based on all the installed
+ * simple forward mappings (from addSimpleHandler).  This is
+ * called then the normal parser for an http URL fails.
+ *
+ * Note that this will only return a successful mapping if it's
+ * unambigous.  Sometimes a domain's pk= and ident= regexps
+ * need to be overridden from their default value to resolve
+ * ambiguity.
+ */
+nodemapper.sgnFromHttpUsingToHttpRules = function(domain, url) {
+    var handler = nodemapper.handlers[domain];
+    debug("sgnFromHttp for: " + [domain, url, handler]); // FINE
+    if (!handler || !handler.sgnToHttpPatterns) {
+	return;
+    }
+    debug(" ... are patterns"); // FINE
+    var m;
+    var matches = [];
+    for (var i = 0; i < handler.sgnToHttpPatterns.length; i++) {
+	var pattern = handler.sgnToHttpPatterns[i];
+	var prefix = pattern[0];
+	var suffix = pattern[1];
+	var type = pattern[2];
+	debug("Considering pattern: " + [prefix, suffix, type]); // FINE
+	if (url.substr(0, prefix.length) == prefix &&
+	    url.substr(-(suffix.length), suffix.length) == suffix) {
+	    var midLength = url.length - prefix.length - suffix.length;
+	    if (midLength >= 1) {
+		var match = url.substr(prefix.length, midLength);
+		debug(" ... matched: " + match); // FINE
+		if (type == "pk" &&
+		    (m = nodemapper.pkRegexp(handler).exec(match))) {
+		    matches.push("sgn://" + domain + "/?pk=" + match);
+	        } else if (type == "ident" &&
+			   (m = nodemapper.identRegexp(handler).exec(match))) {
+		    if (! handler.caseSensitiveIdent) {
+			match = match.toLowerCase();
+		    }
+		    matches.push("sgn://" + domain + "/?ident=" + match);
+		}
+	    }
+	}
+    }
+    if (matches.length == 1) {
+	return matches[0];
+    } else {
+	debug("More/less than 1 match.  Potential matches: " + matches);
+    }
+    return;
 };
 
 nodemapper.SGN_REGEX = new RegExp("^sgn://([^/]+)/\\?(ident|pk)=(.*)");
@@ -243,8 +358,12 @@ nodemapper.createPathRegexpHandler = function(domain, re, opt_opts) {
           url;
     }
     var keyName = opt_opts.keyName || 'ident'; // ident= or pk=; TODO: enforce valid key names?
-    return "sgn://" + domain + "/?" + keyName + "=" +
-        (opt_opts.casePreserve ? m[1] : m[1].toLowerCase());
+    var value = (opt_opts.casePreserve ? m[1] : m[1].toLowerCase());
+    if (opt_opts.notUsernames && opt_opts.notUsernames[value]) {
+	// fail.  this username is marked as not a real username.
+	return;
+    }
+    return "sgn://" + domain + "/?" + keyName + "=" + value;
   };
 };
 
@@ -263,12 +382,13 @@ nodemapper.createHostRegexpHandler = function(domain, re, opt_opts) {
   if (!opt_opts) opt_opts = {};
   return function(url, host, path) {
     var m = re.exec(host);
-    if (!m) {
+    var ident = m ? m[1].toLowerCase() : "";
+    if (!m || ident == "www") {
       return opt_opts.fallbackHandler ?
           opt_opts.fallbackHandler(url, host, path) :
           url;
     }
-    return "sgn://" + domain + "/?ident=" + m[1].toLowerCase();
+    return "sgn://" + domain + "/?ident=" + ident;
   };
 };
 
@@ -346,3 +466,10 @@ nodemapper.createFirstMatchHandler = function(handlerList) {
     };
 };
 
+/* install null debug handler, if host container hasn't */
+try {
+    // access debug and see if it fails:
+    if (debug) { }
+} catch (e) {
+    debug = function() {};
+}
