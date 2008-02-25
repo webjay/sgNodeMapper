@@ -282,7 +282,42 @@ nodemapper.addSimpleHandler("friendfeed.com", "ident_to_profile",
     "http://friendfeed.com/");
 nodemapper.addSimpleHandler("friendfeed.com", "ident_to_atom",
     "http://friendfeed.com/", "?format=atom");
-  
+
+nodemapper.registerDomain(
+    "c2.com",
+    {urlToGraphNode: nodemapper.createPathRegexpHandler(
+      "c2.com", 
+      /^\/cgi\/wiki\?(.*)/, 
+      {casePreserve: 1})});
+nodemapper.addSimpleHandler("c2.com", "ident_to_profile",
+    "http://c2.com/cgi/wiki?");
+
+nodemapper.registerDomain(
+    "bookshelved.org",
+    {urlToGraphNode: nodemapper.createPathRegexpHandler(
+      "bookshelved.org", 
+      /^\/cgi\-bin\/wiki\.pl\?(.*)/, 
+      {casePreserve: 1})});
+nodemapper.addSimpleHandler("bookshelved.org", "ident_to_profile",
+    "http://bookshelved.org/cgi-bin/wiki.pl?");
+
+nodemapper.registerDomain(
+    ["xpdeveloper.net", "xpdeveloper.org"],
+    {urlToGraphNode: nodemapper.createPathRegexpHandler(
+      "xpdeveloper.net", 
+      /^\/xpdwiki\/Wiki\.jsp\?page=(.*)/, 
+      {casePreserve: 1})});
+nodemapper.addSimpleHandler("xpdeveloper.net", "ident_to_profile",
+    "http://xpdeveloper.net/xpdwiki/Wiki.jsp?page=");
+
+nodemapper.registerDomain(
+    "usemod.com",
+    {urlToGraphNode: nodemapper.createPathRegexpHandler(
+      "usemod.com", 
+      /^\/cgi\-bin\/mb\.pl\?(.*)/, 
+      {casePreserve: 1})});
+nodemapper.addSimpleHandler("usemod.com", "ident_to_profile",
+    "http://usemod.com/cgi-bin/mb.pl?");
 
 __END__
 
@@ -437,3 +472,16 @@ http://friendfeed.com/ade       sgn://friendfeed.com/?ident=ade
 http://www.friendfeed.com/ade   sgn://friendfeed.com/?ident=ade
 profile(sgn://friendfeed.com/?ident=ade)	http://friendfeed.com/ade
 atom(sgn://friendfeed.com/?ident=ade)		http://friendfeed.com/ade?format=atom
+
+# wikis. These have case-sensitive identifiers
+http://c2.com/cgi/wiki?AdewaleOshineye  sgn://c2.com/?ident=AdewaleOshineye
+profile(sgn://c2.com/?ident=AdewaleOshineye) http://c2.com/cgi/wiki?AdewaleOshineye
+
+http://bookshelved.org/cgi-bin/wiki.pl?AdewaleOshineye  sgn://bookshelved.org/?ident=AdewaleOshineye
+profile(sgn://bookshelved.org/?ident=AdewaleOshineye)  http://bookshelved.org/cgi-bin/wiki.pl?AdewaleOshineye
+
+http://xpdeveloper.net/xpdwiki/Wiki.jsp?page=AdewaleOshineye  sgn://xpdeveloper.net/?ident=AdewaleOshineye
+profile(sgn://xpdeveloper.net/?ident=AdewaleOshineye)  http://xpdeveloper.net/xpdwiki/Wiki.jsp?page=AdewaleOshineye
+
+http://usemod.com/cgi-bin/mb.pl?SunirShah   sgn://usemod.com/?ident=SunirShah
+profile(sgn://usemod.com/?ident=SunirShah)   http://usemod.com/cgi-bin/mb.pl?SunirShah

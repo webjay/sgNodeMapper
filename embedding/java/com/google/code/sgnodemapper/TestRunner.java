@@ -92,7 +92,7 @@ public class TestRunner {
 
   private String createErrorMessage(String input, String expectedUrl, 
       String actualUrl) {
-    return "\n" + input + "\n     GOT: " + actualUrl 
+    return "\n" + input + "\n     GOT:    " + actualUrl 
         + "\n     WANTED: " + expectedUrl + "\n";
   }
 
