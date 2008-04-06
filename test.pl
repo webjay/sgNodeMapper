@@ -87,6 +87,6 @@ if (@errors) {
     print "     WANTED: $e->{expected}\n";
   }
 } else {
-  pass("tests passed.");
+    diag("tests passed.");
 }
 

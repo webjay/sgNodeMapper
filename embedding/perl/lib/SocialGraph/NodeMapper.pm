@@ -17,6 +17,13 @@
 package SocialGraph::NodeMapper;
 use strict;
 use JavaScript::SpiderMonkey;
+use JSON ();
+
+our $json;
+BEGIN {
+    $json = JSON->new;
+    $json->allow_nonref(1);
+}
 
 sub new {
   my ($class, $opt_file) = @_;
@@ -56,18 +63,21 @@ sub DESTROY {
 
 sub graph_node_from_url {
   my ($self, $url) = @_;
-  # TODO: javascript-escape $url
-  $self->{js}->eval("_set_return_value(nodemapper.urlToGraphNode(\"$url\"));")
-    or die $@;
-  return $self->{_last_return_value};
+  return $self->_call_jsfunc("nodemapper.urlToGraphNode", $url);
 }
 
 sub graph_node_to_url {
   my ($self, $sgn_url, $type) = @_;
-  # TODO: javascript-escape $url
-  $self->{js}->eval("_set_return_value(nodemapper.urlFromGraphNode(\"$sgn_url\", \"$type\"));")
-    or die $@;
-  return $self->{_last_return_value};
+  return $self->_call_jsfunc("nodemapper.urlFromGraphNode", $sgn_url, $type);
+}
+
+sub _call_jsfunc {
+    my ($self, $func, @args) = @_;
+    my $js = "_set_return_value($func(" .
+	join(", ", map { $json->encode($_) } @args) .
+	"));";
+    $self->{js}->eval($js) or die $@;
+    return $self->{_last_return_value};
 }
 
 1;
