@@ -32,6 +32,11 @@ tribeIdentHandler = nodemapper.createPathRegexpHandler(
     );
 
 
+nodemapper.registerDomain("tribe.net", {
+ pkRegexp: /^[\w\-]{36}$/,
+ identRegexp: /^\w+$/,
+});
+
 nodemapper.registerDomain("people.tribe.net", {
  urlToGraphNode: tribeIdentHandler,
 });

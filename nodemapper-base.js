@@ -214,6 +214,137 @@ nodemapper.urlToGraphNode = function(url) {
   return url;
 };
 
+// Returns an sgn:// URL from a (host, account) pair.  The host
+// may be "domain.com", "www.domain.com", "http://domain.com",
+// "http://www.domain.com/", etc.
+// The 'account' is the account on that host, which may be
+// an identifier or a primary key (ident or pk).  The 'account'
+// may also be a full-on URL, in which case the host part
+// of the pair is ignored.
+nodemapper.pairToGraphNode = function (host, account) {
+    if (!account) {
+	return;
+    }
+
+    // for both http and https URLs:
+    if (account.substr(0, 4) == "http") {
+	var sgn = nodemapper.urlToGraphNode(account);
+	if (sgn && sgn.length >= 3 && sgn.substr(0, 3) == "sgn") {
+	    return sgn;
+	}
+	return;
+    }
+
+    if (!host) {
+	return;
+    }
+
+    var domain = nodemapper.parseDomain(host);
+    if (!domain) {
+	return;
+    }
+
+    var accountToSgn = {};
+    var handler;
+
+    handler = nodemapper.lookupHandlerWithProperty(domain, "accountToSgn");
+    if (handler) {
+	accountToSgn = handler.accountToSgn;
+    } else {
+	handler = nodemapper.lookupHandlerWithProperty(domain, "pkRegexp");
+	if (handler) {
+	    accountToSgn.pk = [handler._registeredOnDomain, handler.pkRegexp];
+	}
+	handler = nodemapper.lookupHandlerWithProperty(domain, "identRegexp");
+	if (handler) {
+	    accountToSgn.ident = [handler._registeredOnDomain, handler.identRegexp];
+	}
+    }
+    
+    if (accountToSgn.pk) {
+	var sgnDomain = accountToSgn.pk[0];
+	var sgnRegexp = accountToSgn.pk[1] || /^\d+$/;
+	if (sgnRegexp.exec(account)) {
+	    return "sgn://" + sgnDomain + "/?pk=" + account;
+	}
+    }
+
+    if (accountToSgn.ident) {
+	var sgnDomain = accountToSgn.ident[0];
+	var sgnRegexp = accountToSgn.ident[1] || /^\w+$/;
+	if (sgnRegexp.exec(account)) {
+	    // need to lowercase it?
+	    if (nodemapper.lookupHandlerWithProperty(host, "identCasePreserve")) {
+		// we found a handler with identCasePreserve on,
+		// so don't touch the account
+	    } else {
+		// else lowercase it:
+		account = account.toLowerCase();
+	    }
+	    return "sgn://" + sgnDomain + "/?ident=" + account;
+	}
+    }
+
+    // TODO: support an accountToSgn.customFunc?  code to run
+    // to do the mapping for special cases?
+    return;
+};
+
+nodemapper.lookupHandlerWithProperty = function (host, property) {
+    return nodemapper.lookupHandler(host, function (h) {
+	if (h[property]) {
+	    return h;
+	}
+	return;
+    });
+};
+
+nodemapper.lookupHandler_unittest = function (host, property) {
+    var handler = nodemapper.lookupHandlerWithProperty(host, property);
+    if (handler) {
+	return handler._name_for_testing;
+    }
+    return;
+}
+
+// Returns the first matching handler for a host's list
+// of handlers (sorted from most specific to least specific)
+// that matches the provided filterFunc.  filterFunc is run
+// with one handler (the handler) and must return true to
+// have that handler returned.
+nodemapper.lookupHandler = function (host, filterFunc) {
+  var hostparts = host.split(".");
+  var handler;
+  var matchedDomain; // the domain that matched tightest
+  for (var i = 0; i < hostparts.length; ++i) {
+    var subhost = hostparts.slice(i, hostparts.length);
+    matchedDomain = subhost.join(".");
+    handler = nodemapper.handlers[matchedDomain];
+    if (!handler) continue;
+    if (filterFunc(handler)) {
+	handler._registeredOnDomain = matchedDomain;
+	return handler;
+    }
+  }
+  return;
+};
+
+// Match optional scheme and slashes (\w+:/{0,2}), then capture
+// the domain name (everything until we hit a colon, forward slash,
+// or the end)
+nodemapper.DOMAIN_RE = /^(?:\w+:\/{0,2})?([^:\/]*?)(?:[:\/]|$)/;
+
+// parses a domain name out of an argument which may be of several
+// formats:  domain.com, http://domain.com, scheme:domain.com,
+// http://domain.com:8080/some/path
+nodemapper.parseDomain = function (arg) {
+    var m;
+    if ((m = nodemapper.DOMAIN_RE.exec(arg)) && m[1].length > 0) {
+	return m[1];
+    }
+    return;
+};
+
 /**
  * Attempts to do http->sgn mapping based on all the installed
  * simple forward mappings (from addSimpleHandler).  This is

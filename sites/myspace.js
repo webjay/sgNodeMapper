@@ -89,6 +89,7 @@ var urlToGraphNodeMySpaceUsername =
 nodemapper.registerDomain(
     "myspace.com",
     {urlToGraphNode: urlToGraphNodeMySpaceUsername,
+     accountToSgn: { pk: ["myspace.com"], ident: ["myspace.com"], },
 });
 
 nodemapper.addSimpleHandler(

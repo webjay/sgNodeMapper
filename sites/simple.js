@@ -46,7 +46,10 @@ nodemapper.registerDomain(
     {urlToGraphNode: nodemapper.createPathRegexpHandler(
         "mugshot.org",
         /^\/person\?who=(\w+)/,
-        {casePreserve: 1})});
+        {casePreserve: 1}),
+     identCasePreserve: 1,
+     accountToSgn: {ident: ["mugshot.org"]},
+    });
 
 nodemapper.addSimpleHandler("mugshot.org", "ident_to_profile",
 			    "http://mugshot.org/person?who=", "");
@@ -107,6 +110,9 @@ nodemapper.addSimpleHandler("del.icio.us", "ident_to_rss",
     "http://del.icio.us/rss/");
 
 
+nodemapper.registerDomain("webshots.com", {
+    identRegexp: /^\w+$/,
+		       });
 nodemapper.registerDomain("community.webshots.com",
   {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("user", 
       "webshots.com")});
@@ -288,7 +294,10 @@ nodemapper.registerDomain(
     {urlToGraphNode: nodemapper.createPathRegexpHandler(
       "c2.com", 
       /^\/cgi\/wiki\?(.*)/, 
-      {casePreserve: 1})});
+      {casePreserve: 1}),
+     identCasePreserve: 1,
+});
+
 nodemapper.addSimpleHandler("c2.com", "ident_to_profile",
     "http://c2.com/cgi/wiki?");
 
@@ -297,7 +306,9 @@ nodemapper.registerDomain(
     {urlToGraphNode: nodemapper.createPathRegexpHandler(
       "bookshelved.org", 
       /^\/cgi\-bin\/wiki\.pl\?(.*)/, 
-      {casePreserve: 1})});
+      {casePreserve: 1}),
+     identCasePreserve: 1,
+});
 nodemapper.addSimpleHandler("bookshelved.org", "ident_to_profile",
     "http://bookshelved.org/cgi-bin/wiki.pl?");
 
@@ -306,7 +317,9 @@ nodemapper.registerDomain(
     {urlToGraphNode: nodemapper.createPathRegexpHandler(
       "xpdeveloper.net", 
       /^\/xpdwiki\/Wiki\.jsp\?page=(.*)/, 
-      {casePreserve: 1})});
+      {casePreserve: 1}),
+     identCasePreserve: 1,
+});
 nodemapper.addSimpleHandler("xpdeveloper.net", "ident_to_profile",
     "http://xpdeveloper.net/xpdwiki/Wiki.jsp?page=");
 
@@ -315,7 +328,9 @@ nodemapper.registerDomain(
     {urlToGraphNode: nodemapper.createPathRegexpHandler(
       "usemod.com", 
       /^\/cgi\-bin\/mb\.pl\?(.*)/, 
-      {casePreserve: 1})});
+      {casePreserve: 1}),
+     identCasePreserve: 1,
+   });
 nodemapper.addSimpleHandler("usemod.com", "ident_to_profile",
     "http://usemod.com/cgi-bin/mb.pl?");
 

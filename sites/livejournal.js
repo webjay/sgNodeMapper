@@ -109,6 +109,7 @@ nodemapper.registerDomain("livejournal.com",
 			  ident_to_foaf: identToFoaf,
 			  ident_to_profile: identToProfile,
 			  ident_to_openid: identToOpenid,
+ 	 	          identRegexp: /^\w+$/,
 			 });
 
 __END__

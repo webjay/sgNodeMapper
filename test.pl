@@ -32,6 +32,8 @@ open(my $fh, "nodemapper_expected.dat")
 my @errors;
 my @warnings;
 
+my %domain_has_pair_tests;  # domain -> 1
+
 while (<$fh>) {
   s/^\s*\#.*//;
   next unless /\S/;
@@ -40,7 +42,12 @@ while (<$fh>) {
   my $actual;
 
   my $test_name;
-  if ($input =~ /^(\w+)\((.+)\)$/) {
+  if ($input =~ /^pair\((.+),(.+)\)$/) {
+      my ($domain, $account) = ($1, $2);
+      $domain_has_pair_tests{$domain} = 1;
+      $test_name = "Pair of ($domain, $account)";
+      $actual = $mapper->graph_node_from_pair($domain, $account) || "";
+  } elsif ($input =~ /^(\w+)\((.+)\)$/) {
     my ($type, $sgn_node) = ($1, $2);
     $actual = $mapper->graph_node_to_url($sgn_node, $type);
     $test_name = "URL of $type($sgn_node)";
@@ -55,6 +62,17 @@ while (<$fh>) {
 	}
     }
 
+    # and break it up, and test that the pair still maps back
+    # to the sgn
+    $sgn_node =~ m!^sgn://(.+?)/\?(?:ident|pk)=(.+)! or die "Couldn't parse $sgn_node";
+    my ($sgn_host, $sgn_account) = ($1, $2);
+    unless ($domain_has_pair_tests{$sgn_host}) {
+	my $back_sgn = $mapper->graph_node_from_pair($sgn_host, $sgn_account) || "";
+	unless ($back_sgn eq $sgn_node) {
+	    push @warnings, "pair($sgn_host, $sgn_account) from $sgn_node was $back_sgn, not $sgn_node";
+	    warn $warnings[-1];
+	}
+    }
   } else {
     $actual = $mapper->graph_node_from_url($input);
     $test_name = "Mapping $input";
@@ -70,6 +88,72 @@ while (<$fh>) {
     };
   }
 }
+
+# graph_node_from_pair tests...
+
+# unit tests for parseDomain
+is($mapper->_call_jsfunc("nodemapper.parseDomain", "http://foo.com/"),
+   "foo.com", "parse domain unittest");
+is($mapper->_call_jsfunc("nodemapper.parseDomain", "http://foo.com:80/"),
+   "foo.com", "parse domain unittest");
+is($mapper->_call_jsfunc("nodemapper.parseDomain", "http://foo.com"),
+   "foo.com", "parse domain unittest");
+is($mapper->_call_jsfunc("nodemapper.parseDomain", "foo.com"),
+   "foo.com", "parse domain unittest");
+is($mapper->_call_jsfunc("nodemapper.parseDomain", ""),
+   undef, "parse domain unittest");
+is($mapper->_call_jsfunc("nodemapper.parseDomain", "http://"),
+   undef, "parse domain unittest");
+is($mapper->_call_jsfunc("nodemapper.parseDomain", "scheme:foo.com"),
+   "foo.com", "parse domain unittest");
+
+# test lookupAccountToSgnHandler (and lookupHandler, indirectly)
+{
+    my $name = $mapper->_call_jsfunc("nodemapper.lookupHandler_unittest", "x.foo.test", "accountToSgn");
+    is($name, "foo.test", ".. and is named foo.test (not x.foo.test)");
+}
+
+# test the the 'account' field (what the user entered) trumps
+# the host
+is($mapper->graph_node_from_pair("http://myspace.com/",
+				 "http://brad.livejournal.com/"),
+   "sgn://livejournal.com/?ident=brad",
+   "full url takes precendece over host");
+
+# test the the 'account' field with URL works without a host
+is($mapper->graph_node_from_pair("",
+				 "http://brad.livejournal.com/"),
+   "sgn://livejournal.com/?ident=brad",
+   "full url works without host");
+
+is($mapper->graph_node_from_pair("", "bob"),
+   undef,
+   "need a host");
+
+is($mapper->graph_node_from_pair("http://myspace.com/", ""),
+   undef,
+   "need an account");
+
+
+for my $host (qw(
+		 livejournal.com
+		 www.livejournal.com
+	         http://livejournal.com
+	         http://livejournal.com/
+	         http://www.livejournal.com/
+		 )) {
+    my $domain =  $mapper->_call_jsfunc("nodemapper.parseDomain", $host);
+    is($mapper->graph_node_from_pair($host, "brad"),
+       "sgn://livejournal.com/?ident=brad",
+       "($host, brad) -> sgn (domain=$domain)");
+}
+
+# case
+is($mapper->graph_node_from_pair("http://livejournal.com", "BRAD"),
+   "sgn://livejournal.com/?ident=brad", "graph_node_from_pair canonicalizes case");
+
+is($mapper->graph_node_from_pair("http://www.mugshot.org", "BrAd"),
+   "sgn://mugshot.org/?ident=BrAd", "graph_node_from_pair respects identCasePreserve");
 
 if (@warnings) {
     print "WARNINGS:\n";

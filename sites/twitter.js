@@ -18,6 +18,7 @@
 nodemapper.registerDomain(
     "twitter.com",
     { httpsLikeHttp: 1,
+      accountToSgn: { pk: ["twitter.com"], ident: ["twitter.com"] },
       urlToGraphNode: nodemapper.createSlashUsernameHandler(
           "twitter.com",
           {slashAnything: 1,

@@ -37,6 +37,7 @@ nodemapper.registerDomain(
   "flickr.com", {
   urlToGraphNode: urlToGraphNodeFlickr,
   pkRegexp: /^\d+@\w\d+$/,
+  accountToSgn: { pk: ["flickr.com", /^\d+@\w\d+$/], ident: ["flickr.com"] },
 });
 
 nodemapper.addSimpleHandler("flickr.com", "pk_to_rss",

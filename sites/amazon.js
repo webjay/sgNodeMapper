@@ -12,6 +12,7 @@ amazonPkHandler = nodemapper.createFirstMatchHandler
 
 
 nodemapper.registerDomain("amazon.com", {
+  accountToSgn: { pk: ["amazon.com", /^\w{14}$/] },
   urlToGraphNode: amazonPkHandler
 });
 

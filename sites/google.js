@@ -17,6 +17,7 @@ googleMasterHandler = function(url, host, path) {
 
 nodemapper.registerDomain("google.com", {urlToGraphNode: googleMasterHandler});
 
+nodemapper.registerDomain("reader.google.com", {pkRegexp: /^\d{7,}$/});
 nodemapper.addSimpleHandler("reader.google.com", "pk_to_content",
 			    "http://www.google.com/reader/shared/", "");
 

@@ -10,7 +10,8 @@ yelpCompoundHandler = function(url, host, path) {
 
 nodemapper.registerDomain("yelp.com", {
 	urlToGraphNode: yelpCompoundHandler,
-	pkRegexp: /^\w+$/,
+	pkRegexp: /^\w{22}$/,
+        identRegexp: /^\w+$/,
 	});
 nodemapper.addSimpleHandler("yelp.com", "pk_to_rss", 
     "http://www.yelp.com/syndicate/user/", "/rss.xml");

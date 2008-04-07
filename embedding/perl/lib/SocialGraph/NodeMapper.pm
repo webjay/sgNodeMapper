@@ -51,8 +51,10 @@ sub load_javascript {
   # so we have to do this indirect method
   $self->{_last_return_value} = undef;
   $self->{js}->function_set("_set_return_value", sub {
-    $self->{_last_return_value} = $_[0];
-    return 1;
+      my $val = shift;
+      $self->{_last_return_value} = (defined $val && $val ne "undefined") ?
+	  $val : undef;
+      return 1;
   });
 }
 
@@ -69,6 +71,15 @@ sub graph_node_from_url {
 sub graph_node_to_url {
   my ($self, $sgn_url, $type) = @_;
   return $self->_call_jsfunc("nodemapper.urlFromGraphNode", $sgn_url, $type);
+}
+
+# Given a host ("site.com", "http://www.site.com/", etc) and something
+# on that site (which might be a full URL, might be a userid, might be
+# a username), return an sgn:// URL, or undef if one couldn't be
+# found.
+sub graph_node_from_pair {
+  my ($self, $host, $what_on_host) = @_;
+  return $self->_call_jsfunc("nodemapper.pairToGraphNode", $host, $what_on_host);
 }
 
 sub _call_jsfunc {

@@ -55,6 +55,7 @@ nodemapper.registerDomain(
 nodemapper.registerDomain(
    "aol.com",
 {
+ identRegexp: /^\w+$/,
  ident_to_openid: function (ident) { return "http://openid.aol.com/" + ident; },
  ident_to_chat: function (ident) { return "aim:GoIM?screenname=" + ident; },
  ident_to_profile: function (ident) {
