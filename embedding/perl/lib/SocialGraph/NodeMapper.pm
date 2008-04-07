@@ -21,8 +21,11 @@ use JSON ();
 
 our $json;
 BEGIN {
-    $json = JSON->new;
+  local $JSON::AUTOCONVERT = 0;
+  $json = JSON->new;
+  if ($json->can("allow_nonref")) {
     $json->allow_nonref(1);
+  }
 }
 
 sub new {
@@ -82,13 +85,25 @@ sub graph_node_from_pair {
   return $self->_call_jsfunc("nodemapper.pairToGraphNode", $host, $what_on_host);
 }
 
+sub _json_encode {
+  my ($arg) = @_;
+  if ($json->can("encode")) {
+    return $json->encode($arg);
+  }
+  $arg .= "";
+  my $js  = $json->objToJson([$arg]);
+  $js =~ s/^\s*\[\s*//;
+  $js =~ s/\s*\]\s*$//;
+  return $js;
+}
+
 sub _call_jsfunc {
-    my ($self, $func, @args) = @_;
-    my $js = "_set_return_value($func(" .
-	join(", ", map { $json->encode($_) } @args) .
-	"));";
-    $self->{js}->eval($js) or die $@;
-    return $self->{_last_return_value};
+  my ($self, $func, @args) = @_;
+  my $js = "_set_return_value($func(" .
+    join(", ", map { _json_encode($_) } @args) .
+    "));";
+  $self->{js}->eval($js) or die $@;
+  return $self->{_last_return_value};
 }
 
 1;
