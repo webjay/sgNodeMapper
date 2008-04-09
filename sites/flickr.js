@@ -35,6 +35,7 @@ var urlToGraphNodeFlickr =
 
 nodemapper.registerDomain(
   "flickr.com", {
+  name: "Flickr",
   urlToGraphNode: urlToGraphNodeFlickr,
   pkRegexp: /^\d+@\w\d+$/,
   accountToSgn: { pk: ["flickr.com", /^\d+@\w\d+$/], ident: ["flickr.com"] },

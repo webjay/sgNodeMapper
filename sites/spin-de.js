@@ -34,7 +34,8 @@ spinIdentHandler = nodemapper.createPathRegexpHandler(
     );
 
 
-nodemapper.registerDomain(["spin.de", "www.spin.de"], {
+nodemapper.registerDomain("spin.de", {
+    name: "spin.de",
     urlToGraphNode: spinIdentHandler,
     pkRegexp: /^,[0-9a-fA-F]+$/,
     identRegexp: /^\w+$/,
@@ -83,4 +84,3 @@ foaf(sgn://spin.de/?pk=62b)                     http://www.spin.de/foaf/,62b
 
 profile(sgn://spin.de/?ident=warp)              http://www.spin.de/hp/warp/
 blog(sgn://spin.de/?ident=warp)                 http://www.spin.de/hp/warp/blog
-

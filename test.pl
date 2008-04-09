@@ -33,6 +33,7 @@ my @errors;
 my @warnings;
 
 my %domain_has_pair_tests;  # domain -> 1
+my %seen_sgn_domain;        # domain -> 1
 
 while (<$fh>) {
   s/^\s*\#.*//;
@@ -66,6 +67,8 @@ while (<$fh>) {
     # to the sgn
     $sgn_node =~ m!^sgn://(.+?)/\?(?:ident|pk)=(.+)! or die "Couldn't parse $sgn_node";
     my ($sgn_host, $sgn_account) = ($1, $2);
+    $seen_sgn_domain{$sgn_host} = 1;
+
     unless ($domain_has_pair_tests{$sgn_host}) {
 	my $back_sgn = $mapper->graph_node_from_pair($sgn_host, $sgn_account) || "";
 	unless ($back_sgn eq $sgn_node) {
@@ -111,6 +114,25 @@ is($mapper->_call_jsfunc("nodemapper.parseDomain", "scheme:foo.com"),
 {
     my $name = $mapper->_call_jsfunc("nodemapper.lookupHandler_unittest", "x.foo.test", "accountToSgn");
     is($name, "foo.test", ".. and is named foo.test (not x.foo.test)");
+}
+
+# named sites
+my $num_sites = $mapper->_call_jsfunc("nodemapper.namedSitesCount");
+ok($num_sites > 1, "got more than 1 named site: got $num_sites");
+
+my @named_sites = $mapper->named_sites;
+
+my $num_bogus = grep { !$_->{name} || !$_->{domain} } @named_sites;
+is($num_bogus, 0, "no bogus named_sites");
+
+my @sorted_named_sites = sort { lc($a->{name}) cmp lc($b->{name}) } @named_sites;
+is_deeply(\@named_sites, \@sorted_named_sites, "sites are sorted");
+
+# see that each domain has a name
+foreach my $domain (sort keys %seen_sgn_domain) {
+  my @match = grep { $_->{domain} eq $domain } @named_sites;
+  my $name = @match ? $match[0]->{name} : "";
+  ok($name, "$domain has a name");
 }
 
 # test the the 'account' field (what the user entered) trumps

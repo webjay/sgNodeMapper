@@ -9,6 +9,7 @@ yelpCompoundHandler = function(url, host, path) {
 };
 
 nodemapper.registerDomain("yelp.com", {
+	name: "Yelp",
 	urlToGraphNode: yelpCompoundHandler,
 	pkRegexp: /^\w{22}$/,
         identRegexp: /^\w+$/,

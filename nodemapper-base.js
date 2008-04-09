@@ -84,7 +84,7 @@ nodemapper.registerDomain = function(domain, handler) {
     handler.pkRegexp = nodemapper.PK_REGEXP;
   }
   if (domain instanceof Array) {
-    for (var i=0; i<domain.length; i++) {
+    for (var i = 0; i < domain.length; i++) {
       nodemapper.handlers[domain[i]] = handler;
     }
   } else {
@@ -596,6 +596,54 @@ nodemapper.createFirstMatchHandler = function(handlerList) {
 	return url;  // unchanged
     };
 };
+
+// Returns an array of objects representing sites with known display names, e.g.:
+// [ { domain: "site.com", name: "Site!" [, notMassMarketSite: 1] }, ... ]
+nodemapper.namedSites = function() {
+  if (nodemapper._memoizedNamedSites) {
+    return nodemapper._memoizedNamedSites;
+  }
+
+  var ret = [];
+  for (var domain in nodemapper.handlers) {
+    var name = nodemapper.handlers[domain].name;
+    if (name) {
+      ret.push({
+        domain: domain,
+        name: name,
+        notMassMarketSite: nodemapper.handlers[domain].notMassMarketSite
+      });
+    }
+  }
+
+  // Sort by display name (which is probably the same
+  // as the domain, but the display name is what users
+  // will see in e.g. drop-downs)
+  ret.sort(function(a, b) {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+    if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+    return 0;
+  });
+
+  nodemapper._memoizedNamedSites = ret;
+  return ret;
+}
+
+// Get the number of named sites.
+nodemapper.namedSitesCount = function() {
+  return nodemapper.namedSites().length;
+}
+
+/**
+ * Getting a property of a named site.
+ *
+ * @param {integer} n number in range [0, n), where n
+ *                  is from nodemapper.namedSitesCount()
+ * @param {String} property one of {domain, name, notMassMarketSite}
+ */
+nodemapper.namedSiteProperty = function(n, property) {
+  return nodemapper.namedSites()[n][property];
+}
 
 /* install null debug handler, if host container hasn't */
 try {

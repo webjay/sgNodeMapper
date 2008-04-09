@@ -32,7 +32,8 @@ var facebookHandler = function(url, host, path) {
 
 nodemapper.registerDomain(
     "facebook.com",
-    {urlToGraphNode: facebookHandler,
+    {name: "Facebook",
+     urlToGraphNode: facebookHandler,
      ident_to_profile: function (ident) { return "http://www.facebook.com/people/" + ident },
      pk_to_profile: function (pk) { return "http://www.facebook.com/profile.php?id=" + pk; },
      pkRegexp: /^\d+$/,

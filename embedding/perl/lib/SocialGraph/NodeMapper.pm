@@ -76,6 +76,23 @@ sub graph_node_to_url {
   return $self->_call_jsfunc("nodemapper.urlFromGraphNode", $sgn_url, $type);
 }
 
+# returns array of { name => "FooName", domain => "fooname.com" }
+sub named_sites {
+  my $self = shift;
+  my $num_sites = $self->_call_jsfunc("nodemapper.namedSitesCount");
+  return map {
+    my $n = $_;
+    { 
+      domain => $self->_call_jsfunc("nodemapper.namedSiteProperty",
+                                    $n, "domain"),
+      name   => $self->_call_jsfunc("nodemapper.namedSiteProperty",
+                                    $n, "name"),
+      not_mass_market => $self->_call_jsfunc(
+                                             "nodemapper.namedSiteProperty",
+                                             $n, "notMassMarketSite"),
+      } } (0..$num_sites-1);
+}
+
 # Given a host ("site.com", "http://www.site.com/", etc) and something
 # on that site (which might be a full URL, might be a userid, might be
 # a username), return an sgn:// URL, or undef if one couldn't be

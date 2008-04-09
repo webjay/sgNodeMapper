@@ -33,6 +33,7 @@ tribeIdentHandler = nodemapper.createPathRegexpHandler(
 
 
 nodemapper.registerDomain("tribe.net", {
+ name: "Tribe.net",
  pkRegexp: /^[\w\-]{36}$/,
  identRegexp: /^\w+$/,
 });
@@ -68,5 +69,3 @@ foaf(sgn://tribe.net/?pk=079d0f9a-ed4b-4d2d-8290-a65a3df32342) http://people.tri
 
 profile(sgn://tribe.net/?ident=bayareadj)          http://people.tribe.net/bayareadj
 profile(sgn://tribe.net/?pk=079d0f9a-ed4b-4d2d-8290-a65a3df32342) http://people.tribe.net/079d0f9a-ed4b-4d2d-8290-a65a3df32342
-
-

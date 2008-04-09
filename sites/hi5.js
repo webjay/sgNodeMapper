@@ -45,6 +45,7 @@ function urlToGraphNodeHi5(url, host, path) {
 
 nodemapper.registerDomain(
   "hi5.com", {
+  name: "hi5",
   urlToGraphNode: urlToGraphNodeHi5,
 });
 
@@ -118,5 +119,3 @@ blog(sgn://hi5.com/?pk=12345)  http://www.hi5.com/friend/profile/displayJournal.
 # ident
 content(sgn://hi5.com/?ident=bobfoo)  http://bobfoo.hi5.com/
 profile(sgn://hi5.com/?ident=bobfoo)  http://bobfoo.hi5.com/
-
-

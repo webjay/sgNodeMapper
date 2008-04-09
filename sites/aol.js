@@ -55,6 +55,7 @@ nodemapper.registerDomain(
 nodemapper.registerDomain(
    "aol.com",
 {
+ name: "AIM/AOL",
  identRegexp: /^\w+$/,
  ident_to_openid: function (ident) { return "http://openid.aol.com/" + ident; },
  ident_to_chat: function (ident) { return "aim:GoIM?screenname=" + ident; },
@@ -63,10 +64,11 @@ nodemapper.registerDomain(
  }
 });
 
-// TODO: unify this with core AOL.com sgn? 
+// TODO(jsmarr): unify this with core AOL.com sgn?
 // But then how can I specify these custom profile/atom handlers?
 nodemapper.registerDomain("pictures.aol.com",
-  {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("galleries", 
+  {name: "AOL Pictures",
+   urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("galleries", 
       "pictures.aol.com")});
 nodemapper.addSimpleHandler("pictures.aol.com", "ident_to_profile", 
       "http://pictures.aol.com/galleries/");

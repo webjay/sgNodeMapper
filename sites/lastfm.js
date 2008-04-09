@@ -31,9 +31,8 @@
  *
  * @type Array.<String>
  */
-var LAST_FM_DOMAINS = [
+var LAST_FM_ALT_DOMAINS = [
   "cn.last.fm",
-  "last.fm",
   "lastfm.excite.co.jp",
   "lastfm.spiegel.de",
   "www.last.fm",
@@ -58,7 +57,12 @@ var lastFmHttpToSgn = nodemapper.createPathRegexpHandler(
     "last.fm", /^\/user\/([\w\-]+)(?:\/|$)/);
 
 nodemapper.registerDomain(
-    LAST_FM_DOMAINS,
+    "last.fm",
+    {name: "Last.fm",
+     urlToGraphNode: lastFmHttpToSgn});
+
+nodemapper.registerDomain(
+    LAST_FM_ALT_DOMAINS,
     {urlToGraphNode: lastFmHttpToSgn});
 
 nodemapper.addSimpleHandler("last.fm", "ident_to_profile",

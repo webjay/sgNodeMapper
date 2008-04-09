@@ -17,7 +17,8 @@
 
 nodemapper.registerDomain(
     "digg.com",
-    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+    {name: "Digg",
+     urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
         "users",
         "digg.com")});
 nodemapper.addSimpleHandler("digg.com", "ident_to_profile",
@@ -27,7 +28,8 @@ nodemapper.addSimpleHandler("digg.com", "ident_to_rss",
 
 nodemapper.registerDomain(
     "pownce.com",
-    {urlToGraphNode: nodemapper.createSlashUsernameHandler(
+    {name: "Pownce",
+     urlToGraphNode: nodemapper.createSlashUsernameHandler(
         "pownce.com",
         { slashAnything: 1 })});
 nodemapper.addSimpleHandler("pownce.com", "ident_to_profile", 
@@ -35,7 +37,8 @@ nodemapper.addSimpleHandler("pownce.com", "ident_to_profile",
 
 nodemapper.registerDomain(
     "jaiku.com",
-    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("jaiku.com")});
+    {name: "Jaiku",
+     urlToGraphNode: nodemapper.createUserIsSubdomainHandler("jaiku.com")});
 nodemapper.addSimpleHandler("jaiku.com", "ident_to_profile", 
     "http://", ".jaiku.com/");
 nodemapper.addSimpleHandler("jaiku.com", "ident_to_rss", 
@@ -43,7 +46,8 @@ nodemapper.addSimpleHandler("jaiku.com", "ident_to_rss",
 
 nodemapper.registerDomain(
     "mugshot.org",
-    {urlToGraphNode: nodemapper.createPathRegexpHandler(
+    {name: "Mugshot",
+     urlToGraphNode: nodemapper.createPathRegexpHandler(
         "mugshot.org",
         /^\/person\?who=(\w+)/,
         {casePreserve: 1}),
@@ -56,7 +60,8 @@ nodemapper.addSimpleHandler("mugshot.org", "ident_to_profile",
 
 nodemapper.registerDomain(
     "linkedin.com",
-    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+    {name: "LinkedIn",
+     urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
         "in",
         "linkedin.com")});
 
@@ -65,7 +70,8 @@ nodemapper.addSimpleHandler("linkedin.com", "ident_to_profile",
 
 nodemapper.registerDomain(
     "ma.gnolia.com",
-    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+    {name: "Ma.gnolia",
+     urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
         "people",
         "ma.gnolia.com")});
 nodemapper.addSimpleHandler("ma.gnolia.com", "ident_to_profile", 
@@ -75,7 +81,8 @@ nodemapper.addSimpleHandler("ma.gnolia.com", "ident_to_rss",
 
 nodemapper.registerDomain(
     "ziki.com",
-    {urlToGraphNode: nodemapper.createPathRegexpHandler(
+    {name: "Ziki",
+     urlToGraphNode: nodemapper.createPathRegexpHandler(
         "ziki.com",
         /^\/\w\w\/people\/(\w+)\/?/)});
 
@@ -84,7 +91,8 @@ nodemapper.addSimpleHandler("ziki.com", "ident_to_profile",
 
 nodemapper.registerDomain(
     "wordpress.com",
-    {urlToGraphNode: nodemapper.createHostRegexpHandler(
+    {name: "WordPress",
+     urlToGraphNode: nodemapper.createHostRegexpHandler(
         "wordpress.com",
         /^(?:www\.)?([\w\-]+)\.wordpress\.com$/)});
 
@@ -93,7 +101,8 @@ nodemapper.addSimpleHandler("wordpress.com", "ident_to_blog",
 
 nodemapper.registerDomain(
     "picasaweb.google.com",
-    {urlToGraphNode: nodemapper.createSlashUsernameHandler(
+    {name: "Picasa Web Albums",
+     urlToGraphNode: nodemapper.createSlashUsernameHandler(
         "picasaweb.google.com")});
 nodemapper.addSimpleHandler("picasaweb.google.com", "ident_to_profile", 
     "http://picasaweb.google.com/");
@@ -103,7 +112,8 @@ nodemapper.addSimpleHandler("picasaweb.google.com", "ident_to_rss",
 
 nodemapper.registerDomain(
     ["del.icio.us", "delicious.com"],
-    {urlToGraphNode: nodemapper.createSlashUsernameHandler("del.icio.us")});
+    {name: "del.icio.us",
+     urlToGraphNode: nodemapper.createSlashUsernameHandler("del.icio.us")});
 nodemapper.addSimpleHandler("del.icio.us", "ident_to_profile", 
     "http://del.icio.us/");
 nodemapper.addSimpleHandler("del.icio.us", "ident_to_rss", 
@@ -111,6 +121,7 @@ nodemapper.addSimpleHandler("del.icio.us", "ident_to_rss",
 
 
 nodemapper.registerDomain("webshots.com", {
+    name: "Webshots",
     identRegexp: /^\w+$/,
 		       });
 nodemapper.registerDomain("community.webshots.com",
@@ -123,7 +134,8 @@ nodemapper.addSimpleHandler("webshots.com", "ident_to_rss",
 
 nodemapper.registerDomain(
     "smugmug.com",
-    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("smugmug.com")});
+    {name: "SmugMug",
+     urlToGraphNode: nodemapper.createUserIsSubdomainHandler("smugmug.com")});
 nodemapper.addSimpleHandler("smugmug.com", "ident_to_profile", 
     "http://", ".smugmug.com/");
 nodemapper.addSimpleHandler("smugmug.com", "ident_to_atom", 
@@ -132,7 +144,8 @@ nodemapper.addSimpleHandler("smugmug.com", "ident_to_atom",
 
 nodemapper.registerDomain(
     "vox.com",
-    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("vox.com")});
+    {name: "Vox",
+     urlToGraphNode: nodemapper.createUserIsSubdomainHandler("vox.com")});
 nodemapper.addSimpleHandler("vox.com", "ident_to_content", 
     "http://", ".vox.com/");
 nodemapper.addSimpleHandler("vox.com", "ident_to_profile",
@@ -146,7 +159,8 @@ nodemapper.addSimpleHandler("vox.com", "ident_to_foaf",
 
 nodemapper.registerDomain(
     "tumblr.com",
-    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("tumblr.com")});
+    {name: "Tumblr",
+     urlToGraphNode: nodemapper.createUserIsSubdomainHandler("tumblr.com")});
 nodemapper.addSimpleHandler("tumblr.com", "ident_to_profile", 
     "http://", ".tumblr.com/");
 nodemapper.addSimpleHandler("tumblr.com", "ident_to_rss", 
@@ -154,7 +168,8 @@ nodemapper.addSimpleHandler("tumblr.com", "ident_to_rss",
 
 nodemapper.registerDomain(
     "xanga.com",
-    {urlToGraphNode: nodemapper.createSlashUsernameHandler(
+    {name: "Xanga",
+     urlToGraphNode: nodemapper.createSlashUsernameHandler(
         "xanga.com", { slashAnything: 1 })});
 nodemapper.addSimpleHandler("xanga.com", "ident_to_profile", 
     "http://xanga.com/");
@@ -163,7 +178,8 @@ nodemapper.addSimpleHandler("xanga.com", "ident_to_rss",
 
 nodemapper.registerDomain(
     "360.yahoo.com",
-    {urlToGraphNode: nodemapper.createSlashUsernameHandler(
+    {name: "Yahoo! 360",
+     urlToGraphNode: nodemapper.createSlashUsernameHandler(
         "360.yahoo.com", { slashAnything: 1 })});
 nodemapper.addSimpleHandler("360.yahoo.com", "ident_to_profile", 
     "http://360.yahoo.com/");
@@ -172,7 +188,8 @@ nodemapper.addSimpleHandler("360.yahoo.com", "ident_to_rss",
 
 nodemapper.registerDomain(
     "spaces.live.com",
-    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler(
+    {name: "Windows Live Spaces",
+     urlToGraphNode: nodemapper.createUserIsSubdomainHandler(
         "spaces.live.com")});
 nodemapper.addSimpleHandler("spaces.live.com", "ident_to_profile", 
     "http://", ".spaces.live.com");
@@ -181,7 +198,8 @@ nodemapper.addSimpleHandler("spaces.live.com", "ident_to_rss",
 
 nodemapper.registerDomain(
     "stumbleupon.com",
-    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler(
+    {name: "StumbleUpon",
+     urlToGraphNode: nodemapper.createUserIsSubdomainHandler(
         "stumbleupon.com")});
 nodemapper.addSimpleHandler("stumbleupon.com", "ident_to_profile", 
     "http://", ".stumbleupon.com");
@@ -190,7 +208,8 @@ nodemapper.addSimpleHandler("stumbleupon.com", "ident_to_rss",
 
 nodemapper.registerDomain(
     "travelpod.com",
-    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+    {name: "TravelPod",
+     urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
         "members", "travelpod.com")});
 nodemapper.addSimpleHandler("travelpod.com", "ident_to_profile",
 			    "http://travelpod.com/members/");
@@ -199,7 +218,8 @@ nodemapper.addSimpleHandler("travelpod.com", "ident_to_rss",
 
 nodemapper.registerDomain(
     "imageshack.us",
-    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+    {name: "ImageShack",
+     urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
         "user", "imageshack.us")});
 nodemapper.addSimpleHandler("imageshack.us", "ident_to_profile",
 			    "http://profile.imageshack.us/user/");
@@ -207,7 +227,8 @@ nodemapper.addSimpleHandler("imageshack.us", "ident_to_rss",
 			    "http://rss.imageshack.us/user/", "/rss/");
 
 nodemapper.registerDomain("bloglines.com",
-  {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+  {name: "Bloglines",
+   urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
       "(?:blog|public)", "bloglines.com", {slashAnything: 1})});
 nodemapper.addSimpleHandler("bloglines.com", "ident_to_profile", 
     "http://www.bloglines.com/blog/");
@@ -217,7 +238,8 @@ nodemapper.addSimpleHandler("bloglines.com", "ident_to_rss",
 upcomingHandler = nodemapper.createSomethingSlashUsernameHandler("user", 
     "upcoming.yahoo.com", {keyName: "pk"});
 nodemapper.registerDomain("upcoming.yahoo.com",
-  {urlToGraphNode: upcomingHandler});
+  {name: "Upcoming",
+   urlToGraphNode: upcomingHandler});
 nodemapper.registerDomain("upcoming.org",
   {urlToGraphNode: upcomingHandler});
 nodemapper.addSimpleHandler("upcoming.yahoo.com", "pk_to_profile", 
@@ -226,7 +248,8 @@ nodemapper.addSimpleHandler("upcoming.yahoo.com", "pk_to_rss",
     "http://upcoming.yahoo.com/syndicate/v2/my_events/");
 
 nodemapper.registerDomain("socializr.com",
-  {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+  {name: "Socializr",
+   urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
       "user", "socializr.com")});
 nodemapper.addSimpleHandler("socializr.com", "ident_to_profile", 
     "http://www.socializr.com/user/");
@@ -234,7 +257,8 @@ nodemapper.addSimpleHandler("socializr.com", "ident_to_rss",
     "http://www.socializr.com/rss/user/", "/rss.xml");
 
 nodemapper.registerDomain("bebo.com",
-  {urlToGraphNode: nodemapper.createPathRegexpHandler(
+  {name: "Bebo",
+   urlToGraphNode: nodemapper.createPathRegexpHandler(
       "bebo.com", /^\/Profile.jsp\?MemberId=([^&]*)/)});
 nodemapper.addSimpleHandler("bebo.com", "ident_to_profile", 
     "http://bebo.com/Profile.jsp?MemberId=");
@@ -242,7 +266,8 @@ nodemapper.addSimpleHandler("bebo.com", "ident_to_rss",
     "http://bebo.com/api/BlogRss.jsp?MemberId=");
 
 nodemapper.registerDomain("reddit.com",
-  {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+  {name: "Reddit",
+   urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
       "user", "reddit.com", {slashAnything: 1})});
 nodemapper.addSimpleHandler("reddit.com", "ident_to_profile", 
     "http://reddit.com/user/");
@@ -250,7 +275,8 @@ nodemapper.addSimpleHandler("reddit.com", "ident_to_rss",
     "http://reddit.com/user/", "/submitted.rss");
 
 nodemapper.registerDomain("ilike.com",
-  {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+  {name: "iLike",
+   urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
       "user", "ilike.com", {slashAnything: 1})});
 nodemapper.addSimpleHandler("ilike.com", "ident_to_profile", 
     "http://www.ilike.com/user/");
@@ -258,7 +284,8 @@ nodemapper.addSimpleHandler("ilike.com", "ident_to_rss",
     "http://www.ilike.com/user/", "/songs_ilike.rss");
 
 nodemapper.registerDomain("zooomr.com",
-  {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+  {name: "Zooomr",
+   urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
       "(?:photos|people)", "zooomr.com", {slashAnything: 1})});
 nodemapper.addSimpleHandler("zooomr.com", "ident_to_profile", 
     "http://www.zooomr.com/people/");
@@ -268,7 +295,8 @@ nodemapper.addSimpleHandler("zooomr.com", "ident_to_rss",
 
 nodemapper.registerDomain(
     "multiply.com",
-    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("multiply.com")});
+    {name: "Multiply",
+     urlToGraphNode: nodemapper.createUserIsSubdomainHandler("multiply.com")});
 nodemapper.addSimpleHandler("multiply.com", "ident_to_profile", 
     "http://", ".multiply.com/");
 nodemapper.addSimpleHandler("multiply.com", "ident_to_rss", 
@@ -276,14 +304,16 @@ nodemapper.addSimpleHandler("multiply.com", "ident_to_rss",
 
 nodemapper.registerDomain(
     "dopplr.com",
-    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+    {name: "Dopplr",
+     urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
         "traveller", "dopplr.com")});
 nodemapper.addSimpleHandler("dopplr.com", "ident_to_profile",
 			    "http://www.dopplr.com/traveller/", "");
 
 nodemapper.registerDomain(
     "friendfeed.com",
-    {urlToGraphNode: nodemapper.createSlashUsernameHandler("friendfeed.com")});
+    {name: "FriendFeed",
+     urlToGraphNode: nodemapper.createSlashUsernameHandler("friendfeed.com")});
 nodemapper.addSimpleHandler("friendfeed.com", "ident_to_profile",
     "http://friendfeed.com/");
 nodemapper.addSimpleHandler("friendfeed.com", "ident_to_atom",
@@ -291,7 +321,9 @@ nodemapper.addSimpleHandler("friendfeed.com", "ident_to_atom",
 
 nodemapper.registerDomain(
     "c2.com",
-    {urlToGraphNode: nodemapper.createPathRegexpHandler(
+    {name: "c2.com",
+     notMassMarketSite: true,
+     urlToGraphNode: nodemapper.createPathRegexpHandler(
       "c2.com", 
       /^\/cgi\/wiki\?(.*)/, 
       {casePreserve: 1}),
@@ -303,7 +335,9 @@ nodemapper.addSimpleHandler("c2.com", "ident_to_profile",
 
 nodemapper.registerDomain(
     "bookshelved.org",
-    {urlToGraphNode: nodemapper.createPathRegexpHandler(
+    {name: "Bookshelved",
+     notMassMarketSite: true,
+     urlToGraphNode: nodemapper.createPathRegexpHandler(
       "bookshelved.org", 
       /^\/cgi\-bin\/wiki\.pl\?(.*)/, 
       {casePreserve: 1}),
@@ -314,7 +348,9 @@ nodemapper.addSimpleHandler("bookshelved.org", "ident_to_profile",
 
 nodemapper.registerDomain(
     ["xpdeveloper.net", "xpdeveloper.org"],
-    {urlToGraphNode: nodemapper.createPathRegexpHandler(
+    {name: "XP Developer",
+     notMassMarketSite: true,
+     urlToGraphNode: nodemapper.createPathRegexpHandler(
       "xpdeveloper.net", 
       /^\/xpdwiki\/Wiki\.jsp\?page=(.*)/, 
       {casePreserve: 1}),
@@ -325,7 +361,9 @@ nodemapper.addSimpleHandler("xpdeveloper.net", "ident_to_profile",
 
 nodemapper.registerDomain(
     "usemod.com",
-    {urlToGraphNode: nodemapper.createPathRegexpHandler(
+    {name: "UseModWiki",
+     notMassMarketSite: true,
+     urlToGraphNode: nodemapper.createPathRegexpHandler(
       "usemod.com", 
       /^\/cgi\-bin\/mb\.pl\?(.*)/, 
       {casePreserve: 1}),

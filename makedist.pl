@@ -11,6 +11,9 @@ my $dir = "google-sgnodemapper-svn$rev";
 system("svn", "export", "-r", $rev, "https://google-sgnodemapper.googlecode.com/svn/trunk", $dir)
   and die "Export failed.";
 
+unlink map { "$dir/embedding/cpp/$_"} qw(ltmain.sh aclocal.m4 configure);
+unlink "$dir/embedding/java/lib/js.jar";
+
 system("tar", "zcvf", "$dir.tar.gz", $dir)
   and die "tar failed";
 

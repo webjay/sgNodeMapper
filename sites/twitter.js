@@ -18,6 +18,7 @@
 nodemapper.registerDomain(
     "twitter.com",
     { httpsLikeHttp: 1,
+      name: "Twitter",
       accountToSgn: { pk: ["twitter.com"], ident: ["twitter.com"] },
       urlToGraphNode: nodemapper.createSlashUsernameHandler(
           "twitter.com",
@@ -60,4 +61,3 @@ atom(sgn://twitter.com/?ident=brad) http://twitter.com/statuses/user_timeline/br
 
 http://twitter.com/statuses/user_timeline/BRAD.rss  sgn://twitter.com/?ident=brad
 http://twitter.com/statuses/user_timeline/1234.rss  sgn://twitter.com/?pk=1234
-
