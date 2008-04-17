@@ -16,7 +16,7 @@
  **/
 
 tribePkHandler = function(url, host, path) {
-  var primaryKeyRegexp = /^\/([\w\-]{36})(?:\/foaf|\/$|$)/;
+  var primaryKeyRegexp = /^\/([\w\-]{36})(?:\/(?:foaf|blog)|\/$|$)/;
   var m;
   if (!(m = primaryKeyRegexp.exec(path))) {
     return url;
@@ -27,7 +27,7 @@ tribePkHandler = function(url, host, path) {
 
 tribeIdentHandler = nodemapper.createPathRegexpHandler(
     "tribe.net",
-    /^\/(\w+)(?:\/foaf|\/$|$)/,
+    /^\/(\w+)(?:\/(?:foaf|blog)|\/$|$)/,
   { fallbackHandler: tribePkHandler }
     );
 
@@ -63,6 +63,10 @@ http://people.tribe.net/bayareadj               sgn://tribe.net/?ident=bayareadj
 
 http://people.tribe.net/079d0f9a-ed4b-4d2d-8290-a65a3df32342 sgn://tribe.net/?pk=079d0f9a-ed4b-4d2d-8290-a65a3df32342
 http://people.tribe.net/079d0f9a-ed4b-4d2d-8290-a65a3df32342/foaf sgn://tribe.net/?pk=079d0f9a-ed4b-4d2d-8290-a65a3df32342
+http://people.tribe.net/079d0f9a-ed4b-4d2d-8290-a65a3df32342/blog sgn://tribe.net/?pk=079d0f9a-ed4b-4d2d-8290-a65a3df32342
+
+# bogus URL as seen in the wild
+http://www.people.tribe.net/c72b358e-1f53-407e-aa98-5b18c70072e1/blog sgn://tribe.net/?pk=c72b358e-1f53-407e-aa98-5b18c70072e1
 
 foaf(sgn://tribe.net/?ident=bayareadj)          http://people.tribe.net/bayareadj/foaf
 foaf(sgn://tribe.net/?pk=079d0f9a-ed4b-4d2d-8290-a65a3df32342) http://people.tribe.net/079d0f9a-ed4b-4d2d-8290-a65a3df32342/foaf
