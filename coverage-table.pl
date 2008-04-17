@@ -15,6 +15,9 @@ while (<$fh>) {
   my $func = "";
   if ($input =~ /^(\w+)\((.+)\)$/) {
       ($func, $sgn_node) = ($1, $2);
+      if ($func eq "pair") {
+        next;
+      }
   } else {
       $sgn_node = $expected;
       if ($expected !~ /^sgn:/) {
