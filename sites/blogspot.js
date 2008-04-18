@@ -35,8 +35,19 @@ nodemapper.addSimpleHandler("blogspot.com", "ident_to_blog",
 nodemapper.addSimpleHandler("blogspot.com", "ident_to_content",
 			    "http://", ".blogspot.com/");
 
+nodemapper.registerDomain("blogger.com", {
+  name: "Blogger (Profile)",
+  urlToGraphNode: nodemapper.createPathRegexpHandler(
+      "blogger.com",
+      /^\/profile\/(\d+)/, { keyName: "pk" }),
+   });
+nodemapper.addSimpleHandler("blogger.com", "pk_to_profile",
+                            "http://www.blogger.com/profile/");
 
 __END__
+
+http://www.blogger.com/profile/123 sgn://blogger.com/?pk=123
+profile(sgn://blogger.com/?pk=123) http://www.blogger.com/profile/123
 
 http://foo.blogspot.com/          sgn://blogspot.com/?ident=foo
 http://www.foo.blogspot.com/      sgn://blogspot.com/?ident=foo
