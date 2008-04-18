@@ -365,6 +365,18 @@ nodemapper.addSimpleHandler("advogato.org", "ident_to_profile",
 nodemapper.addSimpleHandler("advogato.org", "ident_to_foaf",
     "http://www.advogato.org/person/", "/foaf.rdf");
 
+nodemapper.registerDomain("weeloop.com",
+{name: "weeloop",
+ urlToGraphNode: nodemapper.createUserIsSubdomainHandler("weeloop.com"),
+});
+nodemapper.addSimpleHandler("weeloop.com", "ident_to_foaf",
+                            "http://", ".weeloop.com/foaf.rdf");
+nodemapper.addSimpleHandler("weeloop.com", "ident_to_profile",
+                            "http://", ".weeloop.com/profile");
+nodemapper.addSimpleHandler("weeloop.com", "ident_to_atom",
+                            "http://", ".weeloop.com/api/post?mimeType=application/atom+xml");
+
+
 __END__
 
 http://digg.com/users/foobar	sgn://digg.com/?ident=foobar
@@ -529,3 +541,12 @@ http://www.advogato.org/person/bradfitz/foaf.rdf    sgn://advogato.org/?ident=br
 http://www.advogato.org/person/bradfitz/foaf.rdf#me sgn://advogato.org/?ident=bradfitz
 foaf(sgn://advogato.org/?ident=bradfitz)            http://www.advogato.org/person/bradfitz/foaf.rdf
 profile(sgn://advogato.org/?ident=bradfitz)         http://www.advogato.org/person/bradfitz/
+
+http://bob.weeloop.com   sgn://weeloop.com/?ident=bob
+http://bob.weeloop.com/profile   sgn://weeloop.com/?ident=bob
+http://bob.weeloop.com/api/post?mimeType=application/rss+xml   sgn://weeloop.com/?ident=bob
+http://bob.weeloop.com/api/post?mimeType=application/atom+xml   sgn://weeloop.com/?ident=bob
+http://bob.weeloop.com/foaf.rdf   sgn://weeloop.com/?ident=bob
+foaf(sgn://weeloop.com/?ident=bob)  http://bob.weeloop.com/foaf.rdf
+profile(sgn://weeloop.com/?ident=bob)  http://bob.weeloop.com/profile
+atom(sgn://weeloop.com/?ident=bob)  http://bob.weeloop.com/api/post?mimeType=application/atom+xml
