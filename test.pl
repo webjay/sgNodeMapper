@@ -17,6 +17,7 @@
 
 use strict;
 use lib 'embedding/perl/lib';
+use lib '/home/bradfitz/perllib/lib/perl/5.8.8';
 use SocialGraph::NodeMapper;
 use Test::More 'no_plan';
 
