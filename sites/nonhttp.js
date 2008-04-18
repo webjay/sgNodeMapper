@@ -36,3 +36,7 @@ Xmpp:foo@bar.com    xmpp:foo@bar.com
 jabber:foo@bar.com    xmpp:foo@bar.com
 
 Mailto:brad%40bar.com   mailto:brad@bar.com
+
+# TODO(bradfitz): skype.  but need to investigate sgn->??? options.
+#callto://brad.fitzpatrick  sgn://skype.com/?ident=brad.fitzpatrick
+#callto:brad.fitzpatrick    sgn://skype.com/?ident=brad.fitzpatrick
