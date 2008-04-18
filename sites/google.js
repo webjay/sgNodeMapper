@@ -44,6 +44,29 @@ nodemapper.addSimpleHandler(
     "youtube.com", "ident_to_profile",
     "http://youtube.com/user/");
 
+nodemapper.registerDomain(
+    "picasaweb.google.com",
+    {name: "Picasa Web Albums",
+     urlToGraphNode: nodemapper.createPathRegexpHandler(
+        "picasaweb.google.com",
+	/^\/([\w\.]+)\/?$/ 
+     )});
+nodemapper.addSimpleHandler("picasaweb.google.com", "ident_to_profile", 
+    "http://picasaweb.google.com/");
+nodemapper.addSimpleHandler("picasaweb.google.com", "ident_to_rss", 
+    "http://picasaweb.google.com/data/feed/base/user/", 
+    "?kind=album&alt=rss&hl=en_US&access=public");
+
+nodemapper.registerDomain(
+    "dodgeball.com",
+    {name: "Dodgeball",
+     urlToGraphNode: nodemapper.createPathRegexpHandler(
+      "dodgeball.com",
+      /^\/user\?uid=(\d+)/, { keyName: "pk" }),
+   });
+nodemapper.addSimpleHandler("dodgeball.com", "pk_to_profile",
+    "http://www.dodgeball.com/user?uid=", "");
+
 __END__
 
 http://www.google.com/reader/shared/12649763491721032377 sgn://reader.google.com/?pk=12649763491721032377
@@ -54,3 +77,14 @@ http://www.youtube.com/user/jsmarr sgn://youtube.com/?ident=jsmarr
 http://www.youtube.com/profile?user=bradfitztube  sgn://youtube.com/?ident=bradfitztube
 
 profile(sgn://youtube.com/?ident=jsmarr) http://youtube.com/user/jsmarr
+
+
+http://www.dodgeball.com/user?uid=54155    sgn://dodgeball.com/?pk=54155
+profile(sgn://dodgeball.com/?pk=54155)     http://www.dodgeball.com/user?uid=54155
+
+http://picasaweb.google.com/bradley.j.fitzpatrick/  sgn://picasaweb.google.com/?ident=bradley.j.fitzpatrick
+http://picasaweb.google.com/bradley.j.FITZPATRICK/  sgn://picasaweb.google.com/?ident=bradley.j.fitzpatrick
+
+http://picasaweb.google.com/jsmarr	sgn://picasaweb.google.com/?ident=jsmarr
+profile(sgn://picasaweb.google.com/?ident=jsmarr) http://picasaweb.google.com/jsmarr
+rss(sgn://picasaweb.google.com/?ident=jsmarr) http://picasaweb.google.com/data/feed/base/user/jsmarr?kind=album&alt=rss&hl=en_US&access=public

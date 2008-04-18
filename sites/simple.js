@@ -100,17 +100,6 @@ nodemapper.addSimpleHandler("wordpress.com", "ident_to_blog",
 			    "http://", ".wordpress.com/");
 
 nodemapper.registerDomain(
-    "picasaweb.google.com",
-    {name: "Picasa Web Albums",
-     urlToGraphNode: nodemapper.createSlashUsernameHandler(
-        "picasaweb.google.com")});
-nodemapper.addSimpleHandler("picasaweb.google.com", "ident_to_profile", 
-    "http://picasaweb.google.com/");
-nodemapper.addSimpleHandler("picasaweb.google.com", "ident_to_rss", 
-    "http://picasaweb.google.com/data/feed/base/user/", 
-    "?kind=album&alt=rss&hl=en_US&access=public");
-
-nodemapper.registerDomain(
     ["del.icio.us", "delicious.com"],
     {name: "del.icio.us",
      urlToGraphNode: nodemapper.createSlashUsernameHandler("del.icio.us")});
@@ -311,15 +300,6 @@ nodemapper.addSimpleHandler("dopplr.com", "ident_to_profile",
 			    "http://www.dopplr.com/traveller/", "");
 
 nodemapper.registerDomain(
-    "friendfeed.com",
-    {name: "FriendFeed",
-     urlToGraphNode: nodemapper.createSlashUsernameHandler("friendfeed.com")});
-nodemapper.addSimpleHandler("friendfeed.com", "ident_to_profile",
-    "http://friendfeed.com/");
-nodemapper.addSimpleHandler("friendfeed.com", "ident_to_atom",
-    "http://friendfeed.com/", "?format=atom");
-
-nodemapper.registerDomain(
     "c2.com",
     {name: "c2.com",
      notMassMarketSite: true,
@@ -372,6 +352,19 @@ nodemapper.registerDomain(
 nodemapper.addSimpleHandler("usemod.com", "ident_to_profile",
     "http://usemod.com/cgi-bin/mb.pl?");
 
+nodemapper.registerDomain(
+    "advogato.org",
+    {name: "Advogato",
+     notMassMarketSite: true,
+     urlToGraphNode: nodemapper.createPathRegexpHandler(
+      "advogato.org",
+      /^\/person\/(\w+)/),
+   });
+nodemapper.addSimpleHandler("advogato.org", "ident_to_profile",
+    "http://www.advogato.org/person/", "/");
+nodemapper.addSimpleHandler("advogato.org", "ident_to_foaf",
+    "http://www.advogato.org/person/", "/foaf.rdf");
+
 __END__
 
 http://digg.com/users/foobar	sgn://digg.com/?ident=foobar
@@ -417,10 +410,6 @@ profile(sgn://ziki.com/?ident=bob)  http://www.ziki.com/people/bob
 http://foo.wordpress.com/  sgn://wordpress.com/?ident=foo
 http://www.foo.wordpress.com/  sgn://wordpress.com/?ident=foo
 blog(sgn://wordpress.com/?ident=foo) http://foo.wordpress.com/
-
-http://picasaweb.google.com/jsmarr	sgn://picasaweb.google.com/?ident=jsmarr
-profile(sgn://picasaweb.google.com/?ident=jsmarr) http://picasaweb.google.com/jsmarr
-rss(sgn://picasaweb.google.com/?ident=jsmarr) http://picasaweb.google.com/data/feed/base/user/jsmarr?kind=album&alt=rss&hl=en_US&access=public
 
 http://del.icio.us/jsmarr	sgn://del.icio.us/?ident=jsmarr
 http://delicious.com/jsmarr	sgn://del.icio.us/?ident=jsmarr
@@ -521,11 +510,6 @@ http://www.dopplr.com/traveller/bradfitz/something  sgn://dopplr.com/?ident=brad
 
 profile(sgn://dopplr.com/?ident=bradfitz) http://www.dopplr.com/traveller/bradfitz
 
-http://friendfeed.com/ade       sgn://friendfeed.com/?ident=ade
-http://www.friendfeed.com/ade   sgn://friendfeed.com/?ident=ade
-profile(sgn://friendfeed.com/?ident=ade)	http://friendfeed.com/ade
-atom(sgn://friendfeed.com/?ident=ade)		http://friendfeed.com/ade?format=atom
-
 # wikis. These have case-sensitive identifiers
 http://c2.com/cgi/wiki?AdewaleOshineye  sgn://c2.com/?ident=AdewaleOshineye
 profile(sgn://c2.com/?ident=AdewaleOshineye) http://c2.com/cgi/wiki?AdewaleOshineye
@@ -538,3 +522,10 @@ profile(sgn://xpdeveloper.net/?ident=AdewaleOshineye)  http://xpdeveloper.net/xp
 
 http://usemod.com/cgi-bin/mb.pl?SunirShah   sgn://usemod.com/?ident=SunirShah
 profile(sgn://usemod.com/?ident=SunirShah)   http://usemod.com/cgi-bin/mb.pl?SunirShah
+
+http://www.advogato.org/person/bradfitz             sgn://advogato.org/?ident=bradfitz
+http://www.advogato.org/person/bradfitz/            sgn://advogato.org/?ident=bradfitz
+http://www.advogato.org/person/bradfitz/foaf.rdf    sgn://advogato.org/?ident=bradfitz
+http://www.advogato.org/person/bradfitz/foaf.rdf#me sgn://advogato.org/?ident=bradfitz
+foaf(sgn://advogato.org/?ident=bradfitz)            http://www.advogato.org/person/bradfitz/foaf.rdf
+profile(sgn://advogato.org/?ident=bradfitz)         http://www.advogato.org/person/bradfitz/
