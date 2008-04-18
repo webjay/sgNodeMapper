@@ -67,6 +67,17 @@ nodemapper.registerDomain(
 nodemapper.addSimpleHandler("dodgeball.com", "pk_to_profile",
     "http://www.dodgeball.com/user?uid=", "");
 
+nodemapper.registerDomain(
+    "orkut.com",
+    {name: "Orkut",
+     urlToGraphNode: nodemapper.createPathRegexpHandler(
+      "orkut.com",
+      /^\/Profile.aspx\?uid=(\d+)/, { keyName: "pk" }),
+   });
+nodemapper.addSimpleHandler("orkut.com", "pk_to_profile",
+                            "http://www.orkut.com/Profile.aspx?uid=");
+
+
 __END__
 
 http://www.google.com/reader/shared/12649763491721032377 sgn://reader.google.com/?pk=12649763491721032377
@@ -88,3 +99,6 @@ http://picasaweb.google.com/bradley.j.FITZPATRICK/  sgn://picasaweb.google.com/?
 http://picasaweb.google.com/jsmarr	sgn://picasaweb.google.com/?ident=jsmarr
 profile(sgn://picasaweb.google.com/?ident=jsmarr) http://picasaweb.google.com/jsmarr
 rss(sgn://picasaweb.google.com/?ident=jsmarr) http://picasaweb.google.com/data/feed/base/user/jsmarr?kind=album&alt=rss&hl=en_US&access=public
+
+http://www.orkut.com/Profile.aspx?uid=123  sgn://orkut.com/?pk=123
+profile(sgn://orkut.com/?pk=123)           http://www.orkut.com/Profile.aspx?uid=123
