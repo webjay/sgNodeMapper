@@ -389,6 +389,7 @@ http://pownce.com/A   sgn://pownce.com/?ident=a
 http://pownce.com/A/   sgn://pownce.com/?ident=a
 http://pownce.com/A/public/   sgn://pownce.com/?ident=a
 http://pownce.com/A/public/with_friends   sgn://pownce.com/?ident=a
+http://pownce.com/bob/foaf/     sgn://pownce.com/?ident=bob
 profile(sgn://pownce.com/?ident=a) http://pownce.com/a
 
 http://bradfitz.jaiku.com/   sgn://jaiku.com/?ident=bradfitz
