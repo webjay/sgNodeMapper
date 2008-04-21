@@ -44,8 +44,39 @@ nodemapper.addSimpleHandler(
     "youtube.com", "ident_to_profile",
     "http://youtube.com/user/");
 
-nodemapper.registerDomain(
+
+var PICASA_DOMAINS = [
+    "picasaweb.google.at",
+    "picasaweb.google.be",
+    "picasaweb.google.ca",
+    "picasaweb.google.ch",
+    "picasaweb.google.co.uk",
     "picasaweb.google.com",
+    "picasaweb.google.cz",
+    "picasaweb.google.de",
+    "picasaweb.google.dk",
+    "picasaweb.google.es",
+    "picasaweb.google.fi",
+    "picasaweb.google.fr",
+    "picasaweb.google.gr",
+    "picasaweb.google.hr",
+    "picasaweb.google.hu",
+    "picasaweb.google.it",
+    "picasaweb.google.lt",
+    "picasaweb.google.nl",
+    "picasaweb.google.no",
+    "picasaweb.google.pl",
+    "picasaweb.google.pt",
+    "picasaweb.google.ru",
+    "picasaweb.google.se",
+    "picasaweb.google.si",
+    "picasaweb.google.sk",
+    "picasaweb.google.th",
+    "picasaweb.google.tr",
+    ];
+
+nodemapper.registerDomain(
+    PICASA_DOMAINS,
     {name: "Picasa Web Albums",
      urlToGraphNode: nodemapper.createPathRegexpHandler(
         "picasaweb.google.com",
@@ -102,3 +133,7 @@ rss(sgn://picasaweb.google.com/?ident=jsmarr) http://picasaweb.google.com/data/f
 
 http://www.orkut.com/Profile.aspx?uid=123  sgn://orkut.com/?pk=123
 profile(sgn://orkut.com/?pk=123)           http://www.orkut.com/Profile.aspx?uid=123
+
+http://picasaweb.google.es/Abc.Def  sgn://picasaweb.google.com/?ident=abc.def
+http://picasaweb.google.hu/abcdef   sgn://picasaweb.google.com/?ident=abcdef
+http://www.picasaweb.google.hu/abcdef   sgn://picasaweb.google.com/?ident=abcdef
