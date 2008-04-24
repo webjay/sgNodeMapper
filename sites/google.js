@@ -78,9 +78,10 @@ var PICASA_DOMAINS = [
 nodemapper.registerDomain(
     PICASA_DOMAINS,
     {name: "Picasa Web Albums",
+     primaryDomain: "picasaweb.google.com",
      urlToGraphNode: nodemapper.createPathRegexpHandler(
         "picasaweb.google.com",
-	/^\/([\w\.]+)\/?$/ 
+	/^\/([\w\.]+)\/?$/
      )});
 nodemapper.addSimpleHandler("picasaweb.google.com", "ident_to_profile", 
     "http://picasaweb.google.com/");

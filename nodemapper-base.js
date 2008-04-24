@@ -606,11 +606,14 @@ nodemapper.namedSites = function() {
 
   var ret = [];
   for (var domain in nodemapper.handlers) {
-    var name = nodemapper.handlers[domain].name;
-    if (name) {
+    var handler = nodemapper.handlers[domain];
+    if (handler.name) {
+      if (handler.primaryDomain && handler.primaryDomain != domain) {
+        continue;
+      }
       ret.push({
         domain: domain,
-        name: name,
+        name: handler.name,
         notMassMarketSite: nodemapper.handlers[domain].notMassMarketSite
       });
     }

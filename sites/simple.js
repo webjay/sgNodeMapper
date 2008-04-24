@@ -102,6 +102,7 @@ nodemapper.addSimpleHandler("wordpress.com", "ident_to_blog",
 nodemapper.registerDomain(
     ["del.icio.us", "delicious.com"],
     {name: "del.icio.us",
+     primaryDomain: "del.icio.us",
      urlToGraphNode: nodemapper.createSlashUsernameHandler("del.icio.us")});
 nodemapper.addSimpleHandler("del.icio.us", "ident_to_profile", 
     "http://del.icio.us/");
@@ -329,6 +330,7 @@ nodemapper.addSimpleHandler("bookshelved.org", "ident_to_profile",
 nodemapper.registerDomain(
     ["xpdeveloper.net", "xpdeveloper.org"],
     {name: "XP Developer",
+     primaryDomain: "xpdeveloper.net", // is this?
      notMassMarketSite: true,
      urlToGraphNode: nodemapper.createPathRegexpHandler(
       "xpdeveloper.net", 

@@ -126,6 +126,18 @@ my @named_sites = $mapper->named_sites;
 my $num_bogus = grep { !$_->{name} || !$_->{domain} } @named_sites;
 is($num_bogus, 0, "no bogus named_sites");
 
+# make sure the duplicates don't appear
+{
+  my %count;  # name -> count
+  for my $ns (@named_sites) {
+    $count{$ns->{name}}++;
+  }
+  foreach my $name (keys %count) {
+    next if $count{$name} < 2;
+    fail("multiple ($count{$name}) occurrences of named site '$name'");
+  }
+}
+
 my @sorted_named_sites = sort { lc($a->{name}) cmp lc($b->{name}) } @named_sites;
 is_deeply(\@named_sites, \@sorted_named_sites, "sites are sorted");
 
