@@ -207,6 +207,48 @@ PHP_METHOD(SGNodeMapper, graphNodeToURL)
   RETURN_STRING((char *) output.c_str(), 1);
 }
 
+PHP_METHOD(SGNodeMapper, pairToGraphNode)
+{
+  char *host, *account;
+  int host_len, account_len;
+
+  if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ss", &host, &host_len, &account, &account_len) == FAILURE) {
+    zend_throw_exception(zend_get_error_exception(), "Invalid arguments", -1 TSRMLS_CC);
+    return;
+  }
+
+#ifdef SGTRACE
+  php_printf("host: %s\n", host);
+  php_printf("account: %s\n", account);
+#endif
+
+  zval *znm =  zend_read_property(EG(scope), getThis(), "nm", sizeof("nm") - 1, 1 TSRMLS_CC);
+
+#ifdef SGTRACE
+  php_printf("zval: 0x%x\n", znm);
+#endif
+
+  if (!znm) {
+    zend_throw_exception(zend_get_error_exception(), "Internal error: NodeMapper zval is NULL", -1 TSRMLS_CC);
+    return;
+  }
+
+  NodeMapper *nm = (NodeMapper *) zend_fetch_resource(&znm TSRMLS_CC, -1, PHP_SGNODEMAPPER_RES_NAME, NULL, 1, SGNodeMapper_le);
+  if (!nm) {
+    zend_throw_exception(zend_get_error_exception(), "Internal error: NodeMapper object is NULL", -1 TSRMLS_CC);
+    return;
+  }
+  
+  std::string output;
+  nm->PairToGraphNode(host, account, &output);
+
+#ifdef SGTRACE
+  php_printf("output: %s\n", output.c_str());
+#endif
+
+  RETURN_STRING((char *) output.c_str(), 1);
+}
+
 
 ZEND_BEGIN_ARG_INFO(SGNodeMapper_graphNodeFromURL_arginfo, 0) 
   ZEND_ARG_INFO      (0, URL)
@@ -217,12 +259,18 @@ ZEND_BEGIN_ARG_INFO(SGNodeMapper_graphNodeToURL_arginfo, 0)
   ZEND_ARG_INFO      (1, type)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO(SGNodeMapper_pairToGraphNode_arginfo, 0) 
+  ZEND_ARG_INFO      (0, host)
+  ZEND_ARG_INFO      (1, account)
+ZEND_END_ARG_INFO()
+
 
 zend_function_entry SGNodeMapper_methods[] = { 
   PHP_ME(SGNodeMapper, __construct, NULL, ZEND_ACC_PUBLIC) 
   PHP_ME(SGNodeMapper, __destruct, NULL, ZEND_ACC_PUBLIC) 
   PHP_ME(SGNodeMapper, graphNodeFromURL, NULL, ZEND_ACC_PUBLIC) 
   PHP_ME(SGNodeMapper, graphNodeToURL, NULL, ZEND_ACC_PUBLIC) 
+  PHP_ME(SGNodeMapper, pairToGraphNode, NULL, ZEND_ACC_PUBLIC) 
   { NULL, NULL, NULL } 
 }; 
 

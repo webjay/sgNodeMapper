@@ -53,6 +53,15 @@ class NodeMapper {
   // contain then the original URL)
   bool GraphNodeToURL(const string& sgnUrl, const string& type, string* output);
 
+  // Returns an sgn:// URL from a (host, account) pair.  The host
+  // may be "domain.com", "www.domain.com", "http://domain.com",
+  // "http://www.domain.com/", etc.
+  // The 'account' is the account on that host, which may be
+  // an identifier or a primary key (ident or pk).  The 'account'
+  // may also be a full-on URL, in which case the host part
+  // of the pair is ignored.
+  bool PairToGraphNode(const string& host, const string& account, string* output);
+
  private:
   NodeMapper();
   void Init(const string& javascript_source);

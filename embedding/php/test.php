@@ -30,4 +30,10 @@ foreach ($argv as $url) {
   echo " -> Profile: $profileUrl\n";
 }
 
+// test pairToGraphNode
+$host = "twitter.com";
+$account = "jsmarr";
+$sgnUrl = $nodeMapper->pairToGraphNode($host, $account);
+echo "\npairToGraphNode: $host + $account = $sgnUrl\n";
+
 ?>

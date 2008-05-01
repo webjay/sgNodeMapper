@@ -239,12 +239,93 @@ nodemapper.addSimpleHandler("upcoming.yahoo.com", "pk_to_rss",
 
 nodemapper.registerDomain("socializr.com",
   {name: "Socializr",
-   urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
-      "user", "socializr.com")});
+   identRegexp: /^[A-Za-z]\w{2,}$/});
 nodemapper.addSimpleHandler("socializr.com", "ident_to_profile", 
     "http://www.socializr.com/user/");
 nodemapper.addSimpleHandler("socializr.com", "ident_to_rss", 
     "http://www.socializr.com/rss/user/", "/rss.xml");
+nodemapper.addSimpleHandler("socializr.com", "pk_to_profile", 
+    "http://www.socializr.com/user/");
+nodemapper.addSimpleHandler("socializr.com", "pk_to_rss", 
+    "http://www.socializr.com/rss/user/", "/rss.xml");
+
+nodemapper.registerDomain("furl.net",
+  {name: "Furl",
+   urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+      "members", "furl.net", {slashAnything: 1})});
+nodemapper.addSimpleHandler("furl.net", "ident_to_profile", 
+    "http://www.furl.net/members/");
+nodemapper.addSimpleHandler("furl.net", "ident_to_rss", 
+    "http://www.furl.net/members/", "/rss.xml");
+
+nodemapper.registerDomain("dailymotion.com",
+  {name: "DailyMotion",
+   urlToGraphNode: nodemapper.createPathRegexpHandler(
+    "dailymotion.com", /^\/(?:rss\/)?(\w+)(?:\/|$)/, {slashAnything: 1})});
+nodemapper.addSimpleHandler("dailymotion.com", "ident_to_profile", 
+    "http://www.dailymotion.com/");
+nodemapper.addSimpleHandler("dailymotion.com", "ident_to_rss", 
+    "http://www.dailymotion.com/rss/", "/1");
+
+nodemapper.registerDomain("vimeo.com",
+  {name: "Vimeo",
+   urlToGraphNode: nodemapper.createSlashUsernameHandler(
+    "vimeo.com", {slashAnything: 1})});
+nodemapper.addSimpleHandler("vimeo.com", "ident_to_profile", 
+    "http://www.vimeo.com/");
+nodemapper.addSimpleHandler("vimeo.com", "ident_to_rss", 
+    "http://www.vimeo.com/", "/videos/rss");
+
+nodemapper.registerDomain("disqus.com",
+  {name: "Disqus",
+   urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+      "people", "disqus.com", {slashAnything: 1})});
+nodemapper.addSimpleHandler("disqus.com", "ident_to_profile", 
+    "http://www.disqus.com/people/");
+nodemapper.addSimpleHandler("disqus.com", "ident_to_rss", 
+    "http://www.disqus.com/people/", "/comments.rss");
+
+nodemapper.registerDomain("rateitall.com",
+  {name: "RateItAll",
+   identRegexp: /^[A-Za-z][\w-]*$/});
+nodemapper.addSimpleHandler("rateitall.com", "ident_to_profile", 
+    "http://www.rateitall.com/");
+nodemapper.addSimpleHandler("rateitall.com", "ident_to_rss", 
+    "http://www.rateitall.com/usercommentsrss.aspx?RI=");
+nodemapper.addSimpleHandler("rateitall.com", "pk_to_rss", 
+    "http://www.rateitall.com/usercommentsrss.aspx?RI=");
+
+nodemapper.registerDomain("slideshare.net",
+  {name: "SlideShare",
+   urlToGraphNode: nodemapper.createPathRegexpHandler(
+    "slideshare.net", /^\/(?:rss\/user\/)?(\w+)(?:\/|$)/, {slashAnything: 1})});
+nodemapper.addSimpleHandler("slideshare.net", "ident_to_profile", 
+    "http://www.slideshare.net/");
+nodemapper.addSimpleHandler("slideshare.net", "ident_to_rss", 
+    "http://www.slideshare.net/rss/user/");
+
+nodemapper.registerDomain("blog.sina.com.cn",
+  {name: "Sina Blog"});
+nodemapper.addSimpleHandler("blog.sina.com.cn", "ident_to_profile", 
+    "http://blog.sina.com.cn/");
+nodemapper.addSimpleHandler("blog.sina.com.cn", "ident_to_rss", 
+    "http://blog.sina.com.cn/rss/", ".xml");
+
+nodemapper.registerDomain("hi.baidu.com",
+  {name: "Baidu Space"});
+nodemapper.addSimpleHandler("hi.baidu.com", "ident_to_profile", 
+    "http://hi.baidu.com/");
+nodemapper.addSimpleHandler("hi.baidu.com", "ident_to_rss", 
+    "http://hi.baidu.com/", "/rss");
+
+nodemapper.registerDomain(
+    "blogbus.com",
+    {name: "Blogbus",
+     urlToGraphNode: nodemapper.createUserIsSubdomainHandler("blogbus.com")});
+nodemapper.addSimpleHandler("blogbus.com", "ident_to_profile", 
+    "http://", ".blogbus.com/");
+nodemapper.addSimpleHandler("blogbus.com", "ident_to_rss", 
+    "http://", ".blogbus.com/index.rdf");
 
 nodemapper.registerDomain("bebo.com",
   {name: "Bebo",
@@ -482,8 +563,14 @@ profile(sgn://upcoming.yahoo.com/?pk=75587) http://upcoming.yahoo.com/user/75587
 rss(sgn://upcoming.yahoo.com/?pk=75587) http://upcoming.yahoo.com/syndicate/v2/my_events/75587
 
 http://www.socializr.com/user/jsmarr sgn://socializr.com/?ident=jsmarr
+# TODO: this doesn't work cuz we're we have a custom identRegexp, so we need to use sgnFromHttpUsingToHttpRules
+#http://socializr.com/user/jsmarr sgn://socializr.com/?ident=jsmarr
+http://www.socializr.com/rss/user/jsmarr/rss.xml sgn://socializr.com/?ident=jsmarr
 profile(sgn://socializr.com/?ident=jsmarr) http://www.socializr.com/user/jsmarr
 rss(sgn://socializr.com/?ident=jsmarr) http://www.socializr.com/rss/user/jsmarr/rss.xml
+http://www.socializr.com/user/12345 sgn://socializr.com/?pk=12345
+profile(sgn://socializr.com/?pk=12345) http://www.socializr.com/user/12345
+rss(sgn://socializr.com/?pk=12345) http://www.socializr.com/rss/user/12345/rss.xml
 
 http://bebo.com/Profile.jsp?MemberId=jsmarr sgn://bebo.com/?ident=jsmarr
 profile(sgn://bebo.com/?ident=jsmarr) http://bebo.com/Profile.jsp?MemberId=jsmarr
@@ -553,3 +640,52 @@ http://bob.weeloop.com/foaf.rdf   sgn://weeloop.com/?ident=bob
 foaf(sgn://weeloop.com/?ident=bob)  http://bob.weeloop.com/foaf.rdf
 profile(sgn://weeloop.com/?ident=bob)  http://bob.weeloop.com/profile
 atom(sgn://weeloop.com/?ident=bob)  http://bob.weeloop.com/api/post?mimeType=application/atom+xml
+
+http://www.furl.net/members/jsmarr  sgn://furl.net/?ident=jsmarr
+http://furl.net/members/jsmarr/rss.xml  sgn://furl.net/?ident=jsmarr
+profile(sgn://furl.net/?ident=jsmarr) http://www.furl.net/members/jsmarr
+rss(sgn://furl.net/?ident=jsmarr) http://www.furl.net/members/jsmarr/rss.xml
+
+http://www.dailymotion.com/jsmarr  sgn://dailymotion.com/?ident=jsmarr
+http://dailymotion.com/jsmarr  sgn://dailymotion.com/?ident=jsmarr
+http://www.dailymotion.com/rss/jsmarr/1  sgn://dailymotion.com/?ident=jsmarr
+profile(sgn://dailymotion.com/?ident=jsmarr) http://www.dailymotion.com/jsmarr
+rss(sgn://dailymotion.com/?ident=jsmarr) http://www.dailymotion.com/rss/jsmarr/1
+
+http://www.vimeo.com/jsmarr  sgn://vimeo.com/?ident=jsmarr
+http://vimeo.com/jsmarr  sgn://vimeo.com/?ident=jsmarr
+http://www.vimeo.com/jsmarr/videos/rss  sgn://vimeo.com/?ident=jsmarr
+profile(sgn://vimeo.com/?ident=jsmarr) http://www.vimeo.com/jsmarr
+rss(sgn://vimeo.com/?ident=jsmarr) http://www.vimeo.com/jsmarr/videos/rss
+
+http://www.disqus.com/people/jsmarr sgn://disqus.com/?ident=jsmarr
+http://disqus.com/people/jsmarr/comments.rss sgn://disqus.com/?ident=jsmarr
+profile(sgn://disqus.com/?ident=jsmarr) http://www.disqus.com/people/jsmarr
+rss(sgn://disqus.com/?ident=jsmarr) http://www.disqus.com/people/jsmarr/comments.rss
+
+http://www.rateitall.com/jsmarr sgn://rateitall.com/?ident=jsmarr
+http://www.rateitall.com/usercommentsrss.aspx?RI=jsmarr sgn://rateitall.com/?ident=jsmarr
+http://www.rateitall.com/usercommentsrss.aspx?RI=12345 sgn://rateitall.com/?pk=12345
+profile(sgn://rateitall.com/?ident=jsmarr) http://www.rateitall.com/jsmarr
+rss(sgn://rateitall.com/?ident=jsmarr) http://www.rateitall.com/usercommentsrss.aspx?RI=jsmarr
+rss(sgn://rateitall.com/?pk=12345) http://www.rateitall.com/usercommentsrss.aspx?RI=12345
+
+http://www.slideshare.net/jsmarr sgn://slideshare.net/?ident=jsmarr
+http://slideshare.net/rss/user/jsmarr sgn://slideshare.net/?ident=jsmarr
+profile(sgn://slideshare.net/?ident=jsmarr) http://www.slideshare.net/jsmarr
+rss(sgn://slideshare.net/?ident=jsmarr) http://www.slideshare.net/rss/user/jsmarr
+
+http://blog.sina.com.cn/jsmarr sgn://blog.sina.com.cn/?ident=jsmarr
+http://blog.sina.com.cn/rss/jsmarr.xml sgn://blog.sina.com.cn/?ident=jsmarr
+profile(sgn://blog.sina.com.cn/?ident=jsmarr) http://blog.sina.com.cn/jsmarr
+rss(sgn://blog.sina.com.cn/?ident=jsmarr) http://blog.sina.com.cn/rss/jsmarr.xml
+
+http://hi.baidu.com/jsmarr sgn://hi.baidu.com/?ident=jsmarr
+http://hi.baidu.com/jsmarr/rss sgn://hi.baidu.com/?ident=jsmarr
+profile(sgn://hi.baidu.com/?ident=jsmarr) http://hi.baidu.com/jsmarr
+rss(sgn://hi.baidu.com/?ident=jsmarr) http://hi.baidu.com/jsmarr/rss
+
+http://jsmarr.blogbus.com/   sgn://blogbus.com/?ident=jsmarr
+http://jsmarr.blogbus.com/index.rdf   sgn://blogbus.com/?ident=jsmarr
+profile(sgn://blogbus.com/?ident=jsmarr) http://jsmarr.blogbus.com/
+rss(sgn://blogbus.com/?ident=jsmarr) http://jsmarr.blogbus.com/index.rdf

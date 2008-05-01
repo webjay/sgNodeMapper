@@ -399,6 +399,23 @@ nodemapper.sgnFromHttpUsingToHttpRules = function(domain, url) {
 
 nodemapper.SGN_REGEX = new RegExp("^sgn://([^/]+)/\\?(ident|pk)=(.*)");
 
+/**
+ * Parses the given sgn:// url and returns the constituent parts as an object.
+ * e.g. nodemapper.parseSgnUrl("sgn://twitter.com/?ident=jsmarr") returns
+ * { "domain": "twitter.com", "keyName": "ident", "value": "jsmarr" }.
+ * Returns null if the input can not be parsed as an sgn url.
+ */
+nodemapper.parseSgnUrl = function(sgnUrl) {
+    var m = nodemapper.SGN_REGEX.exec(sgnUrl);
+    if (!m)  return null;
+
+    return { 
+        "domain": m[1], 
+        "keyName": m[2], 
+        "value": m[3] 
+    };
+}
+
 nodemapper.urlFromGraphNode = function(sgnUrl, type) {
     // is it even an sgn URL?
     var m = nodemapper.SGN_REGEX.exec(sgnUrl);

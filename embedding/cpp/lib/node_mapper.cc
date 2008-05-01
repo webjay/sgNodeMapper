@@ -65,7 +65,9 @@ void NodeMapper::Init(const string& javascript_source) {
   // functions we care about from C++ world.
   string full_js = javascript_source +
       "\n URLToGraphNode = nodemapper.urlToGraphNode;" +
-      "\n URLFromGraphNode = nodemapper.urlFromGraphNode;\n";
+      "\n URLFromGraphNode = nodemapper.urlFromGraphNode;" +
+      "\n PairToGraphNode = nodemapper.pairToGraphNode;" +
+      "\n";
 
   // these just set the file/line that the JS compiler thinks
   // it's reading from.  used for its error reporting.
@@ -155,6 +157,31 @@ bool NodeMapper::GraphNodeToURL(const string& sgnUrl, const string& type, string
                                   2, args, &rval);
   if (!ok) {
     cerr << "error calling URLFromGraphNode" << endl;
+    assert(0);
+  }
+  str = JS_ValueToString(cx_, rval);
+
+  // char* from JS_GetStringBytes is GC'd by SpiderMonkey later:
+  *output = JS_GetStringBytes(str);
+
+  // free some memory every 1000 function calls
+  if (++num_functions_called_ % 1000 == 0) {
+    JS_GC(cx_);
+  }
+
+  return true;
+}
+
+bool NodeMapper::PairToGraphNode(const string& host, const string& account, string* output) {
+  JSString* str;
+  jsval rval;
+  jsval args[2];
+  args[0] = STRING_TO_JSVAL(JS_NewStringCopyZ(cx_, host.c_str()));
+  args[1] = STRING_TO_JSVAL(JS_NewStringCopyZ(cx_, account.c_str()));
+  JSBool ok = JS_CallFunctionName(cx_, global_, "PairToGraphNode",
+                                  2, args, &rval);
+  if (!ok) {
+    cerr << "error calling PairToGraphNode" << endl;
     assert(0);
   }
   str = JS_ValueToString(cx_, rval);

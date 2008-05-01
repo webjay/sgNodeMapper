@@ -13,10 +13,17 @@ int main(int argc, char** argv) {
   for (int i = 1; i < argc; ++i) {
     std::string out;
     mapper.GraphNodeFromURL(argv[i], &out);
-    std::cout << out << std::endl;
+    std::cout << argv[i] << " -> " << out << std::endl;
 
     std::string profileUrl;
     mapper.GraphNodeToURL(out, "profile", &profileUrl);
     std::cout << "profile(" << out << ") = " << profileUrl << std::endl;
   }
+
+  // bonus: demo of PairToGraphNode (not based on user input)
+  std::string host = "twitter.com";
+  std::string account = "jsmarr";
+  std::string sgnUrl;
+  mapper.PairToGraphNode(host, account, &sgnUrl);
+  std::cout << "PairToGraphNode: " << host << " + " << account << " = " << sgnUrl << std::endl;
 }
