@@ -2,6 +2,12 @@
 #
 
 use strict;
+
+my $err = system("svn", "up");
+if ($err) {
+  die "Failed to svn up.";
+}
+
 my $info = `svn info`;
 my ($rev) = $info =~ /Revision:\s*(\d+)/
   or die "Can't find svn Revision info from svn info";

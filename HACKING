@@ -2,8 +2,9 @@
 Contributor License Agreements:
 ===============================
 
-Before we can accept a patch from you, you must sign a Contributor
-License Agreement (CLA). The CLA protects you and us.
+Before we can accept a patch from you, you must sign (or
+electronically sign) a Contributor License Agreement (CLA). The CLA
+protects you and us.
 
     * If you are an individual writing original source code and you're
       sure you own the intellectual property, then you'll need to sign an
@@ -29,5 +30,3 @@ in that file.
 
 Your contributions must match the license of the file(s) that you're
 contributing to.  Details are covered in the CLAs linked above.
-
-
