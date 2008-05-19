@@ -29,11 +29,14 @@ nodemapper.addSimpleHandler("digg.com", "ident_to_rss",
 nodemapper.registerDomain(
     "pownce.com",
     {name: "Pownce",
-     urlToGraphNode: nodemapper.createSlashUsernameHandler(
-        "pownce.com",
-        { slashAnything: 1 })});
+     urlToGraphNode: nodemapper.createPathRegexpHandler(
+        "pownce.com", /^\/(?:feeds\/public\/)?(\w+)(?:[.\/]|$)/, {slashAnything: 1})});
 nodemapper.addSimpleHandler("pownce.com", "ident_to_profile", 
     "http://pownce.com/");
+nodemapper.addSimpleHandler("pownce.com", "ident_to_rss", 
+    "http://pownce.com/feeds/public/", ".rss");
+nodemapper.addSimpleHandler("pownce.com", "ident_to_atom", 
+    "http://pownce.com/feeds/public/", ".atom");
 
 nodemapper.registerDomain(
     "jaiku.com",
@@ -474,6 +477,8 @@ http://pownce.com/A/public/   sgn://pownce.com/?ident=a
 http://pownce.com/A/public/with_friends   sgn://pownce.com/?ident=a
 http://pownce.com/bob/foaf/     sgn://pownce.com/?ident=bob
 profile(sgn://pownce.com/?ident=a) http://pownce.com/a
+rss(sgn://pownce.com/?ident=a) http://pownce.com/feeds/public/a.rss
+atom(sgn://pownce.com/?ident=a) http://pownce.com/feeds/public/a.atom
 
 http://bradfitz.jaiku.com/   sgn://jaiku.com/?ident=bradfitz
 http://BRADFITZ.JAIKU.COM/   sgn://jaiku.com/?ident=bradfitz
