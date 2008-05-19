@@ -25,7 +25,7 @@ nodemapper.addSimpleHandler("reader.google.com", "pk_to_content",
 			    "http://www.google.com/reader/shared/", "");
 
 var PROFILE_RE = /^\/profile\?user=(\w+)/;
-var USER_RE = /^\/(?:user\/)?(\w+)\b/;
+var USER_RE = /^\/(?:(?:rss\/)?user\/)?(\w+)\b/;
 
 var youTubeToSgn = function(url, host, path) {
   var m;
@@ -44,6 +44,9 @@ nodemapper.addSimpleHandler(
     "youtube.com", "ident_to_profile",
     "http://youtube.com/user/");
 
+nodemapper.addSimpleHandler(
+    "youtube.com", "ident_to_rss",
+    "http://youtube.com/rss/user/", "/videos.rss");
 
 var PICASA_DOMAINS = [
     "picasaweb.google.at",
@@ -120,6 +123,7 @@ http://www.youtube.com/user/jsmarr sgn://youtube.com/?ident=jsmarr
 http://www.youtube.com/profile?user=bradfitztube  sgn://youtube.com/?ident=bradfitztube
 
 profile(sgn://youtube.com/?ident=jsmarr) http://youtube.com/user/jsmarr
+rss(sgn://youtube.com/?ident=jsmarr) http://youtube.com/rss/user/jsmarr/videos.rss
 
 
 http://www.dodgeball.com/user?uid=54155    sgn://dodgeball.com/?pk=54155
