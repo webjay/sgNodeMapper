@@ -1,9 +1,12 @@
+
+var READER_RE = /^\/reader\/(?:shared|public\/atom\/user)\/(\d{7,})(?:\/state\/com.google\/broadcast)?/;
+
 googleMasterHandler = function(url, host, path) {
   var handler = null;
   if (path.indexOf("/reader") == 0) {
-    handler = nodemapper.createSomethingSlashUsernameHandler(
-        "reader/shared",
+    handler = nodemapper.createPathRegexpHandler(
         "reader.google.com", /* using fake domain to namespace these pks */
+        READER_RE,
         {keyName: "pk"});
   }
 
@@ -23,6 +26,9 @@ nodemapper.registerDomain("reader.google.com", {
 	});
 nodemapper.addSimpleHandler("reader.google.com", "pk_to_content",
 			    "http://www.google.com/reader/shared/", "");
+nodemapper.addSimpleHandler("reader.google.com", "pk_to_atom",
+			    "http://www.google.com/reader/public/atom/user/",
+                            "/state/com.google/broadcast");
 
 var PROFILE_RE = /^\/profile\?user=(\w+)/;
 var USER_RE = /^\/(?:(?:rss\/)?user\/)?(\w+)\b/;
@@ -116,7 +122,9 @@ nodemapper.addSimpleHandler("orkut.com", "pk_to_profile",
 __END__
 
 http://www.google.com/reader/shared/12649763491721032377 sgn://reader.google.com/?pk=12649763491721032377
+http://www.google.com/reader/public/atom/user/12649763491721032377/state/com.google/broadcast sgn://reader.google.com/?pk=12649763491721032377
 content(sgn://reader.google.com/?pk=12649763491721032377) http://www.google.com/reader/shared/12649763491721032377
+atom(sgn://reader.google.com/?pk=12649763491721032377) http://www.google.com/reader/public/atom/user/12649763491721032377/state/com.google/broadcast
 
 http://youtube.com/jsmarr sgn://youtube.com/?ident=jsmarr
 http://www.youtube.com/user/jsmarr sgn://youtube.com/?ident=jsmarr
