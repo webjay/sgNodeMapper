@@ -614,8 +614,11 @@ nodemapper.createFirstMatchHandler = function(handlerList) {
     };
 };
 
-// Returns an array of objects representing sites with known display names, e.g.:
-// [ { domain: "site.com", name: "Site!" [, notMassMarketSite: 1] }, ... ]
+/**
+ * Returns an array of objects representing sites with known display
+ * names, e.g.:
+ * [ { domain: "site.com", name: "Site!" [, notMassMarketSite: 1] }, ... ]
+ */
 nodemapper.namedSites = function() {
   if (nodemapper._memoizedNamedSites) {
     return nodemapper._memoizedNamedSites;
@@ -628,10 +631,16 @@ nodemapper.namedSites = function() {
       if (handler.primaryDomain && handler.primaryDomain != domain) {
         continue;
       }
+      var canGenerateFeedUrl = false;
+      if (handler.ident_to_atom || handler.ident_to_rss
+          || handler.pk_to_atom || handler.pk_to_rss) {
+        canGenerateFeedUrl = true;
+      }
       ret.push({
         domain: domain,
         name: handler.name,
-        notMassMarketSite: nodemapper.handlers[domain].notMassMarketSite
+        notMassMarketSite: nodemapper.handlers[domain].notMassMarketSite,
+        canGenerateFeedUrl: canGenerateFeedUrl
       });
     }
   }
@@ -659,7 +668,8 @@ nodemapper.namedSitesCount = function() {
  *
  * @param {integer} n number in range [0, n), where n
  *                  is from nodemapper.namedSitesCount()
- * @param {String} property one of {domain, name, notMassMarketSite}
+ * @param {String} property one of {domain, name,
+ *                 notMassMarketSite, canGenerateFeedUrl}
  */
 nodemapper.namedSiteProperty = function(n, property) {
   return nodemapper.namedSites()[n][property];
