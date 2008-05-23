@@ -13,6 +13,10 @@ my ($rev) = $info =~ /Revision:\s*(\d+)/
 
 my $dir = "google-sgnodemapper-svn$rev";
 
+if (-d $dir) {
+  system("rm -rf $dir") and die "Failed: rm -rf $dir";
+}
+
 system("svn", "export", "-r", $rev, "https://google-sgnodemapper.googlecode.com/svn/trunk", $dir)
   and die "Export failed.";
 
