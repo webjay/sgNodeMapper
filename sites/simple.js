@@ -332,11 +332,12 @@ nodemapper.addSimpleHandler("blogbus.com", "ident_to_rss",
 
 nodemapper.registerDomain("bebo.com",
   {name: "Bebo",
-   urlToGraphNode: nodemapper.createPathRegexpHandler(
-      "bebo.com", /^\/Profile.jsp\?MemberId=([^&]*)/)});
-nodemapper.addSimpleHandler("bebo.com", "ident_to_profile", 
+   identRegexp: /^[A-Za-z]\w{2,}$/});
+nodemapper.addSimpleHandler("bebo.com", "pk_to_profile", 
     "http://bebo.com/Profile.jsp?MemberId=");
-nodemapper.addSimpleHandler("bebo.com", "ident_to_rss", 
+nodemapper.addSimpleHandler("bebo.com", "ident_to_profile", 
+    "http://bebo.com/");
+nodemapper.addSimpleHandler("bebo.com", "pk_to_rss", 
     "http://bebo.com/api/BlogRss.jsp?MemberId=");
 
 nodemapper.registerDomain("reddit.com",
@@ -577,9 +578,11 @@ http://www.socializr.com/user/12345 sgn://socializr.com/?pk=12345
 profile(sgn://socializr.com/?pk=12345) http://www.socializr.com/user/12345
 rss(sgn://socializr.com/?pk=12345) http://www.socializr.com/rss/user/12345/rss.xml
 
-http://bebo.com/Profile.jsp?MemberId=jsmarr sgn://bebo.com/?ident=jsmarr
-profile(sgn://bebo.com/?ident=jsmarr) http://bebo.com/Profile.jsp?MemberId=jsmarr
-rss(sgn://bebo.com/?ident=jsmarr) http://bebo.com/api/BlogRss.jsp?MemberId=jsmarr
+http://bebo.com/jsmarr sgn://bebo.com/?ident=jsmarr
+http://bebo.com/Profile.jsp?MemberId=12345 sgn://bebo.com/?pk=12345
+profile(sgn://bebo.com/?ident=jsmarr) http://bebo.com/jsmarr
+profile(sgn://bebo.com/?pk=12345) http://bebo.com/Profile.jsp?MemberId=12345
+rss(sgn://bebo.com/?pk=12345) http://bebo.com/api/BlogRss.jsp?MemberId=12345
 
 http://reddit.com/user/jsmarr sgn://reddit.com/?ident=jsmarr
 http://reddit.com/user/jsmarr/submitted.rss sgn://reddit.com/?ident=jsmarr
