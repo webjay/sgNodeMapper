@@ -107,7 +107,7 @@ function getSiteList(callback) {
   request.send(null);
 }
 
-function convertToSgn(evt) {
+function convertToSgn() {
   var input = $("tosgn").value;
   var output = nodemapper.urlToGraphNode(input);
   if (output == input) {
@@ -115,5 +115,25 @@ function convertToSgn(evt) {
     return false;
   }
   $("tosgn_output").innerHTML = "Converted to: <b>" + output + "</b> (from " + input + ")";
+  $("fromsgn").value = output;
+  convertFromSgn();
+  return false;
+}
+
+function convertFromSgn() {
+  var input = $("fromsgn").value;
+  var types = ["profile", "content", "atom", "rss", "blog", "openid", "foaf", "addfriend"];
+  var output = "";
+  for (var typeIdx in types) {
+    var http = nodemapper.urlFromGraphNode(input, types[typeIdx]);
+    if (!http) {
+      http = "<i>none</i>";
+    }
+    output += "<b>" + types[typeIdx] + "</b>: " + http + "<br>";
+  }
+  if (output.length == 0) {
+    output = "<i>No known mappings to HTTP.</i>";
+  }
+  $("fromsgn_output").innerHTML = output;
   return false;
 }
