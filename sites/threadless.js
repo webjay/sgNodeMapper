@@ -26,6 +26,9 @@ nodemapper.addSimpleHandler("threadless.com", "pk_to_profile",
 nodemapper.addSimpleHandler("threadless.com", "ident_to_profile",
                             "http://www.threadless.com/profile/", "");
 
+nodemapper.addSimpleHandler("threadless.com", "ident_to_blog",
+                            "http://www.threadless.com/profile/", "/blogs");
+
 __END__
 
 # Can have ident, pk, or both.  The ident-only redirects to
@@ -50,3 +53,6 @@ http://www.threadless.com/profile/149253/Aunalis/blog/  sgn://threadless.com/?id
 # misc hostnames:
 http://threadless.com/profile/226507/Legoman  sgn://threadless.com/?ident=226507/legoman
 http://media.threadless.com/profile/284208/Neiko  sgn://threadless.com/?ident=284208/neiko
+
+# blog URL (in their URL terminology a blog is a blog entry and "blogs" is a blog)
+blog(sgn://threadless.com/?ident=149253/aunalis)  http://www.threadless.com/profile/149253/aunalis/blogs
