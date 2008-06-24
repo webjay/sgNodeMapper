@@ -29,8 +29,8 @@ function loadNodeMapper() {
   var sites_to_load = 0;
   request.onreadystatechange = function() {
     if (request.readyState != 4) return;
-    if (request.status != 200) {
-      setStatus("Error: " + request.responseText);
+    if (request.status && request.status != 200) {
+      setStatus("Error: (" + request.status + ")" + request.responseText);
       return;
     }
     setStatus("Parsing base rules.");
@@ -66,7 +66,7 @@ function startLoadingSiteRules(site, callback) {
   var request = XHR();
   request.onreadystatechange = function() {
     if (request.readyState != 4) return;
-    if (request.status != 200) {
+    if (request.status && request.status != 200) {
       alert("Error loading " + site + ": " + request.responseText);
     }
     // need to split the __END__ block (of tests) away
@@ -86,21 +86,38 @@ function startLoadingSiteRules(site, callback) {
   request.send(null);
 }
 
+// returns a list like ["aol.js", "google.js", "simple.js", ...]
+// given some HTML and a globally matching regexp
+function parseHtmlForJsLinks(html, regexp) {
+  var sites = [];
+  var matches;
+  while ((matches = regexp.exec(html)) != null) {
+    sites.push(matches[1]);
+  }
+  return sites;
+}
+
 function getSiteList(callback) {
   setStatus("Loading site list...");
   var request = XHR();
   request.onreadystatechange = function() {
     if (request.readyState != 4) return;
-    if (request.status != 200) {
+    if (request.status && request.status != 200) {
       setStatus("Error getting /sites/: " + request.responseText);
       return;
     }
-    var sites = []
-    var siteRE = /a href="([\w-]+\.js)"/ig;
-    var matches;
-    while ((matches = siteRE.exec(request.responseText)) != null) {
-      sites.push(matches[1]);
+
+    // This works on code.google.com and Apache:
+    var sites = parseHtmlForJsLinks(request.responseText,
+                                    /a href="([\w-]+\.js)"/ig);
+    // If we got nothing, though, this regexp works for Camino,
+    // whose HTML for a directory listing isn't even HTML,
+    // even though it renders as such;
+    if (sites.length == 0) {
+        sites = parseHtmlForJsLinks(request.responseText,
+                                    /201: ([\w-]+\.js) /ig);
     }
+    if (sites.length == 0) { alert(request.responseText); }
     callback(sites);
   };
   request.open("GET", "../sites/", true);
@@ -125,11 +142,13 @@ function convertFromSgn() {
   var types = ["profile", "content", "atom", "rss", "blog", "openid", "foaf", "addfriend"];
   var output = "";
   for (var typeIdx in types) {
-    var http = nodemapper.urlFromGraphNode(input, types[typeIdx]);
-    if (!http) {
-      http = "<i>none</i>";
+    var link = nodemapper.urlFromGraphNode(input, types[typeIdx]);
+    if (!link) {
+      output += "<b>" + types[typeIdx] + "</b>: <i>none</i><br>";
+    } else {
+      output += "<b>" + types[typeIdx] + "</b>: " +
+          "<a href=\"" + link + "\">" + link + "</a><br>";
     }
-    output += "<b>" + types[typeIdx] + "</b>: " + http + "<br>";
   }
   if (output.length == 0) {
     output = "<i>No known mappings to HTTP.</i>";
