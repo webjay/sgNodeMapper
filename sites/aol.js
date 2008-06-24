@@ -21,8 +21,7 @@
  *
  * @type RegExp
  */
-var AIM_REGEX = /^aim:(?:goim\?screenname=)?([%\w \+]+)$/i;
-
+var AIM_REGEX = /^aim:(?:goim\?(?:message=[^&\s]+&)?screenname=)?([%\w \+]+)$/i;
 
 nodemapper.registerNonHTTPHandler(function(url) {
   var m = AIM_REGEX.exec(url);
@@ -77,6 +76,7 @@ nodemapper.addSimpleHandler("pictures.aol.com", "ident_to_atom",
 
 __END__
 
+aim:goim?message=Hi!+I+found+you+on+Xxxx...&screenname=Foo%20Bar sgn://aol.com/?ident=foobar
 aim:GoIM?screenname=fooBar			sgn://aol.com/?ident=foobar
 aim:goim?Screenname=foo+Bar			sgn://aol.com/?ident=foobar
 aim:goim?screenname=foo%20bar                   sgn://aol.com/?ident=foobar
