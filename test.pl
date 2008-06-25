@@ -36,6 +36,8 @@ my @warnings;
 my %domain_has_pair_tests;  # domain -> 1
 my %seen_sgn_domain;        # domain -> 1
 
+my @parsed_tests;
+
 while (<$fh>) {
   s/^\s*\#.*//;
   next unless /\S/;
@@ -45,12 +47,14 @@ while (<$fh>) {
 
   my $test_name;
   if ($input =~ /^pair\((.+),(.+)\)$/) {
-      my ($domain, $account) = ($1, $2);
-      $domain_has_pair_tests{$domain} = 1;
-      $test_name = "Pair of ($domain, $account)";
-      $actual = $mapper->graph_node_from_pair($domain, $account) || "";
+    my ($domain, $account) = ($1, $2);
+    $domain_has_pair_tests{$domain} = 1;
+    $test_name = "Pair of ($domain, $account)";
+    $actual = $mapper->graph_node_from_pair($domain, $account) || "";
+    push @parsed_tests, ["pair", $domain, $account, $expected];
   } elsif ($input =~ /^(\w+)\((.+)\)$/) {
     my ($type, $sgn_node) = ($1, $2);
+    push @parsed_tests, ["from_sgn", $type, $sgn_node, $expected];
     $actual = $mapper->graph_node_to_url($sgn_node, $type);
     $test_name = "URL of $type($sgn_node)";
 
@@ -78,6 +82,7 @@ while (<$fh>) {
 	}
     }
   } else {
+    push @parsed_tests, ["to_sgn", $input, $expected];
     $actual = $mapper->graph_node_from_url($input);
     $test_name = "Mapping $input";
   }
@@ -177,10 +182,10 @@ for my $host (qw(
 	         http://livejournal.com/
 	         http://www.livejournal.com/
 		 )) {
-    my $domain =  $mapper->_call_jsfunc("nodemapper.parseDomain", $host);
-    is($mapper->graph_node_from_pair($host, "brad"),
-       "sgn://livejournal.com/?ident=brad",
-       "($host, brad) -> sgn (domain=$domain)");
+  my $domain =  $mapper->_call_jsfunc("nodemapper.parseDomain", $host);
+  is($mapper->graph_node_from_pair($host, "brad"),
+     "sgn://livejournal.com/?ident=brad",
+     "($host, brad) -> sgn (domain=$domain)");
 }
 
 # case
@@ -191,10 +196,10 @@ is($mapper->graph_node_from_pair("http://www.mugshot.org", "BrAd"),
    "sgn://mugshot.org/?ident=BrAd", "graph_node_from_pair respects identCasePreserve");
 
 if (@warnings) {
-    print "WARNINGS:\n";
-    foreach (@warnings) {
-	print "  * $_\n";
-    }
+  print "WARNINGS:\n";
+  foreach (@warnings) {
+    print "  * $_\n";
+  }
 }
 
 if (@errors) {
@@ -206,6 +211,21 @@ if (@errors) {
     print "     WANTED: $e->{expected}\n";
   }
 } else {
-    diag("tests passed.");
+  diag("tests passed.");
+  system("cp", "-p", "-f", "nodemapper.js", "autogen/nodemapper.js")
+    and die "Failed to copy to to autogen/";
+  open(my $fh, ">autogen/nodemapper_tests.js")
+    or die "Failed to open nodemapper_tests.js: $!";
+  print $fh "# Auto-generated test data from sites/*.js test sections at bottom.\n";
+  print $fh "var nodemapper_tests = [\n";
+  my $buf = "";
+  # TODO(bradfitz): it'd be nice to include comments from the .js file
+  # tests in this test output somehow.
+  foreach my $test (@parsed_tests) {
+    $buf .= "  " . join(", ", map { SocialGraph::NodeMapper::_json_encode($_) } @$test) . ",\n";
+  }
+  chop $buf; chop $buf;
+  print $fh $buf, "\n];\n";
 }
+
 
