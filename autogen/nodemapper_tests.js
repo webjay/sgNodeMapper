@@ -1,4 +1,4 @@
-# Auto-generated test data from sites/*.js test sections at bottom.
+// Auto-generated test data from sites/*.js test sections at bottom.
 var nodemapper_tests = [
   ["to_sgn", "http://www.amazon.com/gp/pdp/profile/A2Q1GI13N0TVRC", "sgn://amazon.com/?pk=A2Q1GI13N0TVRC"],
   ["to_sgn", "http://amazon.com/gp/pdp/profile/A2Q1GI13N0TVRC", "sgn://amazon.com/?pk=A2Q1GI13N0TVRC"],

@@ -216,7 +216,7 @@ if (@errors) {
     and die "Failed to copy to to autogen/";
   open(my $fh, ">autogen/nodemapper_tests.js")
     or die "Failed to open nodemapper_tests.js: $!";
-  print $fh "# Auto-generated test data from sites/*.js test sections at bottom.\n";
+  print $fh "// Auto-generated test data from sites/*.js test sections at bottom.\n";
   print $fh "var nodemapper_tests = [\n";
   my $buf = "";
   # TODO(bradfitz): it'd be nice to include comments from the .js file
