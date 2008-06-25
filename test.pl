@@ -222,7 +222,9 @@ if (@errors) {
   # TODO(bradfitz): it'd be nice to include comments from the .js file
   # tests in this test output somehow.
   foreach my $test (@parsed_tests) {
-    $buf .= "  " . join(", ", map { SocialGraph::NodeMapper::_json_encode($_) } @$test) . ",\n";
+    $buf .= "  [" . join(", ", map {
+      SocialGraph::NodeMapper::_json_encode($_)
+      } @$test) . "],\n";
   }
   chop $buf; chop $buf;
   print $fh $buf, "\n];\n";
