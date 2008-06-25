@@ -29,16 +29,15 @@ spinIdentHandler = nodemapper.createPathRegexpHandler(
     "spin.de",
     /^\/(?:hp|foaf)\/([^\/,]+)/,
   { fallbackHandler: spinPkHandler,
-    casePreserve: 0,
-   }
-    );
+    casePreserve: 0
+  });
 
 
 nodemapper.registerDomain("spin.de", {
     name: "spin.de",
     urlToGraphNode: spinIdentHandler,
     pkRegexp: /^,[0-9a-fA-F]+$/,
-    identRegexp: /^\w+$/,
+    identRegexp: /^\w+$/
 });
 
 nodemapper.addSimpleHandler("spin.de", "ident_to_foaf",

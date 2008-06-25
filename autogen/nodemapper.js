@@ -699,7 +699,7 @@ amazonPkHandler = nodemapper.createFirstMatchHandler
 nodemapper.registerDomain("amazon.com", {
   accountToSgn: { pk: ["amazon.com", /^\w{14}$/] },
   urlToGraphNode: amazonPkHandler,
-  name: "Amazon.com",
+  name: "Amazon.com"
 });
 
 nodemapper.registerDomain("amazon.co.uk", {
@@ -734,7 +734,7 @@ nodemapper.registerNonHTTPHandler(function(url) {
 
 
 nodemapper.registerDomain(["openid.aol.com", "profiles.aim.com"], {
- urlToGraphNode: nodemapper.createSlashUsernameHandler("aol.com"),
+ urlToGraphNode: nodemapper.createSlashUsernameHandler("aol.com")
 });
 
 
@@ -805,7 +805,7 @@ nodemapper.registerDomain("blogger.com", {
   name: "Blogger (Profile)",
   urlToGraphNode: nodemapper.createPathRegexpHandler(
       "blogger.com",
-      /^\/profile\/(\d+)/, { keyName: "pk" }),
+      /^\/profile\/(\d+)/, { keyName: "pk" })
    });
 nodemapper.addSimpleHandler("blogger.com", "pk_to_profile",
                             "http://www.blogger.com/profile/");
@@ -838,7 +838,7 @@ nodemapper.registerDomain(
      pk_to_profile: function (pk) { return "http://www.facebook.com/profile.php?id=" + pk; },
      pkRegexp: /^\d+$/,
      identRegexp: /^.+\/\d+$/,
-     identCasePreserve: 1,
+     identCasePreserve: 1
      });
 
 })();
@@ -870,7 +870,7 @@ nodemapper.registerDomain(
   name: "Flickr",
   urlToGraphNode: urlToGraphNodeFlickr,
   pkRegexp: /^\d+@\w\d+$/,
-  accountToSgn: { pk: ["flickr.com", /^\d+@\w\d+$/], ident: ["flickr.com"] },
+  accountToSgn: { pk: ["flickr.com", /^\d+@\w\d+$/], ident: ["flickr.com"] }
 });
 
 nodemapper.addSimpleHandler("flickr.com", "pk_to_rss",
@@ -935,7 +935,7 @@ nodemapper.registerDomain("google.com", {urlToGraphNode: googleMasterHandler});
 
 nodemapper.registerDomain("reader.google.com", {
 	name: "Google Reader",
-	pkRegexp: /^\d{7,}$/,
+	pkRegexp: /^\d{7,}$/
 	});
 nodemapper.addSimpleHandler("reader.google.com", "pk_to_content",
 			    "http://www.google.com/reader/shared/", "");
@@ -994,7 +994,7 @@ var PICASA_DOMAINS = [
     "picasaweb.google.si",
     "picasaweb.google.sk",
     "picasaweb.google.th",
-    "picasaweb.google.tr",
+    "picasaweb.google.tr"
     ];
 
 nodemapper.registerDomain(
@@ -1016,7 +1016,7 @@ nodemapper.registerDomain(
     {name: "Dodgeball",
      urlToGraphNode: nodemapper.createPathRegexpHandler(
       "dodgeball.com",
-      /^\/user\?uid=(\d+)/, { keyName: "pk" }),
+      /^\/user\?uid=(\d+)/, { keyName: "pk" })
    });
 nodemapper.addSimpleHandler("dodgeball.com", "pk_to_profile",
     "http://www.dodgeball.com/user?uid=", "");
@@ -1026,7 +1026,7 @@ nodemapper.registerDomain(
     {name: "Orkut",
      urlToGraphNode: nodemapper.createPathRegexpHandler(
       "orkut.com",
-      /^\/Profile.aspx\?uid=(\d+)/, { keyName: "pk" }),
+      /^\/Profile.aspx\?uid=(\d+)/, { keyName: "pk" })
    });
 nodemapper.addSimpleHandler("orkut.com", "pk_to_profile",
                             "http://www.orkut.com/Profile.aspx?uid=");
@@ -1068,7 +1068,7 @@ function urlToGraphNodeHi5(url, host, path) {
 nodemapper.registerDomain(
   "hi5.com", {
   name: "hi5",
-  urlToGraphNode: urlToGraphNodeHi5,
+  urlToGraphNode: urlToGraphNodeHi5
 });
 
 nodemapper.addSimpleHandler("hi5.com", "pk_to_foaf",
@@ -1248,7 +1248,7 @@ nodemapper.registerDomain("livejournal.com",
 			  ident_to_profile: identToProfile,
 			  ident_to_openid: identToOpenid,
  	 	          identRegexp: /^\w+$/,
-                          name: "LiveJournal",
+                          name: "LiveJournal"
 			 });
 
 })();
@@ -1269,7 +1269,7 @@ meetupHandler = function(url, host, path) {
 
 nodemapper.registerDomain("meetup.com", {
  name: "Meetup",
- urlToGraphNode: meetupHandler,
+ urlToGraphNode: meetupHandler
 });
 
 nodemapper.addSimpleHandler("meetup.com", "pk_to_profile",
@@ -1357,7 +1357,7 @@ nodemapper.registerDomain(
     "myspace.com",
     {name: "MySpace",
      urlToGraphNode: urlToGraphNodeMySpaceUsername,
-     accountToSgn: { pk: ["myspace.com"], ident: ["myspace.com"], },
+     accountToSgn: { pk: ["myspace.com"], ident: ["myspace.com"], }
 });
 
 nodemapper.addSimpleHandler(
@@ -1453,7 +1453,7 @@ nodemapper.registerDomain(
         /^\/person\?who=(\w+)/,
         {casePreserve: 1}),
      identCasePreserve: 1,
-     accountToSgn: {ident: ["mugshot.org"]},
+     accountToSgn: {ident: ["mugshot.org"]}
     });
 
 nodemapper.addSimpleHandler("mugshot.org", "ident_to_profile",
@@ -1513,8 +1513,8 @@ nodemapper.addSimpleHandler("del.icio.us", "ident_to_rss",
 
 nodemapper.registerDomain("webshots.com", {
     name: "Webshots",
-    identRegexp: /^\w+$/,
-		       });
+    identRegexp: /^\w+$/
+});
 nodemapper.registerDomain("community.webshots.com",
   {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("user", 
       "webshots.com")});
@@ -1791,7 +1791,7 @@ nodemapper.registerDomain(
       "c2.com", 
       /^\/cgi\/wiki\?(.*)/, 
       {casePreserve: 1}),
-     identCasePreserve: 1,
+     identCasePreserve: 1
 });
 
 nodemapper.addSimpleHandler("c2.com", "ident_to_profile",
@@ -1805,7 +1805,7 @@ nodemapper.registerDomain(
       "bookshelved.org", 
       /^\/cgi\-bin\/wiki\.pl\?(.*)/, 
       {casePreserve: 1}),
-     identCasePreserve: 1,
+     identCasePreserve: 1
 });
 nodemapper.addSimpleHandler("bookshelved.org", "ident_to_profile",
     "http://bookshelved.org/cgi-bin/wiki.pl?");
@@ -1819,7 +1819,7 @@ nodemapper.registerDomain(
       "xpdeveloper.net", 
       /^\/xpdwiki\/Wiki\.jsp\?page=(.*)/, 
       {casePreserve: 1}),
-     identCasePreserve: 1,
+     identCasePreserve: 1
 });
 nodemapper.addSimpleHandler("xpdeveloper.net", "ident_to_profile",
     "http://xpdeveloper.net/xpdwiki/Wiki.jsp?page=");
@@ -1832,8 +1832,8 @@ nodemapper.registerDomain(
       "usemod.com", 
       /^\/cgi\-bin\/mb\.pl\?(.*)/, 
       {casePreserve: 1}),
-     identCasePreserve: 1,
-   });
+     identCasePreserve: 1
+});
 nodemapper.addSimpleHandler("usemod.com", "ident_to_profile",
     "http://usemod.com/cgi-bin/mb.pl?");
 
@@ -1843,8 +1843,8 @@ nodemapper.registerDomain(
      notMassMarketSite: true,
      urlToGraphNode: nodemapper.createPathRegexpHandler(
       "advogato.org",
-      /^\/person\/(\w+)/),
-   });
+      /^\/person\/(\w+)/)
+});
 nodemapper.addSimpleHandler("advogato.org", "ident_to_profile",
     "http://www.advogato.org/person/", "/");
 nodemapper.addSimpleHandler("advogato.org", "ident_to_foaf",
@@ -1852,7 +1852,7 @@ nodemapper.addSimpleHandler("advogato.org", "ident_to_foaf",
 
 nodemapper.registerDomain("weeloop.com",
 {name: "weeloop",
- urlToGraphNode: nodemapper.createUserIsSubdomainHandler("weeloop.com"),
+ urlToGraphNode: nodemapper.createUserIsSubdomainHandler("weeloop.com")
 });
 nodemapper.addSimpleHandler("weeloop.com", "ident_to_foaf",
                             "http://", ".weeloop.com/foaf.rdf");
@@ -1881,8 +1881,8 @@ spinIdentHandler = nodemapper.createPathRegexpHandler(
     "spin.de",
     /^\/(?:hp|foaf)\/([^\/,]+)/,
   { fallbackHandler: spinPkHandler,
-    casePreserve: 0,
-   }
+    casePreserve: 0
+}
     );
 
 
@@ -1890,7 +1890,7 @@ nodemapper.registerDomain("spin.de", {
     name: "spin.de",
     urlToGraphNode: spinIdentHandler,
     pkRegexp: /^,[0-9a-fA-F]+$/,
-    identRegexp: /^\w+$/,
+    identRegexp: /^\w+$/
 });
 
 nodemapper.addSimpleHandler("spin.de", "ident_to_foaf",
@@ -1920,12 +1920,12 @@ nodemapper.addSimpleHandler("spin.de", "pk_to_blog",
 nodemapper.registerDomain(
 			  "x.foo.test", {
 			      blah: {},
-			      _name_for_testing: "x.foo.test (the specific one)",
+			      _name_for_testing: "x.foo.test (the specific one)"
 			  });
 nodemapper.registerDomain(
 			  "foo.test", {
 			      accountToSgn: {},
-	  		      _name_for_testing: "foo.test",
+	  		      _name_for_testing: "foo.test"
 			  });
 
 })();
@@ -1991,11 +1991,11 @@ tribeIdentHandler = nodemapper.createPathRegexpHandler(
 nodemapper.registerDomain("tribe.net", {
  name: "Tribe.net",
  pkRegexp: /^[\w\-]{36}$/,
- identRegexp: /^\w+$/,
+ identRegexp: /^\w+$/
 });
 
 nodemapper.registerDomain("people.tribe.net", {
- urlToGraphNode: tribeIdentHandler,
+ urlToGraphNode: tribeIdentHandler
 });
 
 nodemapper.addSimpleHandler("tribe.net", "ident_to_foaf",
@@ -2063,7 +2063,7 @@ nodemapper.registerDomain("yelp.com", {
 	name: "Yelp",
 	urlToGraphNode: yelpCompoundHandler,
 	pkRegexp: /^\w{22}$/,
-        identRegexp: /^\w+$/,
+        identRegexp: /^\w+$/
 	});
 nodemapper.addSimpleHandler("yelp.com", "pk_to_rss", 
     "http://www.yelp.com/syndicate/user/", "/rss.xml");

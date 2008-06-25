@@ -38,7 +38,7 @@ nodemapper.registerDomain(
      pk_to_profile: function (pk) { return "http://www.facebook.com/profile.php?id=" + pk; },
      pkRegexp: /^\d+$/,
      identRegexp: /^.+\/\d+$/,
-     identCasePreserve: 1,
+     identCasePreserve: 1
      });
 
 __END__

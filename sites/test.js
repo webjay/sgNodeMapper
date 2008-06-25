@@ -18,14 +18,13 @@
 nodemapper.registerDomain(
 			  "x.foo.test", {
 			      blah: {},
-			      _name_for_testing: "x.foo.test (the specific one)",
+			      _name_for_testing: "x.foo.test (the specific one)"
 			  });
 nodemapper.registerDomain(
 			  "foo.test", {
 			      accountToSgn: {},
-	  		      _name_for_testing: "foo.test",
+	  		      _name_for_testing: "foo.test"
 			  });
 
 
 __END__
-

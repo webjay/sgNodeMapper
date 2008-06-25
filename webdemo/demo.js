@@ -76,10 +76,18 @@ function startLoadingSiteRules(site, callback) {
     var testData = splits[1];
     try {
       eval(jsCode);
-      setStatus("Tests for " + site + ": " + testData);
+      setStatus("Loaded " + site + ".");
       callback();
     } catch (error) {
-      setStatus("Parsing " + site + " failed: " + error);
+      if (error instanceof Error) {
+        var more = "";
+        for (var k in error) {
+          more += " [" + k + " == " + error[k] + "] ";
+        }
+        setStatus("Parsing " + site + " failed: " + more);
+      } else {
+        setStatus("Parsing " + site + " failed: " + error);
+      }
     }
   };
   request.open("GET", "../sites/" + site, true);

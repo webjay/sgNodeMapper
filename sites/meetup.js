@@ -27,7 +27,7 @@ meetupHandler = function(url, host, path) {
 
 nodemapper.registerDomain("meetup.com", {
  name: "Meetup",
- urlToGraphNode: meetupHandler,
+ urlToGraphNode: meetupHandler
 });
 
 nodemapper.addSimpleHandler("meetup.com", "pk_to_profile",

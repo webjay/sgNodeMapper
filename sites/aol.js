@@ -33,7 +33,7 @@ nodemapper.registerNonHTTPHandler(function(url) {
 
 
 nodemapper.registerDomain(["openid.aol.com", "profiles.aim.com"], {
- urlToGraphNode: nodemapper.createSlashUsernameHandler("aol.com"),
+ urlToGraphNode: nodemapper.createSlashUsernameHandler("aol.com")
 });
 
 

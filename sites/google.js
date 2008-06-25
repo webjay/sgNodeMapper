@@ -22,7 +22,7 @@ nodemapper.registerDomain("google.com", {urlToGraphNode: googleMasterHandler});
 
 nodemapper.registerDomain("reader.google.com", {
 	name: "Google Reader",
-	pkRegexp: /^\d{7,}$/,
+	pkRegexp: /^\d{7,}$/
 	});
 nodemapper.addSimpleHandler("reader.google.com", "pk_to_content",
 			    "http://www.google.com/reader/shared/", "");
@@ -81,7 +81,7 @@ var PICASA_DOMAINS = [
     "picasaweb.google.si",
     "picasaweb.google.sk",
     "picasaweb.google.th",
-    "picasaweb.google.tr",
+    "picasaweb.google.tr"
     ];
 
 nodemapper.registerDomain(
@@ -103,7 +103,7 @@ nodemapper.registerDomain(
     {name: "Dodgeball",
      urlToGraphNode: nodemapper.createPathRegexpHandler(
       "dodgeball.com",
-      /^\/user\?uid=(\d+)/, { keyName: "pk" }),
+      /^\/user\?uid=(\d+)/, { keyName: "pk" })
    });
 nodemapper.addSimpleHandler("dodgeball.com", "pk_to_profile",
     "http://www.dodgeball.com/user?uid=", "");
@@ -113,7 +113,7 @@ nodemapper.registerDomain(
     {name: "Orkut",
      urlToGraphNode: nodemapper.createPathRegexpHandler(
       "orkut.com",
-      /^\/Profile.aspx\?uid=(\d+)/, { keyName: "pk" }),
+      /^\/Profile.aspx\?uid=(\d+)/, { keyName: "pk" })
    });
 nodemapper.addSimpleHandler("orkut.com", "pk_to_profile",
                             "http://www.orkut.com/Profile.aspx?uid=");

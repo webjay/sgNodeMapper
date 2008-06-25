@@ -25,10 +25,12 @@ for my $file ("$Bin/nodemapper-base.js", glob("$Bin/sites/*.js")) {
   while (<$ifh>) {
       if (m!^//\s*pragma (\w+) (.+)!) {
 	  $pragma{$1} = $2;
+          $buffer .= "\n";  # to keep line-numbers accurate in error messages
 	  next;
       }
       if (/^\s*debug.*FINE/) {
-	  next unless $pragma{DEBUG_FINE};
+          $buffer .= "\n";  # to keep line-numbers accurate in error messages
+          next unless $pragma{DEBUG_FINE};
       }
 
       if (/__END__/) {
@@ -40,6 +42,12 @@ for my $file ("$Bin/nodemapper-base.js", glob("$Bin/sites/*.js")) {
     } else {
       $buffer .= $_;
     }
+  }
+
+  # remove trailing commas in lists and objects, so stuff works in IE.
+  while ($buffer =~ s/^(.*?)\,(\s*\n\s*[\}\]])/\1\2/s) {
+    my $bogus_line = scalar split(/\n/, $1);
+    warn "Bogus trailing comma in $file on line $bogus_line.\n";
   }
 
   # for sites files, strip the redundant copyright and emacs

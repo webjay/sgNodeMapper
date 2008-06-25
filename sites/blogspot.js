@@ -39,7 +39,7 @@ nodemapper.registerDomain("blogger.com", {
   name: "Blogger (Profile)",
   urlToGraphNode: nodemapper.createPathRegexpHandler(
       "blogger.com",
-      /^\/profile\/(\d+)/, { keyName: "pk" }),
+      /^\/profile\/(\d+)/, { keyName: "pk" })
    });
 nodemapper.addSimpleHandler("blogger.com", "pk_to_profile",
                             "http://www.blogger.com/profile/");

@@ -46,7 +46,7 @@ function urlToGraphNodeHi5(url, host, path) {
 nodemapper.registerDomain(
   "hi5.com", {
   name: "hi5",
-  urlToGraphNode: urlToGraphNodeHi5,
+  urlToGraphNode: urlToGraphNodeHi5
 });
 
 nodemapper.addSimpleHandler("hi5.com", "pk_to_foaf",

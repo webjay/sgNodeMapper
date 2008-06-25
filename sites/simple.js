@@ -55,7 +55,7 @@ nodemapper.registerDomain(
         /^\/person\?who=(\w+)/,
         {casePreserve: 1}),
      identCasePreserve: 1,
-     accountToSgn: {ident: ["mugshot.org"]},
+     accountToSgn: {ident: ["mugshot.org"]}
     });
 
 nodemapper.addSimpleHandler("mugshot.org", "ident_to_profile",
@@ -115,8 +115,8 @@ nodemapper.addSimpleHandler("del.icio.us", "ident_to_rss",
 
 nodemapper.registerDomain("webshots.com", {
     name: "Webshots",
-    identRegexp: /^\w+$/,
-		       });
+    identRegexp: /^\w+$/
+});
 nodemapper.registerDomain("community.webshots.com",
   {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("user", 
       "webshots.com")});
@@ -393,7 +393,7 @@ nodemapper.registerDomain(
       "c2.com", 
       /^\/cgi\/wiki\?(.*)/, 
       {casePreserve: 1}),
-     identCasePreserve: 1,
+     identCasePreserve: 1
 });
 
 nodemapper.addSimpleHandler("c2.com", "ident_to_profile",
@@ -404,10 +404,10 @@ nodemapper.registerDomain(
     {name: "Bookshelved",
      notMassMarketSite: true,
      urlToGraphNode: nodemapper.createPathRegexpHandler(
-      "bookshelved.org", 
-      /^\/cgi\-bin\/wiki\.pl\?(.*)/, 
+      "bookshelved.org",
+      /^\/cgi\-bin\/wiki\.pl\?(.*)/,
       {casePreserve: 1}),
-     identCasePreserve: 1,
+     identCasePreserve: 1
 });
 nodemapper.addSimpleHandler("bookshelved.org", "ident_to_profile",
     "http://bookshelved.org/cgi-bin/wiki.pl?");
@@ -421,7 +421,7 @@ nodemapper.registerDomain(
       "xpdeveloper.net", 
       /^\/xpdwiki\/Wiki\.jsp\?page=(.*)/, 
       {casePreserve: 1}),
-     identCasePreserve: 1,
+     identCasePreserve: 1
 });
 nodemapper.addSimpleHandler("xpdeveloper.net", "ident_to_profile",
     "http://xpdeveloper.net/xpdwiki/Wiki.jsp?page=");
@@ -434,7 +434,7 @@ nodemapper.registerDomain(
       "usemod.com", 
       /^\/cgi\-bin\/mb\.pl\?(.*)/, 
       {casePreserve: 1}),
-     identCasePreserve: 1,
+     identCasePreserve: 1
    });
 nodemapper.addSimpleHandler("usemod.com", "ident_to_profile",
     "http://usemod.com/cgi-bin/mb.pl?");
@@ -445,7 +445,7 @@ nodemapper.registerDomain(
      notMassMarketSite: true,
      urlToGraphNode: nodemapper.createPathRegexpHandler(
       "advogato.org",
-      /^\/person\/(\w+)/),
+      /^\/person\/(\w+)/)
    });
 nodemapper.addSimpleHandler("advogato.org", "ident_to_profile",
     "http://www.advogato.org/person/", "/");
@@ -454,7 +454,7 @@ nodemapper.addSimpleHandler("advogato.org", "ident_to_foaf",
 
 nodemapper.registerDomain("weeloop.com",
 {name: "weeloop",
- urlToGraphNode: nodemapper.createUserIsSubdomainHandler("weeloop.com"),
+ urlToGraphNode: nodemapper.createUserIsSubdomainHandler("weeloop.com")
 });
 nodemapper.addSimpleHandler("weeloop.com", "ident_to_foaf",
                             "http://", ".weeloop.com/foaf.rdf");
