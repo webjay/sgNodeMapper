@@ -11,7 +11,12 @@ function runNodeMapperTests(divName) {
     var testCount = nodemapper_tests.length;
     var testsRun = 0;
     var testsPassed = 0;
+    var testsFailed = 0;
     var testFailures = "";
+    var debugOutput;
+    window.debug = function (msg) {
+        debugOutput += msg + "<br>\n";
+    };
 
     var updateStatus = function() {
         div.innerHTML = testsRun + "/" + testCount + " tests run, " + testsPassed +
@@ -24,8 +29,12 @@ function runNodeMapperTests(divName) {
     };
     var onFail = function(test, actual) {
         testsRun++;
+        testsFailed++;
         testFailures += "<b>failure: </b> for " + test + ", got: "
         + "<font color='red'>" + actual + "</font><br>";
+        if (debugOutput) {
+            testFailures += "<div style='margin: 0.5em 0 0.5em 3em'>" + debugOutput + "</div>";
+        }
         updateStatus();
     };
     var onResult = function(test, actual) {
@@ -38,6 +47,7 @@ function runNodeMapperTests(divName) {
     };
 
     for (var i = 0; i < testCount; ++i) {
+        debugOutput = "";
         var test = nodemapper_tests[i];
         if (test[0] == "to_sgn") {
             var actual = nodemapper.urlToGraphNode(test[1]);

@@ -371,7 +371,7 @@ nodemapper.sgnFromHttpUsingToHttpRules = function(domain, url) {
 	var type = pattern[2];
 	debug("Considering pattern: " + [prefix, suffix, type]); // FINE
 	if (url.substr(0, prefix.length) == prefix &&
-	    url.substr(-(suffix.length), suffix.length) == suffix) {
+	    url.substr(url.length - suffix.length, suffix.length) == suffix) {
 	    var midLength = url.length - prefix.length - suffix.length;
 	    if (midLength >= 1) {
 		var match = url.substr(prefix.length, midLength);
