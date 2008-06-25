@@ -4,6 +4,7 @@
 //##############################################################
 // -*-java-*-
 
+
 /**
  * Copyright 2007 Google Inc.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -178,8 +179,10 @@ nodemapper.urlToGraphNode = function(url) {
   for (var i = 0; i < hostparts.length; ++i) {
     var subhost = hostparts.slice(i, hostparts.length);
     matchedDomain = subhost.join(".");
+
     handler = nodemapper.handlers[matchedDomain];
     if (!handler) continue;
+
 
     var graphNode;
 
@@ -358,9 +361,11 @@ nodemapper.parseDomain = function (arg) {
  */
 nodemapper.sgnFromHttpUsingToHttpRules = function(domain, url) {
     var handler = nodemapper.handlers[domain];
+
     if (!handler || !handler.sgnToHttpPatterns) {
 	return;
     }
+
     var m;
     var matches = [];
     for (var i = 0; i < handler.sgnToHttpPatterns.length; i++) {
@@ -368,11 +373,13 @@ nodemapper.sgnFromHttpUsingToHttpRules = function(domain, url) {
 	var prefix = pattern[0];
 	var suffix = pattern[1];
 	var type = pattern[2];
+
 	if (url.substr(0, prefix.length) == prefix &&
 	    url.substr(-(suffix.length), suffix.length) == suffix) {
 	    var midLength = url.length - prefix.length - suffix.length;
 	    if (midLength >= 1) {
 		var match = url.substr(prefix.length, midLength);
+
 		if (type == "pk" &&
 		    (m = nodemapper.pkRegexp(handler).exec(match))) {
 		    matches.push("sgn://" + domain + "/?pk=" + match);
@@ -684,20 +691,16 @@ try {
 // Begin included file sites/amazon.js
 (function(){
 // TODO(bradfitz): this isn't actually case-sensitive.  jsmarr said it was.  :)
-amazonPkHandler = nodemapper.createFirstMatchHandler
-    ([
-     nodemapper.createSomethingSlashUsernameHandler
-     (
-      "gp/pdp/profile", "amazon.com", 
-	 { keyName: "pk", casePreserve: 1 }),
-     nodemapper.createSomethingSlashUsernameHandler
-     (
-       "rss/people", "amazon.com",
-	 { keyName: "pk", casePreserve: 1 })]);
-
+var amazonPkHandler = nodemapper.createFirstMatchHandler([
+     nodemapper.createSomethingSlashUsernameHandler(
+         "gp/pdp/profile", "amazon.com",
+         {keyName: "pk", casePreserve: 1}),
+     nodemapper.createSomethingSlashUsernameHandler(
+         "rss/people", "amazon.com",
+         {keyName: "pk", casePreserve: 1})]);
 
 nodemapper.registerDomain("amazon.com", {
-  accountToSgn: { pk: ["amazon.com", /^\w{14}$/] },
+  accountToSgn: { pk: ["amazon.com", /^\w{14,14}$/] },
   urlToGraphNode: amazonPkHandler,
   name: "Amazon.com"
 });
@@ -1357,7 +1360,7 @@ nodemapper.registerDomain(
     "myspace.com",
     {name: "MySpace",
      urlToGraphNode: urlToGraphNodeMySpaceUsername,
-     accountToSgn: { pk: ["myspace.com"], ident: ["myspace.com"], }
+     accountToSgn: { pk: ["myspace.com"], ident: ["myspace.com"] }
 });
 
 nodemapper.addSimpleHandler(
@@ -1802,8 +1805,8 @@ nodemapper.registerDomain(
     {name: "Bookshelved",
      notMassMarketSite: true,
      urlToGraphNode: nodemapper.createPathRegexpHandler(
-      "bookshelved.org", 
-      /^\/cgi\-bin\/wiki\.pl\?(.*)/, 
+      "bookshelved.org",
+      /^\/cgi\-bin\/wiki\.pl\?(.*)/,
       {casePreserve: 1}),
      identCasePreserve: 1
 });
@@ -1833,7 +1836,7 @@ nodemapper.registerDomain(
       /^\/cgi\-bin\/mb\.pl\?(.*)/, 
       {casePreserve: 1}),
      identCasePreserve: 1
-});
+   });
 nodemapper.addSimpleHandler("usemod.com", "ident_to_profile",
     "http://usemod.com/cgi-bin/mb.pl?");
 
@@ -1844,7 +1847,7 @@ nodemapper.registerDomain(
      urlToGraphNode: nodemapper.createPathRegexpHandler(
       "advogato.org",
       /^\/person\/(\w+)/)
-});
+   });
 nodemapper.addSimpleHandler("advogato.org", "ident_to_profile",
     "http://www.advogato.org/person/", "/");
 nodemapper.addSimpleHandler("advogato.org", "ident_to_foaf",
@@ -1882,8 +1885,7 @@ spinIdentHandler = nodemapper.createPathRegexpHandler(
     /^\/(?:hp|foaf)\/([^\/,]+)/,
   { fallbackHandler: spinPkHandler,
     casePreserve: 0
-}
-    );
+  });
 
 
 nodemapper.registerDomain("spin.de", {

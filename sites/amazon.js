@@ -1,18 +1,14 @@
 // TODO(bradfitz): this isn't actually case-sensitive.  jsmarr said it was.  :)
-var amazonPkHandler = nodemapper.createFirstMatchHandler
-    ([
-     nodemapper.createSomethingSlashUsernameHandler
-     (
-      "gp/pdp/profile", "amazon.com", 
-	 { keyName: "pk", casePreserve: 1 }),
-     nodemapper.createSomethingSlashUsernameHandler
-     (
-       "rss/people", "amazon.com",
-	 { keyName: "pk", casePreserve: 1 })]);
-
+var amazonPkHandler = nodemapper.createFirstMatchHandler([
+     nodemapper.createSomethingSlashUsernameHandler(
+         "gp/pdp/profile", "amazon.com",
+         {keyName: "pk", casePreserve: 1}),
+     nodemapper.createSomethingSlashUsernameHandler(
+         "rss/people", "amazon.com",
+         {keyName: "pk", casePreserve: 1})]);
 
 nodemapper.registerDomain("amazon.com", {
-  accountToSgn: { pk: ["amazon.com", /^\w{14}$/] },
+  accountToSgn: { pk: ["amazon.com", /^\w{14,14}$/] },
   urlToGraphNode: amazonPkHandler,
   name: "Amazon.com"
 });
