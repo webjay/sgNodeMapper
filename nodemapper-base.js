@@ -1,5 +1,4 @@
 // -*-java-*-
-// pragma DEBUG_FINE 0
 
 /**
  * Copyright 2007 Google Inc.

@@ -212,8 +212,10 @@ if (@errors) {
   }
 } else {
   diag("tests passed.");
-  system("cp", "-p", "-f", "nodemapper.js", "autogen/nodemapper.js")
-    and die "Failed to copy to to autogen/";
+  for my $fn (qw(nodemapper.js nodemapper_debug.js)) {
+      system("cp", "-p", "-f", $fn, "autogen/$fn")
+          and die "Failed to copy to to autogen/";
+  }
   open(my $fh, ">autogen/nodemapper_tests.js")
     or die "Failed to open nodemapper_tests.js: $!";
   print $fh "// Auto-generated test data from sites/*.js test sections at bottom.\n";
