@@ -84,7 +84,7 @@ function startLoadingSiteRules(site, callback) {
         for (var k in error) {
           more += " [" + k + " == " + error[k] + "] ";
         }
-        setStatus("Parsing " + site + " failed: " + more);
+        setStatus("Parsing " + site + " failed: " + more + " on content: " + "<pre>" + jsCode + "</pre>");
       } else {
         setStatus("Parsing " + site + " failed: " + error);
       }
