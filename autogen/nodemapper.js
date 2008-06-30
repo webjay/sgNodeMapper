@@ -1,9 +1,8 @@
-//##############################################################
+//############################################################
 // AUTO-GENERATED FILE; DO NOT EDIT.  This is a concatenantion
 // of nodemapper-base.js, and sites/*.js.  Edit those.
-//##############################################################
+//#############################################################
 // -*-java-*-
-
 
 /**
  * Copyright 2007 Google Inc.
@@ -179,10 +178,8 @@ nodemapper.urlToGraphNode = function(url) {
   for (var i = 0; i < hostparts.length; ++i) {
     var subhost = hostparts.slice(i, hostparts.length);
     matchedDomain = subhost.join(".");
-
     handler = nodemapper.handlers[matchedDomain];
     if (!handler) continue;
-
 
     var graphNode;
 
@@ -361,11 +358,9 @@ nodemapper.parseDomain = function (arg) {
  */
 nodemapper.sgnFromHttpUsingToHttpRules = function(domain, url) {
     var handler = nodemapper.handlers[domain];
-
     if (!handler || !handler.sgnToHttpPatterns) {
 	return;
     }
-
     var m;
     var matches = [];
     for (var i = 0; i < handler.sgnToHttpPatterns.length; i++) {
@@ -373,13 +368,11 @@ nodemapper.sgnFromHttpUsingToHttpRules = function(domain, url) {
 	var prefix = pattern[0];
 	var suffix = pattern[1];
 	var type = pattern[2];
-
 	if (url.substr(0, prefix.length) == prefix &&
 	    url.substr(url.length - suffix.length, suffix.length) == suffix) {
 	    var midLength = url.length - prefix.length - suffix.length;
 	    if (midLength >= 1) {
 		var match = url.substr(prefix.length, midLength);
-
 		if (type == "pk" &&
 		    (m = nodemapper.pkRegexp(handler).exec(match))) {
 		    matches.push("sgn://" + domain + "/?pk=" + match);
@@ -2051,7 +2044,7 @@ nodemapper.addSimpleHandler("twitter.com", "pk_to_atom",
 // =========================================================================
 // Begin included file sites/yelp.js
 (function(){
-yelpCompoundHandler = function(url, host, path) {
+var yelpCompoundHandler = function(url, host, path) {
   var handler;
   if (host.indexOf("www.") == 0) {
      handler = nodemapper.createPathRegexpHandler("yelp.com", 

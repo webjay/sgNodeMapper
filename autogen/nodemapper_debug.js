@@ -2051,7 +2051,7 @@ nodemapper.addSimpleHandler("twitter.com", "pk_to_atom",
 // =========================================================================
 // Begin included file sites/yelp.js
 (function(){
-yelpCompoundHandler = function(url, host, path) {
+var yelpCompoundHandler = function(url, host, path) {
   var handler;
   if (host.indexOf("www.") == 0) {
      handler = nodemapper.createPathRegexpHandler("yelp.com", 

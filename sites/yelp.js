@@ -1,4 +1,4 @@
-yelpCompoundHandler = function(url, host, path) {
+var yelpCompoundHandler = function(url, host, path) {
   var handler;
   if (host.indexOf("www.") == 0) {
      handler = nodemapper.createPathRegexpHandler("yelp.com", 
