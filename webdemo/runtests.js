@@ -49,23 +49,10 @@ function runNodeMapperTests(divName) {
     for (var i = 0; i < testCount; ++i) {
         debugOutput = "";
         var test = nodemapper_tests[i];
-        if (test[0] == "to_sgn") {
-            var actual = nodemapper.urlToGraphNode(test[1]);
-            onResult(test, actual);
-            continue;
-        }
-        if (test[0] == "from_sgn") {
-            var actual = nodemapper.urlFromGraphNode(test[2], test[1]);
-            onResult(test, actual);
-            // TODO: test round-tripping as well.
-            continue;
-        }
-        if (test[0] == "pair") {
-            var actual = nodemapper.pairToGraphNode(test[1], test[2]);
-            onResult(test, actual);
-            continue;
-        }
-
+	var method = test[0];
+	var expected = test[test.length - 1];
+	var args = test.slice(1, test.length - 1);
+	var actual = nodemapper[method].apply(nodemapper, args);
+	onResult(test, actual);
     }
-
 }

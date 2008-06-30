@@ -51,10 +51,10 @@ while (<$fh>) {
     $domain_has_pair_tests{$domain} = 1;
     $test_name = "Pair of ($domain, $account)";
     $actual = $mapper->graph_node_from_pair($domain, $account) || "";
-    push @parsed_tests, ["pair", $domain, $account, $expected];
+    push @parsed_tests, ["pairToGraphNode", $domain, $account, $expected];
   } elsif ($input =~ /^(\w+)\((.+)\)$/) {
     my ($type, $sgn_node) = ($1, $2);
-    push @parsed_tests, ["from_sgn", $type, $sgn_node, $expected];
+    push @parsed_tests, ["urlFromGraphNode", $sgn_node, $type, $expected];
     $actual = $mapper->graph_node_to_url($sgn_node, $type);
     $test_name = "URL of $type($sgn_node)";
 
@@ -62,6 +62,7 @@ while (<$fh>) {
     if ($actual eq $expected) {
 	my $http = $expected;
 	my $back_sgn = $mapper->graph_node_from_url($http);
+        push @parsed_tests, ["urlToGraphNode", $http, $sgn_node];
 	unless ($back_sgn eq $sgn_node) {
 	    push @warnings, "$type($sgn_node) doesn't round-trip on URL $expected.  Got $back_sgn, not expected $sgn_node";
 	    warn $warnings[-1];
@@ -77,12 +78,12 @@ while (<$fh>) {
     unless ($domain_has_pair_tests{$sgn_host}) {
 	my $back_sgn = $mapper->graph_node_from_pair($sgn_host, $sgn_account) || "";
 	unless ($back_sgn eq $sgn_node) {
-	    push @warnings, "pair($sgn_host, $sgn_account) from $sgn_node was $back_sgn, not $sgn_node";
+	    push @warnings, "pairToGraphNode($sgn_host, $sgn_account) from $sgn_node was $back_sgn, not $sgn_node";
 	    warn $warnings[-1];
 	}
     }
   } else {
-    push @parsed_tests, ["to_sgn", $input, $expected];
+    push @parsed_tests, ["urlToGraphNode", $input, $expected];
     $actual = $mapper->graph_node_from_url($input);
     $test_name = "Mapping $input";
   }
