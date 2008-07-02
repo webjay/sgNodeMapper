@@ -1170,11 +1170,11 @@ var LJCOM_USERINFO_BML_REGEX = /^\/userinfo\.bml\?(user|userid)=(\w+)/;
 
 /**
  * Regular expression for the previous/next links between blog
- * entries.
+ * entries, and old entry URLs.
  *
  * @type RegExp
  */
-var LJCOM_GO_BML_REGEX = /^\/go\.bml\?.*\bjournal=(\w+).*\bdir=(?:next|prev)/;
+var LJCOM_MISC_BML_REGEX = /^\/(?:go|talkread)\.bml\?.*\bjournal=(\w+)/;
 
 
 /**
@@ -1217,7 +1217,7 @@ var urlToGraphNodeGeneral = function(url, host, path) {
       }
     }
 
-    if (m = LJCOM_GO_BML_REGEX.exec(path)) {
+    if (m = LJCOM_MISC_BML_REGEX.exec(path)) {
       return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
     }
 

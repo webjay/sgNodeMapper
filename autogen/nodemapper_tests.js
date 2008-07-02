@@ -202,6 +202,7 @@ var nodemapper_tests = [
   ["urlToGraphNode", "http://bob.livejournal.com/profile", "sgn://livejournal.com/?ident=bob"],
   ["urlToGraphNode", "http://www.livejournal.com/go.bml?journal=bob&itemid=1929138&dir=next", "sgn://livejournal.com/?ident=bob"],
   ["urlToGraphNode", "http://www.livejournal.com/go.bml?journal=bob&itemid=1929138&dir=prev", "sgn://livejournal.com/?ident=bob"],
+  ["urlToGraphNode", "http://www.livejournal.com/talkread.bml?journal=bob&itemid=1724560", "sgn://livejournal.com/?ident=bob"],
   ["urlToGraphNode", "http://www.meetup.com/members/2949792/", "sgn://meetup.com/?pk=2949792"],
   ["urlToGraphNode", "http://coffee.meetup.com/171/members/2949792/?gj=sj3", "sgn://meetup.com/?pk=2949792"],
   ["urlToGraphNode", "http://coffee.meetup.com/171/members/2949792/", "sgn://meetup.com/?pk=2949792"],
