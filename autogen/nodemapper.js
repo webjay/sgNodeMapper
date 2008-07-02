@@ -1169,6 +1169,15 @@ var LJCOM_USERINFO_BML_REGEX = /^\/userinfo\.bml\?(user|userid)=(\w+)/;
 
 
 /**
+ * Regular expression for the previous/next links between blog
+ * entries.
+ *
+ * @type RegExp
+ */
+var LJCOM_GO_BML_REGEX = /^\/go\.bml\?.*\bjournal=(\w+).*\bdir=(?:next|prev)/;
+
+
+/**
  * Handler for URLs on 'users.' or 'community.' subdomains.
  *
  * @type Function
@@ -1202,10 +1211,14 @@ var urlToGraphNodeGeneral = function(url, host, path) {
 
     if (m = LJCOM_USERINFO_BML_REGEX.exec(path)) {
       if (m[1] == "user") {
-        return "sgn://livejournal.com/?ident=" + m[2];
+        return "sgn://livejournal.com/?ident=" + m[2].toLowerCase();
       } else {
         return "sgn://livejournal.com/?pk=" + m[2];
       }
+    }
+
+    if (m = LJCOM_GO_BML_REGEX.exec(path)) {
+      return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
     }
 
     // fall through... couldn't match

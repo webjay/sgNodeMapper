@@ -35,6 +35,15 @@ var LJCOM_USERINFO_BML_REGEX = /^\/userinfo\.bml\?(user|userid)=(\w+)/;
 
 
 /**
+ * Regular expression for the previous/next links between blog
+ * entries.
+ *
+ * @type RegExp
+ */
+var LJCOM_GO_BML_REGEX = /^\/go\.bml\?.*\bjournal=(\w+).*\bdir=(?:next|prev)/;
+
+
+/**
  * Handler for URLs on 'users.' or 'community.' subdomains.
  *
  * @type Function
@@ -68,10 +77,14 @@ var urlToGraphNodeGeneral = function(url, host, path) {
 
     if (m = LJCOM_USERINFO_BML_REGEX.exec(path)) {
       if (m[1] == "user") {
-        return "sgn://livejournal.com/?ident=" + m[2];
+        return "sgn://livejournal.com/?ident=" + m[2].toLowerCase();
       } else {
         return "sgn://livejournal.com/?pk=" + m[2];
       }
+    }
+
+    if (m = LJCOM_GO_BML_REGEX.exec(path)) {
+      return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
     }
 
     // fall through... couldn't match
@@ -157,6 +170,9 @@ openid(sgn://livejournal.com/?ident=abc)	http://abc.livejournal.com/
 http://www.livejournal.com/userinfo.bml?userid=123&t=I sgn://livejournal.com/?pk=123
 http://www.livejournal.com/userinfo.bml?userid=123     sgn://livejournal.com/?pk=123
 http://www.livejournal.com/userinfo.bml?user=bob       sgn://livejournal.com/?ident=bob
-http://www.livejournal.com/userinfo.bml?user=bob&mode=full  sgn://livejournal.com/?ident=bob
+http://www.livejournal.com/userinfo.bml?user=Bob&mode=full  sgn://livejournal.com/?ident=bob
 
 profile(sgn://livejournal.com/?ident=bob)   http://bob.livejournal.com/profile
+
+http://www.livejournal.com/go.bml?journal=bob&itemid=1929138&dir=next sgn://livejournal.com/?ident=bob
+http://www.livejournal.com/go.bml?journal=bob&itemid=1929138&dir=prev sgn://livejournal.com/?ident=bob
