@@ -67,6 +67,13 @@ for my $file ("$Bin/nodemapper-base.js", glob("$Bin/sites/*.js")) {
   print $efh "\n### FILE: $file\n\n";
 }
 
+close($nm_fh);
+close($nm_debug_fh);
+
+produce_lite_version("nodemapper.js", "nodemapper_lite.js");
+unlink "nodemapper.js" or die;
+rename "nodemapper_lite.js", "nodemapper.js" or die;
+
 # modifies $buffer, removing its copyright header (it'll
 # be included at the top from nodemapper-base.js anyway)
 # and wrapping it in its own namespace.
@@ -83,3 +90,19 @@ sub wrap_and_strip {
       "// (end of included file $filebase)\n";
 }
 
+sub produce_lite_version {
+    my ($in_name, $out_name) = @_;
+    open(my $fh, $in_name) or die "open: $!";
+    my $file = do { local $/; <$fh> };
+    $file =~ s/^(.+? \*\/\s*?\n)//s or die "no header";
+    my $header = $1;
+    # remove /* .. */ comments
+    $file =~ s/\/\*\*\s*.+?\*\///gs;
+    # remove // comments
+    $file =~ s/^\s*\/\/.*//gm;
+    # remove blank lines
+    $file =~ s/^\s*?\n//gm;
+    open(my $out, ">$out_name") or die "open for out: $!";
+    print $out "$header$file";
+    close($out) or die;
+}
