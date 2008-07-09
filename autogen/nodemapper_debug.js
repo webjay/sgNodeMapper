@@ -915,26 +915,47 @@ nodemapper.addSimpleHandler("friendfeed.com", "ident_to_atom",
 // =========================================================================
 // Begin included file sites/google.js
 (function(){
+var GOOGLE_TLDS = "ad ae am as at az ba be bg bi bs ca cd cg ch ci cl cn co.bw co.ck co.cr co.id co.il co.im co.in co.je co.jp co.ke co.kr co.ls co.ma co.mw co.nz co.pn co.th co.tt co.ug co.uk co.uz co.ve co.vi co.yu co.za co.zm co.zw com com.af com.ag com.ar com.au com.bd com.bh com.bn com.bo com.br com.bz com.cn com.co com.cu com.do com.ec com.eg com.et com.fj com.gi com.gr com.gt com.hk com.jm com.kh com.kz com.lv com.ly com.mt com.mw com.mx com.my com.na com.nf com.ng com.ni com.np com.om com.pa com.pe com.ph com.pk com.pl com.pr com.py com.qa com.ru com.sa com.sb com.sg com.sv com.tj com.tr com.tt com.tw com.ua com.uy com.vc com.ve com.vn cz de dj dk dm ee es fi fm fr ge gg gl gm gp gr gy hk hn hr ht hu ie is it je jo kg ki kz la li lk lt lu lv md mn ms mu mv mw ne.jp nl no nr nu off.ai ph pl pn pt ro ru rw sc se sg sh si sk sm sn st tk tl tm to tp tt us vg vn vu ws".split(" ");
+
+function googleDomains(prefix) {
+  var ret = [];
+  for (var idx in GOOGLE_TLDS) {
+    ret.push(prefix + GOOGLE_TLDS[idx]);
+  }
+  return ret;
+}
+
+var GOOGLE_DOMAINS = googleDomains("google.");
+
 var READER_RE = /^\/reader\/(?:shared|public\/atom\/user)\/(\d{7,})(?:\/state\/com.google\/broadcast)?/;
+
+var googleProfileHandler = nodemapper.createPathRegexpHandler(
+    "profiles.google.com",  // fake domain
+    /^\/s2\/profiles\/(\d+)/,
+    {keyName: "pk"});
+
+var readerHandler = nodemapper.createPathRegexpHandler(
+    "reader.google.com",  // fake domain
+    READER_RE,
+   {keyName: "pk"});
+
 
 googleMasterHandler = function(url, host, path) {
   var handler = null;
   if (path.indexOf("/reader") == 0) {
-    handler = nodemapper.createPathRegexpHandler(
-        "reader.google.com", /* using fake domain to namespace these pks */
-        READER_RE,
-        {keyName: "pk"});
+    handler = readerHandler;
+  } else if (path.indexOf("/s2/") == 0) {
+    handler = googleProfileHandler;
   }
-
   // TODO: add more handlers for other google properties
 
   if (handler) return handler(url, host, path);
 
   // default: just pass raw url back
-  return url; 
+  return url;
 };
 
-nodemapper.registerDomain("google.com", {urlToGraphNode: googleMasterHandler});
+nodemapper.registerDomain(GOOGLE_DOMAINS, {urlToGraphNode: googleMasterHandler});
 
 nodemapper.registerDomain("reader.google.com", {
 	name: "Google Reader",
@@ -970,38 +991,8 @@ nodemapper.addSimpleHandler(
     "youtube.com", "ident_to_rss",
     "http://youtube.com/rss/user/", "/videos.rss");
 
-var PICASA_DOMAINS = [
-    "picasaweb.google.at",
-    "picasaweb.google.be",
-    "picasaweb.google.ca",
-    "picasaweb.google.ch",
-    "picasaweb.google.co.uk",
-    "picasaweb.google.com",
-    "picasaweb.google.cz",
-    "picasaweb.google.de",
-    "picasaweb.google.dk",
-    "picasaweb.google.es",
-    "picasaweb.google.fi",
-    "picasaweb.google.fr",
-    "picasaweb.google.gr",
-    "picasaweb.google.hr",
-    "picasaweb.google.hu",
-    "picasaweb.google.it",
-    "picasaweb.google.lt",
-    "picasaweb.google.nl",
-    "picasaweb.google.no",
-    "picasaweb.google.pl",
-    "picasaweb.google.pt",
-    "picasaweb.google.ru",
-    "picasaweb.google.se",
-    "picasaweb.google.si",
-    "picasaweb.google.sk",
-    "picasaweb.google.th",
-    "picasaweb.google.tr"
-    ];
-
 nodemapper.registerDomain(
-    PICASA_DOMAINS,
+    googleDomains("picasaweb.google."),
     {name: "Picasa Web Albums",
      primaryDomain: "picasaweb.google.com",
      urlToGraphNode: nodemapper.createPathRegexpHandler(
@@ -1033,6 +1024,13 @@ nodemapper.registerDomain(
    });
 nodemapper.addSimpleHandler("orkut.com", "pk_to_profile",
                             "http://www.orkut.com/Profile.aspx?uid=");
+
+nodemapper.registerDomain("profiles.google.com", {
+	name: "Google Profile",
+	pkRegexp: /^\d{7,}$/
+	});
+nodemapper.addSimpleHandler("profiles.google.com", "pk_to_profile",
+                            "http://www.google.com/s2/profiles/");
 
 })();
 // (end of included file sites/google.js)
