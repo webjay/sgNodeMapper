@@ -14,7 +14,7 @@ var READER_RE = /^\/reader\/(?:shared|public\/atom\/user)\/(\d{7,})(?:\/state\/c
 
 var googleProfileHandler = nodemapper.createPathRegexpHandler(
     "profiles.google.com",  // fake domain
-    /^\/s2\/profiles\/(\d+)/,
+    /^\/s2\/(?:profiles\/|sharing\/stuff\?user=)(\d+)/,
     {keyName: "pk"});
 
 var readerHandler = nodemapper.createPathRegexpHandler(
@@ -153,5 +153,7 @@ http://www.picasaweb.google.hu/abcdef   sgn://picasaweb.google.com/?ident=abcdef
 http://www.google.com/s2/profiles/115863474911002159675   sgn://profiles.google.com/?pk=115863474911002159675
 http://www.google.co.uk/s2/profiles/115863474911002159675 sgn://profiles.google.com/?pk=115863474911002159675
 http://www.google.de/s2/profiles/115863474911002159675    sgn://profiles.google.com/?pk=115863474911002159675
+
+http://www.google.com/s2/sharing/stuff?user=123   sgn://profiles.google.com/?pk=123
 
 profile(sgn://profiles.google.com/?pk=115863474911002159675)  http://www.google.com/s2/profiles/115863474911002159675

@@ -931,7 +931,7 @@ var READER_RE = /^\/reader\/(?:shared|public\/atom\/user)\/(\d{7,})(?:\/state\/c
 
 var googleProfileHandler = nodemapper.createPathRegexpHandler(
     "profiles.google.com",  // fake domain
-    /^\/s2\/profiles\/(\d+)/,
+    /^\/s2\/(?:profiles\/|sharing\/stuff\?user=)(\d+)/,
     {keyName: "pk"});
 
 var readerHandler = nodemapper.createPathRegexpHandler(

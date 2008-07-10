@@ -120,6 +120,7 @@ var nodemapper_tests = [
   ["urlToGraphNode", "http://www.google.com/s2/profiles/115863474911002159675", "sgn://profiles.google.com/?pk=115863474911002159675"],
   ["urlToGraphNode", "http://www.google.co.uk/s2/profiles/115863474911002159675", "sgn://profiles.google.com/?pk=115863474911002159675"],
   ["urlToGraphNode", "http://www.google.de/s2/profiles/115863474911002159675", "sgn://profiles.google.com/?pk=115863474911002159675"],
+  ["urlToGraphNode", "http://www.google.com/s2/sharing/stuff?user=123", "sgn://profiles.google.com/?pk=123"],
   ["urlFromGraphNode", "sgn://profiles.google.com/?pk=115863474911002159675", "profile", "http://www.google.com/s2/profiles/115863474911002159675"],
   ["urlToGraphNode", "http://www.google.com/s2/profiles/115863474911002159675", "sgn://profiles.google.com/?pk=115863474911002159675"],
   ["urlToGraphNode", "http://api.hi5.com/rest/profile/foaf/87628233", "sgn://hi5.com/?pk=87628233"],
