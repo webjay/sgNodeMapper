@@ -17,7 +17,11 @@
 
 use strict;
 use lib 'embedding/perl/lib';
-use lib '/home/bradfitz/perllib/lib/perl/5.8.8';
+my $perl_version;
+BEGIN {
+  $perl_version = sprintf("%vd", $^V);
+}
+use lib "/home/$ENV{USER}/perllib/lib/perl/$perl_version";
 use SocialGraph::NodeMapper;
 use Test::More 'no_plan';
 
