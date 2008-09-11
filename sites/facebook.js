@@ -18,7 +18,7 @@
 
 var facebookHandler = function(url, host, path) {
   var m;
-  var slashProfile = /^\/profile\.php\?id=(\d+)/;
+  var slashProfile = /^(?:\/home\.php\#)?\/profile\.php\?id=(\d+)/;
   if (m = slashProfile.exec(path)) {
     return "sgn://facebook.com/?pk=" + m[1];
   }
@@ -52,3 +52,6 @@ http://washington.facebook.com/profile.php?id=123&ref=np  sgn://facebook.com/?pk
 
 profile(sgn://facebook.com/?pk=500033387)	http://www.facebook.com/profile.php?id=500033387
 profile(sgn://facebook.com/?ident=Brad_Fitzpatrick/500033387)	http://www.facebook.com/people/Brad_Fitzpatrick/500033387
+
+http://www.new.facebook.com/people/Foo_Bar/123  sgn://facebook.com/?ident=Foo_Bar/123
+http://www.new.facebook.com/home.php#/profile.php?id=123 sgn://facebook.com/?pk=123

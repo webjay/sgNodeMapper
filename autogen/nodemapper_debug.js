@@ -821,7 +821,7 @@ nodemapper.addSimpleHandler("blogger.com", "pk_to_profile",
 (function(){
 var facebookHandler = function(url, host, path) {
   var m;
-  var slashProfile = /^\/profile\.php\?id=(\d+)/;
+  var slashProfile = /^(?:\/home\.php\#)?\/profile\.php\?id=(\d+)/;
   if (m = slashProfile.exec(path)) {
     return "sgn://facebook.com/?pk=" + m[1];
   }
