@@ -479,6 +479,19 @@ nodemapper.addSimpleHandler("planeta.rambler.ru", "ident_to_foaf",
 nodemapper.addSimpleHandler("planeta.rambler.ru", "ident_to_rss",
     "http://planeta.rambler.ru/users/", "/rss/");
 
+nodemapper.registerDomain("mojageneracja.pl",
+  {name: "MojaGeneracja",
+   urlToGraphNode: nodemapper.createPathRegexpHandler(
+   "mojageneracja.pl",
+       /^\/(\d+)(?:\/|$)/, {keyName: "pk"})
+      });
+nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_profile",
+    "http://www.mojageneracja.pl/", "/");
+nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_rss",
+    "http://www.mojageneracja.pl/", "/rss");
+
+
+
 __END__
 
 http://digg.com/users/foobar	sgn://digg.com/?ident=foobar
@@ -723,3 +736,7 @@ http://my.opera.com/1966/xml/foaf/ sgn://my.opera.com/?ident=1966
 profile(sgn://my.opera.com/?ident=jsmarr) http://my.opera.com/jsmarr/
 profile(sgn://my.opera.com/?ident=1966) http://my.opera.com/1966/
 foaf(sgn://my.opera.com/?ident=jsmarr) http://my.opera.com/jsmarr/xml/foaf/
+
+http://www.mojageneracja.pl/13192415/ sgn://mojageneracja.pl/?pk=13192415
+profile(sgn://mojageneracja.pl/?pk=13192415) http://www.mojageneracja.pl/13192415/
+rss(sgn://mojageneracja.pl/?pk=13192415) http://www.mojageneracja.pl/13192415/rss

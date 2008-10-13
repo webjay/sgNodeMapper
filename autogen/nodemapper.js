@@ -1300,6 +1300,16 @@ nodemapper.addSimpleHandler("planeta.rambler.ru", "ident_to_foaf",
     "http://planeta.rambler.ru/users/", "/friends/foaf/");
 nodemapper.addSimpleHandler("planeta.rambler.ru", "ident_to_rss",
     "http://planeta.rambler.ru/users/", "/rss/");
+nodemapper.registerDomain("mojageneracja.pl",
+  {name: "MojaGeneracja",
+   urlToGraphNode: nodemapper.createPathRegexpHandler(
+   "mojageneracja.pl",
+       /^\/(\d+)(?:\/|$)/, {keyName: "pk"})
+      });
+nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_profile",
+    "http://www.mojageneracja.pl/", "/");
+nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_rss",
+    "http://www.mojageneracja.pl/", "/rss");
 })();
 (function(){
 spinPkHandler = function(url, host, path) {
