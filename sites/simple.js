@@ -490,9 +490,20 @@ nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_profile",
 nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_rss",
     "http://www.mojageneracja.pl/", "/rss");
 
-
+nodemapper.registerDomain("wakoopa.com",
+{name: "Wakoopa",
+ urlToGraphNode: nodemapper.createPathRegexpHandler(
+   "wakoopa.com",
+   /^\/(\w+)(?:\/|$)/)
+});
+nodemapper.addSimpleHandler("wakoopa.com", "ident_to_profile",
+    "http://wakoopa.com/");
 
 __END__
+
+http://wakoopa.com/crabbydata  sgn://wakoopa.com/?ident=crabbydata
+http://wakoopa.com/CrabbyDATA/feed/foo  sgn://wakoopa.com/?ident=crabbydata
+profile(sgn://wakoopa.com/?ident=crabbydata) http://wakoopa.com/crabbydata
 
 http://digg.com/users/foobar	sgn://digg.com/?ident=foobar
 http://digg.com/users/foobar/	sgn://digg.com/?ident=foobar

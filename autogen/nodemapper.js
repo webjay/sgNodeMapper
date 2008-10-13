@@ -1310,6 +1310,14 @@ nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_profile",
     "http://www.mojageneracja.pl/", "/");
 nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_rss",
     "http://www.mojageneracja.pl/", "/rss");
+nodemapper.registerDomain("wakoopa.com",
+{name: "Wakoopa",
+ urlToGraphNode: nodemapper.createPathRegexpHandler(
+   "wakoopa.com",
+   /^\/(\w+)(?:\/|$)/)
+});
+nodemapper.addSimpleHandler("wakoopa.com", "ident_to_profile",
+    "http://wakoopa.com/");
 })();
 (function(){
 spinPkHandler = function(url, host, path) {
