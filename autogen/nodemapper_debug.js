@@ -1571,7 +1571,6 @@ nodemapper.addSimpleHandler("del.icio.us", "ident_to_profile",
 nodemapper.addSimpleHandler("del.icio.us", "ident_to_rss", 
     "http://del.icio.us/rss/");
 
-
 nodemapper.registerDomain("webshots.com", {
     name: "Webshots",
     identRegexp: /^\w+$/
@@ -1737,6 +1736,20 @@ nodemapper.addSimpleHandler("vimeo.com", "ident_to_profile",
     "http://www.vimeo.com/");
 nodemapper.addSimpleHandler("vimeo.com", "ident_to_rss", 
     "http://www.vimeo.com/", "/videos/rss");
+
+nodemapper.registerDomain("my.opera.com",
+  {name: "My Opera",
+   identRegexp: /^\w+$/,
+   // HACK: numbers are valid usernames, so make this never match
+   // proper fix would be to explicitly undefine/cancel matching as pk,
+   // which we can't currently do because the base class backs off to \d+
+   pkRegexp: /^ dontmatchme $/, 
+   urlToGraphNode: nodemapper.createSlashUsernameHandler(
+    "my.opera.com", {slashAnything: 1})});
+nodemapper.addSimpleHandler("my.opera.com", "ident_to_profile", 
+    "http://my.opera.com/", "/");
+nodemapper.addSimpleHandler("my.opera.com", "ident_to_foaf", 
+    "http://my.opera.com/", "/xml/foaf/");
 
 nodemapper.registerDomain("disqus.com",
   {name: "Disqus",
