@@ -539,6 +539,7 @@ var nodemapper_tests = [
   ["urlFromGraphNode", "sgn://my.opera.com/?ident=jsmarr", "foaf", "http://my.opera.com/jsmarr/xml/foaf/"],
   ["urlToGraphNode", "http://my.opera.com/jsmarr/xml/foaf/", "sgn://my.opera.com/?ident=jsmarr"],
   ["urlToGraphNode", "http://www.mojageneracja.pl/13192415/", "sgn://mojageneracja.pl/?pk=13192415"],
+  ["urlToGraphNode", "http://www.mojageneracja.pl/13192415/something", "sgn://mojageneracja.pl/?pk=13192415"],
   ["urlFromGraphNode", "sgn://mojageneracja.pl/?pk=13192415", "profile", "http://www.mojageneracja.pl/13192415/"],
   ["urlToGraphNode", "http://www.mojageneracja.pl/13192415/", "sgn://mojageneracja.pl/?pk=13192415"],
   ["urlFromGraphNode", "sgn://mojageneracja.pl/?pk=13192415", "rss", "http://www.mojageneracja.pl/13192415/rss"],

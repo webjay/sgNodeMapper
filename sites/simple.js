@@ -738,5 +738,6 @@ profile(sgn://my.opera.com/?ident=1966) http://my.opera.com/1966/
 foaf(sgn://my.opera.com/?ident=jsmarr) http://my.opera.com/jsmarr/xml/foaf/
 
 http://www.mojageneracja.pl/13192415/ sgn://mojageneracja.pl/?pk=13192415
+http://www.mojageneracja.pl/13192415/something sgn://mojageneracja.pl/?pk=13192415
 profile(sgn://mojageneracja.pl/?pk=13192415) http://www.mojageneracja.pl/13192415/
 rss(sgn://mojageneracja.pl/?pk=13192415) http://www.mojageneracja.pl/13192415/rss
