@@ -1817,15 +1817,6 @@ nodemapper.addSimpleHandler("ilike.com", "ident_to_profile",
 nodemapper.addSimpleHandler("ilike.com", "ident_to_rss", 
     "http://www.ilike.com/user/", "/songs_ilike.rss");
 
-nodemapper.registerDomain("zooomr.com",
-  {name: "Zooomr",
-   urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
-      "(?:photos|people)", "zooomr.com", {slashAnything: 1})});
-nodemapper.addSimpleHandler("zooomr.com", "ident_to_profile", 
-    "http://www.zooomr.com/people/");
-nodemapper.addSimpleHandler("zooomr.com", "ident_to_rss", 
-    "http://www.zooomr.com/services/feeds/public_photos/?id=", 
-    "&format=rss_200");
 
 nodemapper.registerDomain(
     "multiply.com",
@@ -2146,4 +2137,56 @@ nodemapper.addSimpleHandler("yelp.com", "ident_to_profile",
 
 })();
 // (end of included file sites/yelp.js)
+
+// =========================================================================
+// Begin included file sites/zooomr.js
+(function(){
+// $1: first slash word in URL
+// $2: second part
+var SLASH_WORD_MAYBEWORD = /^\/(\w+)(?:\/(\w+))?(?:\/|$)/;
+
+var SLASH_PK_REGEXP = /\b(\d+\@Z\d\d)\b/;
+
+var toSgn = function(url, host, path) {
+  var m;
+  if (m = SLASH_PK_REGEXP.exec(path)) {
+    return  "sgn://zooomr.com/?pk=" + m[1];
+  }
+  if (!(m = SLASH_WORD_MAYBEWORD.exec(path))) {
+    return url;
+  }
+  if (m[1] == "people" || m[1] == "photos") {
+    return "sgn://zooomr.com/?ident=" + m[2].toLowerCase();
+  }
+  if (!m[2]) {
+    return "sgn://zooomr.com/?ident=" + m[1].toLowerCase();
+  }
+  return url;
+};
+
+nodemapper.registerDomain("zooomr.com",
+  {name: "Zooomr",
+   urlToGraphNode: toSgn,
+   pkRegexp: /^\d+\@Z\d\d$/
+
+});
+
+nodemapper.addSimpleHandler("zooomr.com", "ident_to_profile",
+    "http://www.zooomr.com/people/", "/");
+nodemapper.addSimpleHandler("zooomr.com", "ident_to_content",
+    "http://www.zooomr.com/photos/", "/");
+nodemapper.addSimpleHandler("zooomr.com", "ident_to_rss",
+    "http://www.zooomr.com/services/feeds/public_photos/?id=",
+    "&format=rss_200");
+
+nodemapper.addSimpleHandler("zooomr.com", "pk_to_profile",
+    "http://www.zooomr.com/people/", "/");
+nodemapper.addSimpleHandler("zooomr.com", "pk_to_content",
+    "http://www.zooomr.com/photos/", "/");
+nodemapper.addSimpleHandler("zooomr.com", "pk_to_rss",
+    "http://www.zooomr.com/services/feeds/public_photos/?id=",
+    "&format=rss_200");
+
+})();
+// (end of included file sites/zooomr.js)
 

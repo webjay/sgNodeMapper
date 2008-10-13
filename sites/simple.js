@@ -358,15 +358,6 @@ nodemapper.addSimpleHandler("ilike.com", "ident_to_profile",
 nodemapper.addSimpleHandler("ilike.com", "ident_to_rss", 
     "http://www.ilike.com/user/", "/songs_ilike.rss");
 
-nodemapper.registerDomain("zooomr.com",
-  {name: "Zooomr",
-   urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
-      "(?:photos|people)", "zooomr.com", {slashAnything: 1})});
-nodemapper.addSimpleHandler("zooomr.com", "ident_to_profile", 
-    "http://www.zooomr.com/people/");
-nodemapper.addSimpleHandler("zooomr.com", "ident_to_rss", 
-    "http://www.zooomr.com/services/feeds/public_photos/?id=", 
-    "&format=rss_200");
 
 nodemapper.registerDomain(
     "multiply.com",
@@ -604,11 +595,6 @@ http://www.ilike.com/user/jsmarr sgn://ilike.com/?ident=jsmarr
 http://ilike.com/user/jsmarr/songs_ilike.rss sgn://ilike.com/?ident=jsmarr
 profile(sgn://ilike.com/?ident=jsmarr) http://www.ilike.com/user/jsmarr
 rss(sgn://ilike.com/?ident=jsmarr) http://www.ilike.com/user/jsmarr/songs_ilike.rss 
-
-http://www.zooomr.com/photos/jsmarr sgn://zooomr.com/?ident=jsmarr
-http://www.zooomr.com/people/jsmarr sgn://zooomr.com/?ident=jsmarr
-profile(sgn://zooomr.com/?ident=jsmarr) http://www.zooomr.com/people/jsmarr
-rss(sgn://zooomr.com/?ident=jsmarr) http://www.zooomr.com/services/feeds/public_photos/?id=jsmarr&format=rss_200
 
 http://bradfitz.multiply.com/   sgn://multiply.com/?ident=bradfitz
 profile(sgn://multiply.com/?ident=bradfitz) http://bradfitz.multiply.com/
