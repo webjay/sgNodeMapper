@@ -51,8 +51,9 @@ var LJCOM_MISC_BML_REGEX = /^\/(?:go|talkread)\.bml\?.*\bjournal=(\w+)/;
 var urlToGraphNodeUsersCommunity = function(url, host, path) {
   var slashUserMaybeProfile = /^\/(\w+)(?:\/|\/profile|$)/;
   var m;
-  if (!(m = slashUserMaybeProfile.exec(path)))
-  return url;
+  if (!(m = slashUserMaybeProfile.exec(path))) {
+    return url;
+  }
   return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
 };
 

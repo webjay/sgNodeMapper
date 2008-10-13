@@ -259,12 +259,17 @@ nodemapper.pairToGraphNode = function (host, account) {
 	    accountToSgn.ident = [handler._registeredOnDomain, handler.identRegexp];
 	}
     }
-    
+
     if (accountToSgn.pk) {
 	var sgnDomain = accountToSgn.pk[0];
 	var sgnRegexp = accountToSgn.pk[1] || /^\d+$/;
-	if (sgnRegexp.exec(account)) {
-	    return "sgn://" + sgnDomain + "/?pk=" + account;
+        var m;
+	if (m = sgnRegexp.exec(account)) {
+          if (m[1]) {
+            return "sgn://" + sgnDomain + "/?pk=" + m[1];
+          } else {
+            return "sgn://" + sgnDomain + "/?pk=" + account;
+          }
 	}
     }
 

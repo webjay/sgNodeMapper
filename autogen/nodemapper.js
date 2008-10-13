@@ -133,8 +133,13 @@ nodemapper.pairToGraphNode = function (host, account) {
     if (accountToSgn.pk) {
 	var sgnDomain = accountToSgn.pk[0];
 	var sgnRegexp = accountToSgn.pk[1] || /^\d+$/;
-	if (sgnRegexp.exec(account)) {
-	    return "sgn://" + sgnDomain + "/?pk=" + account;
+        var m;
+	if (m = sgnRegexp.exec(account)) {
+          if (m[1]) {
+            return "sgn://" + sgnDomain + "/?pk=" + m[1];
+          } else {
+            return "sgn://" + sgnDomain + "/?pk=" + account;
+          }
 	}
     }
     if (accountToSgn.ident) {
@@ -705,8 +710,9 @@ var LJCOM_MISC_BML_REGEX = /^\/(?:go|talkread)\.bml\?.*\bjournal=(\w+)/;
 var urlToGraphNodeUsersCommunity = function(url, host, path) {
   var slashUserMaybeProfile = /^\/(\w+)(?:\/|\/profile|$)/;
   var m;
-  if (!(m = slashUserMaybeProfile.exec(path)))
-  return url;
+  if (!(m = slashUserMaybeProfile.exec(path))) {
+    return url;
+  }
   return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
 };
 nodemapper.registerDomain(["users.livejournal.com",
@@ -776,6 +782,36 @@ nodemapper.registerDomain("meetup.com", {
 });
 nodemapper.addSimpleHandler("meetup.com", "pk_to_profile",
 			    "http://www.meetup.com/members/", "/");
+})();
+(function(){
+var BUZZ_MEMBER_REGEXP = /^\/buzz\/members\/(?:mybloglog([0-9a-f]{20,20})|([\w\-]+))(?:\/|$)/;
+var toSgn = function(url, host, path) {
+  var m;
+  if (!(m = BUZZ_MEMBER_REGEXP.exec(path))) {
+    return url;
+  }
+  if (m[1]) {
+    return "sgn://mybloglog.com/?pk=" + m[1].toLowerCase();
+  } else {
+    return "sgn://mybloglog.com/?ident=" + m[2].toLowerCase();
+  }
+};
+var PK_REGEXP = /^(?:mybloglog)?([0-9a-f]{20,20})$/;
+nodemapper.registerDomain("mybloglog.com", {
+  urlToGraphNode: toSgn,
+  accountToSgn: { pk: ["mybloglog.com", PK_REGEXP],
+                  ident: ["mybloglog.com", /^[\w-]+$/] },
+  pkRegexp: PK_REGEXP,
+  name: "MyBlogLog"
+});
+nodemapper.addSimpleHandler("mybloglog.com", "ident_to_foaf",
+                            "http://www.mybloglog.com/buzz/members/", "/foaf");
+nodemapper.addSimpleHandler("mybloglog.com", "ident_to_profile",
+                            "http://www.mybloglog.com/buzz/members/", "/");
+nodemapper.addSimpleHandler("mybloglog.com", "pk_to_foaf",
+                            "http://www.mybloglog.com/buzz/members/mybloglog", "/foaf");
+nodemapper.addSimpleHandler("mybloglog.com", "pk_to_profile",
+                            "http://www.mybloglog.com/buzz/members/mybloglog", "/");
 })();
 (function(){
 var ACTION_REGEX = /index\.cfm\?fuseaction=(.+)&friendID=(\d+)/i;
