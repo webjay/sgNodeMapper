@@ -463,6 +463,17 @@ nodemapper.addSimpleHandler("weeloop.com", "ident_to_profile",
 nodemapper.addSimpleHandler("weeloop.com", "ident_to_atom",
                             "http://", ".weeloop.com/api/post?mimeType=application/atom+xml");
 
+nodemapper.registerDomain("planeta.rambler.ru",
+{name: "Rambler-Planeta",
+ identRegexp: /^[\w\.]+$/,
+ urlToGraphNode: nodemapper.createPathRegexpHandler(
+   "planeta.rambler.ru",
+   /^\/users\/([\w\.]+)/)
+});
+nodemapper.addSimpleHandler("planeta.rambler.ru", "ident_to_foaf",
+    "http://planeta.rambler.ru/users/", "/friends/foaf/");
+nodemapper.addSimpleHandler("planeta.rambler.ru", "ident_to_rss",
+    "http://planeta.rambler.ru/users/", "/rss/");
 
 __END__
 
@@ -697,3 +708,8 @@ http://jsmarr.blogbus.com/   sgn://blogbus.com/?ident=jsmarr
 http://jsmarr.blogbus.com/index.rdf   sgn://blogbus.com/?ident=jsmarr
 profile(sgn://blogbus.com/?ident=jsmarr) http://jsmarr.blogbus.com/
 rss(sgn://blogbus.com/?ident=jsmarr) http://jsmarr.blogbus.com/index.rdf
+
+http://planeta.rambler.ru/users/alex.nec.ru/  sgn://planeta.rambler.ru/?ident=alex.nec.ru
+http://planeta.rambler.ru/users/alex.nec.RU  sgn://planeta.rambler.ru/?ident=alex.nec.ru
+foaf(sgn://planeta.rambler.ru/?ident=alex.nec.ru)  http://planeta.rambler.ru/users/alex.nec.ru/friends/foaf/
+rss(sgn://planeta.rambler.ru/?ident=alex.nec.ru)  http://planeta.rambler.ru/users/alex.nec.ru/rss/

@@ -1288,6 +1288,17 @@ nodemapper.addSimpleHandler("weeloop.com", "ident_to_profile",
                             "http://", ".weeloop.com/profile");
 nodemapper.addSimpleHandler("weeloop.com", "ident_to_atom",
                             "http://", ".weeloop.com/api/post?mimeType=application/atom+xml");
+nodemapper.registerDomain("planeta.rambler.ru",
+{name: "Rambler-Planeta",
+ identRegexp: /^[\w\.]+$/,
+ urlToGraphNode: nodemapper.createPathRegexpHandler(
+   "planeta.rambler.ru",
+   /^\/users\/([\w\.]+)/)
+});
+nodemapper.addSimpleHandler("planeta.rambler.ru", "ident_to_foaf",
+    "http://planeta.rambler.ru/users/", "/friends/foaf/");
+nodemapper.addSimpleHandler("planeta.rambler.ru", "ident_to_rss",
+    "http://planeta.rambler.ru/users/", "/rss/");
 })();
 (function(){
 spinPkHandler = function(url, host, path) {
