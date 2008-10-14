@@ -1953,7 +1953,7 @@ nodemapper.registerDomain("wakoopa.com",
 {name: "Wakoopa",
  urlToGraphNode: nodemapper.createPathRegexpHandler(
    "wakoopa.com",
-   /^\/(\w+)(?:\/|$)/)
+   /^\/(?!software\/)(\w+)(?:\/|$)/)
 });
 nodemapper.addSimpleHandler("wakoopa.com", "ident_to_profile",
     "http://wakoopa.com/");

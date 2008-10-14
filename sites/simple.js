@@ -494,7 +494,7 @@ nodemapper.registerDomain("wakoopa.com",
 {name: "Wakoopa",
  urlToGraphNode: nodemapper.createPathRegexpHandler(
    "wakoopa.com",
-   /^\/(\w+)(?:\/|$)/)
+   /^\/(?!software\/)(\w+)(?:\/|$)/)
 });
 nodemapper.addSimpleHandler("wakoopa.com", "ident_to_profile",
     "http://wakoopa.com/");
@@ -504,6 +504,8 @@ __END__
 http://wakoopa.com/crabbydata  sgn://wakoopa.com/?ident=crabbydata
 http://wakoopa.com/CrabbyDATA/feed/foo  sgn://wakoopa.com/?ident=crabbydata
 profile(sgn://wakoopa.com/?ident=crabbydata) http://wakoopa.com/crabbydata
+# no change:
+http://wakoopa.com/software/quartz-wm http://wakoopa.com/software/quartz-wm
 
 http://digg.com/users/foobar	sgn://digg.com/?ident=foobar
 http://digg.com/users/foobar/	sgn://digg.com/?ident=foobar

@@ -265,6 +265,7 @@ var nodemapper_tests = [
   ["urlToGraphNode", "http://wakoopa.com/CrabbyDATA/feed/foo", "sgn://wakoopa.com/?ident=crabbydata"],
   ["urlFromGraphNode", "sgn://wakoopa.com/?ident=crabbydata", "profile", "http://wakoopa.com/crabbydata"],
   ["urlToGraphNode", "http://wakoopa.com/crabbydata", "sgn://wakoopa.com/?ident=crabbydata"],
+  ["urlToGraphNode", "http://wakoopa.com/software/quartz-wm", "http://wakoopa.com/software/quartz-wm"],
   ["urlToGraphNode", "http://digg.com/users/foobar", "sgn://digg.com/?ident=foobar"],
   ["urlToGraphNode", "http://digg.com/users/foobar/", "sgn://digg.com/?ident=foobar"],
   ["urlFromGraphNode", "sgn://digg.com/?ident=foobar", "profile", "http://digg.com/users/foobar/"],
