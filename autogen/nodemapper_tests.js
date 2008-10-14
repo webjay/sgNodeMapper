@@ -628,6 +628,7 @@ var nodemapper_tests = [
   ["urlToGraphNode", "http://www.zooomr.com/people/", "http://www.zooomr.com/people/"],
   ["urlToGraphNode", "http://www.zooomr.com/photos/jsmarr", "sgn://zooomr.com/?ident=jsmarr"],
   ["urlToGraphNode", "http://www.zooomr.com/people/jsmarr", "sgn://zooomr.com/?ident=jsmarr"],
+  ["urlToGraphNode", "http://www.zooomr.com/people/jsmarr/fans", "sgn://zooomr.com/?ident=jsmarr"],
   ["urlFromGraphNode", "sgn://zooomr.com/?ident=jsmarr", "profile", "http://www.zooomr.com/people/jsmarr/"],
   ["urlToGraphNode", "http://www.zooomr.com/people/jsmarr/", "sgn://zooomr.com/?ident=jsmarr"],
   ["urlFromGraphNode", "sgn://zooomr.com/?ident=jsmarr", "rss", "http://www.zooomr.com/services/feeds/public_photos/?id=jsmarr&format=rss_200"],
@@ -647,5 +648,8 @@ var nodemapper_tests = [
   ["urlToGraphNode", "http://pt-br.zooomr.com/photos/jsmarr", "sgn://zooomr.com/?ident=jsmarr"],
   ["urlToGraphNode", "http://cn.zooomr.com/anniebluesky", "sgn://zooomr.com/?ident=anniebluesky"],
   ["urlToGraphNode", "http://de.zooomr.com/5uspect", "sgn://zooomr.com/?ident=5uspect"],
-  ["urlToGraphNode", "http://de.zooomr.com/bear11", "sgn://zooomr.com/?ident=bear11"]
+  ["urlToGraphNode", "http://de.zooomr.com/bear11", "sgn://zooomr.com/?ident=bear11"],
+  ["urlToGraphNode", "http://cn.zooomr.com/abc/fans/", "sgn://zooomr.com/?ident=abc"],
+  ["urlToGraphNode", "http://pt.zooomr.com/abc/statuses/3d64a48d61/foo-bar", "sgn://zooomr.com/?ident=abc"],
+  ["urlToGraphNode", "http://cn.zooomr.com/abc/xxxx/", "http://cn.zooomr.com/abc/xxxx/"]
 ];

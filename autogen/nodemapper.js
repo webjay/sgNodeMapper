@@ -1472,6 +1472,13 @@ nodemapper.addSimpleHandler("yelp.com", "ident_to_profile",
 (function(){
 var SLASH_WORD_MAYBEWORD = /^\/(\w+)(?:\/(\w+))?(?:\/|$)/;
 var SLASH_PK_REGEXP = /\b(\d+\@Z\d\d)\b/;
+var userPaths = {
+    'fans': 1,
+    'statuses': 1,
+    'favorites': 1,
+    'mutual': 1,
+    'with_friends': 1
+};
 var toSgn = function(url, host, path) {
   var m;
   if (m = SLASH_PK_REGEXP.exec(path)) {
@@ -1486,7 +1493,7 @@ var toSgn = function(url, host, path) {
     }
     return "sgn://zooomr.com/?ident=" + m[2].toLowerCase();
   }
-  if (!m[2]) {
+  if (!m[2] || userPaths[m[2]]) {
     return "sgn://zooomr.com/?ident=" + m[1].toLowerCase();
   }
   return url;

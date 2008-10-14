@@ -21,6 +21,14 @@ var SLASH_WORD_MAYBEWORD = /^\/(\w+)(?:\/(\w+))?(?:\/|$)/;
 
 var SLASH_PK_REGEXP = /\b(\d+\@Z\d\d)\b/;
 
+var userPaths = {
+    'fans': 1,
+    'statuses': 1,
+    'favorites': 1,
+    'mutual': 1,
+    'with_friends': 1
+};
+
 var toSgn = function(url, host, path) {
   var m;
   if (m = SLASH_PK_REGEXP.exec(path)) {
@@ -35,7 +43,7 @@ var toSgn = function(url, host, path) {
     }
     return "sgn://zooomr.com/?ident=" + m[2].toLowerCase();
   }
-  if (!m[2]) {
+  if (!m[2] || userPaths[m[2]]) {
     return "sgn://zooomr.com/?ident=" + m[1].toLowerCase();
   }
   return url;
@@ -72,6 +80,7 @@ http://www.zooomr.com/people/ http://www.zooomr.com/people/
 
 http://www.zooomr.com/photos/jsmarr sgn://zooomr.com/?ident=jsmarr
 http://www.zooomr.com/people/jsmarr sgn://zooomr.com/?ident=jsmarr
+http://www.zooomr.com/people/jsmarr/fans sgn://zooomr.com/?ident=jsmarr
 profile(sgn://zooomr.com/?ident=jsmarr) http://www.zooomr.com/people/jsmarr/
 rss(sgn://zooomr.com/?ident=jsmarr) http://www.zooomr.com/services/feeds/public_photos/?id=jsmarr&format=rss_200
 content(sgn://zooomr.com/?ident=jsmarr) http://www.zooomr.com/photos/jsmarr/
@@ -90,3 +99,10 @@ http://pt-br.zooomr.com/photos/jsmarr sgn://zooomr.com/?ident=jsmarr
 http://cn.zooomr.com/anniebluesky sgn://zooomr.com/?ident=anniebluesky
 http://de.zooomr.com/5uspect      sgn://zooomr.com/?ident=5uspect
 http://de.zooomr.com/bear11       sgn://zooomr.com/?ident=bear11
+
+http://cn.zooomr.com/abc/fans/ sgn://zooomr.com/?ident=abc
+http://pt.zooomr.com/abc/statuses/3d64a48d61/foo-bar sgn://zooomr.com/?ident=abc
+
+# non-user path:
+http://cn.zooomr.com/abc/xxxx/ http://cn.zooomr.com/abc/xxxx/
+
