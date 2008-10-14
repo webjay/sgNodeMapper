@@ -666,5 +666,8 @@ var nodemapper_tests = [
   ["urlToGraphNode", "http://de.zooomr.com/bear11", "sgn://zooomr.com/?ident=bear11"],
   ["urlToGraphNode", "http://cn.zooomr.com/abc/fans/", "sgn://zooomr.com/?ident=abc"],
   ["urlToGraphNode", "http://pt.zooomr.com/abc/statuses/3d64a48d61/foo-bar", "sgn://zooomr.com/?ident=abc"],
-  ["urlToGraphNode", "http://cn.zooomr.com/abc/xxxx/", "http://cn.zooomr.com/abc/xxxx/"]
+  ["urlToGraphNode", "http://cn.zooomr.com/abc/xxxx/", "http://cn.zooomr.com/abc/xxxx/"],
+  ["urlToGraphNode", "http://it.zooomr.com/ontheroad/statuses/f5638736d6/", "sgn://zooomr.com/?ident=ontheroad"],
+  ["urlToGraphNode", "http://www.zooomr.com/zipline/abc/statuses/2d516020e2/some-message/", "sgn://zooomr.com/?ident=abc"],
+  ["urlToGraphNode", "http://de.zooomr.com/kristopher/page2/?acat=1", "sgn://zooomr.com/?ident=kristopher"]
 ];

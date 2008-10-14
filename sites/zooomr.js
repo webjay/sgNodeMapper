@@ -21,7 +21,13 @@ var SLASH_WORD_MAYBEWORD = /^\/(\w+)(?:\/(\w+))?(?:\/|$)/;
 
 var SLASH_PK_REGEXP = /\b(\d+\@Z\d\d)\b/;
 
-var userPaths = {
+var userFirstPaths = {
+  'people': 1,
+  'photos': 1,
+  'zipline': 1
+};
+
+var userSecondPaths = {
     'fans': 1,
     'statuses': 1,
     'favorites': 1,
@@ -37,13 +43,13 @@ var toSgn = function(url, host, path) {
   if (!(m = SLASH_WORD_MAYBEWORD.exec(path))) {
     return url;
   }
-  if (m[1] == "people" || m[1] == "photos") {
+  if (userFirstPaths[m[1]]) {
     if (!m[2]) {
       return url;
     }
     return "sgn://zooomr.com/?ident=" + m[2].toLowerCase();
   }
-  if (!m[2] || userPaths[m[2]]) {
+  if (!m[2] || userSecondPaths[m[2]] || m[2].substr(0, 4) == "page") {
     return "sgn://zooomr.com/?ident=" + m[1].toLowerCase();
   }
   return url;
@@ -106,3 +112,7 @@ http://pt.zooomr.com/abc/statuses/3d64a48d61/foo-bar sgn://zooomr.com/?ident=abc
 # non-user path:
 http://cn.zooomr.com/abc/xxxx/ http://cn.zooomr.com/abc/xxxx/
 
+http://it.zooomr.com/ontheroad/statuses/f5638736d6/ sgn://zooomr.com/?ident=ontheroad
+
+http://www.zooomr.com/zipline/abc/statuses/2d516020e2/some-message/ sgn://zooomr.com/?ident=abc
+http://de.zooomr.com/kristopher/page2/?acat=1 sgn://zooomr.com/?ident=kristopher
