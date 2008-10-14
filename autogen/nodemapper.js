@@ -1481,6 +1481,9 @@ var toSgn = function(url, host, path) {
     return url;
   }
   if (m[1] == "people" || m[1] == "photos") {
+    if (!m[2]) {
+      return url;
+    }
     return "sgn://zooomr.com/?ident=" + m[2].toLowerCase();
   }
   if (!m[2]) {

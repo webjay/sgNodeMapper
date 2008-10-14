@@ -623,6 +623,8 @@ var nodemapper_tests = [
   ["urlToGraphNode", "http://www.yelp.com/user_details?userid=Dk2IkchUjADbrC05sdsAVQ", "sgn://yelp.com/?pk=Dk2IkchUjADbrC05sdsAVQ"],
   ["urlFromGraphNode", "sgn://yelp.com/?ident=jsmarr", "profile", "http://jsmarr.yelp.com"],
   ["urlToGraphNode", "http://jsmarr.yelp.com", "sgn://yelp.com/?ident=jsmarr"],
+  ["urlToGraphNode", "http://www.zooomr.com/photos", "http://www.zooomr.com/photos"],
+  ["urlToGraphNode", "http://www.zooomr.com/people/", "http://www.zooomr.com/people/"],
   ["urlToGraphNode", "http://www.zooomr.com/photos/jsmarr", "sgn://zooomr.com/?ident=jsmarr"],
   ["urlToGraphNode", "http://www.zooomr.com/people/jsmarr", "sgn://zooomr.com/?ident=jsmarr"],
   ["urlFromGraphNode", "sgn://zooomr.com/?ident=jsmarr", "profile", "http://www.zooomr.com/people/jsmarr/"],

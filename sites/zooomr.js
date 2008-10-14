@@ -30,6 +30,9 @@ var toSgn = function(url, host, path) {
     return url;
   }
   if (m[1] == "people" || m[1] == "photos") {
+    if (!m[2]) {
+      return url;
+    }
     return "sgn://zooomr.com/?ident=" + m[2].toLowerCase();
   }
   if (!m[2]) {
@@ -62,6 +65,10 @@ nodemapper.addSimpleHandler("zooomr.com", "pk_to_rss",
     "&format=rss_200");
 
 __END__
+
+# noop:
+http://www.zooomr.com/photos http://www.zooomr.com/photos
+http://www.zooomr.com/people/ http://www.zooomr.com/people/
 
 http://www.zooomr.com/photos/jsmarr sgn://zooomr.com/?ident=jsmarr
 http://www.zooomr.com/people/jsmarr sgn://zooomr.com/?ident=jsmarr
