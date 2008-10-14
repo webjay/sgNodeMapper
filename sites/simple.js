@@ -292,6 +292,17 @@ nodemapper.addSimpleHandler("my.opera.com", "ident_to_profile",
 nodemapper.addSimpleHandler("my.opera.com", "ident_to_foaf", 
     "http://my.opera.com/", "/xml/foaf/");
 
+nodemapper.registerDomain("d.hatena.ne.jp",
+  {name: "Hatena::Diary",
+   urlToGraphNode: nodemapper.createPathRegexpHandler(
+    "d.hatena.ne.jp", /^\/([\w-]+)(?:\/|$)/, {casePreserve: 1})});
+nodemapper.addSimpleHandler("d.hatena.ne.jp", "ident_to_profile", 
+    "http://d.hatena.ne.jp/", "/");
+nodemapper.addSimpleHandler("d.hatena.ne.jp", "ident_to_rss", 
+    "http://d.hatena.ne.jp/", "/rss");
+nodemapper.addSimpleHandler("d.hatena.ne.jp", "ident_to_foaf", 
+    "http://d.hatena.ne.jp/", "/foaf");
+
 nodemapper.registerDomain("disqus.com",
   {name: "Disqus",
    urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
@@ -734,6 +745,16 @@ http://my.opera.com/1966/xml/foaf/ sgn://my.opera.com/?ident=1966
 profile(sgn://my.opera.com/?ident=jsmarr) http://my.opera.com/jsmarr/
 profile(sgn://my.opera.com/?ident=1966) http://my.opera.com/1966/
 foaf(sgn://my.opera.com/?ident=jsmarr) http://my.opera.com/jsmarr/xml/foaf/
+
+http://d.hatena.ne.jp/akatori777 sgn://d.hatena.ne.jp/?ident=akatori777
+http://d.hatena.ne.jp/akatori777/ sgn://d.hatena.ne.jp/?ident=akatori777
+http://d.hatena.ne.jp/AKatori777/ sgn://d.hatena.ne.jp/?ident=AKatori777
+http://d.hatena.ne.jp/A-Sky/ sgn://d.hatena.ne.jp/?ident=A-Sky
+http://d.hatena.ne.jp/akatori777/foaf sgn://d.hatena.ne.jp/?ident=akatori777
+http://d.hatena.ne.jp/akatori777/20090101/11920734 sgn://d.hatena.ne.jp/?ident=akatori777
+profile(sgn://d.hatena.ne.jp/?ident=akatori777) http://d.hatena.ne.jp/akatori777/
+foaf(sgn://d.hatena.ne.jp/?ident=akatori777) http://d.hatena.ne.jp/akatori777/foaf
+rss(sgn://d.hatena.ne.jp/?ident=akatori777) http://d.hatena.ne.jp/akatori777/rss
 
 http://www.mojageneracja.pl/13192415/ sgn://mojageneracja.pl/?pk=13192415
 http://www.mojageneracja.pl/13192415/something sgn://mojageneracja.pl/?pk=13192415

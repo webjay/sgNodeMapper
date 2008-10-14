@@ -1751,6 +1751,17 @@ nodemapper.addSimpleHandler("my.opera.com", "ident_to_profile",
 nodemapper.addSimpleHandler("my.opera.com", "ident_to_foaf", 
     "http://my.opera.com/", "/xml/foaf/");
 
+nodemapper.registerDomain("d.hatena.ne.jp",
+  {name: "Hatena::Diary",
+   urlToGraphNode: nodemapper.createPathRegexpHandler(
+    "d.hatena.ne.jp", /^\/([\w-]+)(?:\/|$)/, {casePreserve: 1})});
+nodemapper.addSimpleHandler("d.hatena.ne.jp", "ident_to_profile", 
+    "http://d.hatena.ne.jp/", "/");
+nodemapper.addSimpleHandler("d.hatena.ne.jp", "ident_to_rss", 
+    "http://d.hatena.ne.jp/", "/rss");
+nodemapper.addSimpleHandler("d.hatena.ne.jp", "ident_to_foaf", 
+    "http://d.hatena.ne.jp/", "/foaf");
+
 nodemapper.registerDomain("disqus.com",
   {name: "Disqus",
    urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
