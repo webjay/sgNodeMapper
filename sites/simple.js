@@ -278,20 +278,6 @@ nodemapper.addSimpleHandler("vimeo.com", "ident_to_profile",
 nodemapper.addSimpleHandler("vimeo.com", "ident_to_rss", 
     "http://www.vimeo.com/", "/videos/rss");
 
-nodemapper.registerDomain("my.opera.com",
-  {name: "My Opera",
-   identRegexp: /^\w+$/,
-   // HACK: numbers are valid usernames, so make this never match
-   // proper fix would be to explicitly undefine/cancel matching as pk,
-   // which we can't currently do because the base class backs off to \d+
-   pkRegexp: /^ dontmatchme $/, 
-   urlToGraphNode: nodemapper.createSlashUsernameHandler(
-    "my.opera.com", {slashAnything: 1})});
-nodemapper.addSimpleHandler("my.opera.com", "ident_to_profile", 
-    "http://my.opera.com/", "/");
-nodemapper.addSimpleHandler("my.opera.com", "ident_to_foaf", 
-    "http://my.opera.com/", "/xml/foaf/");
-
 nodemapper.registerDomain("d.hatena.ne.jp",
   {name: "Hatena::Diary",
    urlToGraphNode: nodemapper.createPathRegexpHandler(
@@ -734,17 +720,6 @@ http://planeta.rambler.ru/users/alex.nec.ru/  sgn://planeta.rambler.ru/?ident=al
 http://planeta.rambler.ru/users/alex.nec.RU  sgn://planeta.rambler.ru/?ident=alex.nec.ru
 foaf(sgn://planeta.rambler.ru/?ident=alex.nec.ru)  http://planeta.rambler.ru/users/alex.nec.ru/friends/foaf/
 rss(sgn://planeta.rambler.ru/?ident=alex.nec.ru)  http://planeta.rambler.ru/users/alex.nec.ru/rss/
-
-http://my.opera.com/jsmarr sgn://my.opera.com/?ident=jsmarr
-http://my.opera.com/jsmarr/ sgn://my.opera.com/?ident=jsmarr
-http://my.opera.com/jSMArr/ sgn://my.opera.com/?ident=jsmarr
-http://my.opera.com/jsmarr/about sgn://my.opera.com/?ident=jsmarr
-http://my.opera.com/jsmarr/info/ sgn://my.opera.com/?ident=jsmarr
-http://my.opera.com/jsmarr/xml/foaf/ sgn://my.opera.com/?ident=jsmarr
-http://my.opera.com/1966/xml/foaf/ sgn://my.opera.com/?ident=1966
-profile(sgn://my.opera.com/?ident=jsmarr) http://my.opera.com/jsmarr/
-profile(sgn://my.opera.com/?ident=1966) http://my.opera.com/1966/
-foaf(sgn://my.opera.com/?ident=jsmarr) http://my.opera.com/jsmarr/xml/foaf/
 
 http://d.hatena.ne.jp/akatori777 sgn://d.hatena.ne.jp/?ident=akatori777
 http://d.hatena.ne.jp/akatori777/ sgn://d.hatena.ne.jp/?ident=akatori777

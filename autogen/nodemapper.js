@@ -889,6 +889,31 @@ nodemapper.registerNonHTTPHandler(function(url) {
 });
 })();
 (function(){
+var IDENT_REGEXP = /^[\w\-\%\.\:\*]+$/;
+var SLASH_WHATEVER = /^\/([^\/]+)(?:\/|$)/;
+var toSgn = function(url, host, path) {
+  var m;
+  if (!(m = SLASH_WHATEVER.exec(path))) {
+    return;
+  }
+  var username = m[1];
+  if (!(m = IDENT_REGEXP.exec(username))) {
+    return url;
+  }
+  return "sgn://my.opera.com/?ident=" + username.toLowerCase();
+};
+nodemapper.registerDomain("my.opera.com", {
+  name: "My Opera",
+  identRegexp: IDENT_REGEXP,
+  pkRegexp: /^ dontmatchme $/,
+  urlToGraphNode: toSgn
+});
+nodemapper.addSimpleHandler("my.opera.com", "ident_to_profile",
+                            "http://my.opera.com/", "/about/");
+nodemapper.addSimpleHandler("my.opera.com", "ident_to_foaf",
+                            "http://my.opera.com/", "/xml/foaf/");
+})();
+(function(){
 nodemapper.registerDomain(
     "digg.com",
     {name: "Digg",
@@ -1123,16 +1148,6 @@ nodemapper.addSimpleHandler("vimeo.com", "ident_to_profile",
     "http://www.vimeo.com/");
 nodemapper.addSimpleHandler("vimeo.com", "ident_to_rss", 
     "http://www.vimeo.com/", "/videos/rss");
-nodemapper.registerDomain("my.opera.com",
-  {name: "My Opera",
-   identRegexp: /^\w+$/,
-   pkRegexp: /^ dontmatchme $/, 
-   urlToGraphNode: nodemapper.createSlashUsernameHandler(
-    "my.opera.com", {slashAnything: 1})});
-nodemapper.addSimpleHandler("my.opera.com", "ident_to_profile", 
-    "http://my.opera.com/", "/");
-nodemapper.addSimpleHandler("my.opera.com", "ident_to_foaf", 
-    "http://my.opera.com/", "/xml/foaf/");
 nodemapper.registerDomain("d.hatena.ne.jp",
   {name: "Hatena::Diary",
    urlToGraphNode: nodemapper.createPathRegexpHandler(
