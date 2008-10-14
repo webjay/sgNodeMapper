@@ -1310,14 +1310,6 @@ nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_profile",
     "http://www.mojageneracja.pl/", "/");
 nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_rss",
     "http://www.mojageneracja.pl/", "/rss");
-nodemapper.registerDomain("wakoopa.com",
-{name: "Wakoopa",
- urlToGraphNode: nodemapper.createPathRegexpHandler(
-   "wakoopa.com",
-   /^\/(?!software\/)(\w+)(?:\/|$)/)
-});
-nodemapper.addSimpleHandler("wakoopa.com", "ident_to_profile",
-    "http://wakoopa.com/");
 })();
 (function(){
 spinPkHandler = function(url, host, path) {
@@ -1445,6 +1437,33 @@ nodemapper.addSimpleHandler("twitter.com", "pk_to_rss",
     "http://twitter.com/statuses/user_timeline/", ".rss");
 nodemapper.addSimpleHandler("twitter.com", "pk_to_atom",
     "http://twitter.com/statuses/user_timeline/", ".atom");
+})();
+(function(){
+var SOFTWARE_REGEXP = /^\/software\/([\w-]+)/;
+var USER_REGEXP = /^\/(\w+)(?:\/|$)/;
+var toSgn = function(url, host, path) {
+    var m;
+    if (m = SOFTWARE_REGEXP.exec(path)) {
+        return "sgn://software.wakoopa.com/?ident=" + m[1].toLowerCase();
+    }
+    if (m = USER_REGEXP.exec(path)) {
+        return "sgn://wakoopa.com/?ident=" + m[1].toLowerCase();
+    }
+    return url;
+};
+nodemapper.registerDomain("wakoopa.com", {
+  name: "Wakoopa",
+  urlToGraphNode: toSgn
+});
+nodemapper.registerDomain("software.wakoopa.com", {
+  name: "Wakoopa Software",
+  notMassMarketSite: true,
+  identRegexp: /^[\w-]+$/
+});
+nodemapper.addSimpleHandler("wakoopa.com", "ident_to_profile",
+    "http://wakoopa.com/");
+nodemapper.addSimpleHandler("software.wakoopa.com", "ident_to_profile",
+    "http://wakoopa.com/software/");
 })();
 (function(){
 var yelpCompoundHandler = function(url, host, path) {

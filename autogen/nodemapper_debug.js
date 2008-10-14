@@ -1949,15 +1949,6 @@ nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_profile",
 nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_rss",
     "http://www.mojageneracja.pl/", "/rss");
 
-nodemapper.registerDomain("wakoopa.com",
-{name: "Wakoopa",
- urlToGraphNode: nodemapper.createPathRegexpHandler(
-   "wakoopa.com",
-   /^\/(?!software\/)(\w+)(?:\/|$)/)
-});
-nodemapper.addSimpleHandler("wakoopa.com", "ident_to_profile",
-    "http://wakoopa.com/");
-
 })();
 // (end of included file sites/simple.js)
 
@@ -2141,6 +2132,42 @@ nodemapper.addSimpleHandler("twitter.com", "pk_to_atom",
 
 })();
 // (end of included file sites/twitter.js)
+
+// =========================================================================
+// Begin included file sites/wakoopa.js
+(function(){
+var SOFTWARE_REGEXP = /^\/software\/([\w-]+)/;
+var USER_REGEXP = /^\/(\w+)(?:\/|$)/;
+
+var toSgn = function(url, host, path) {
+    var m;
+    if (m = SOFTWARE_REGEXP.exec(path)) {
+        return "sgn://software.wakoopa.com/?ident=" + m[1].toLowerCase();
+    }
+    if (m = USER_REGEXP.exec(path)) {
+        return "sgn://wakoopa.com/?ident=" + m[1].toLowerCase();
+    }
+    return url;
+};
+
+nodemapper.registerDomain("wakoopa.com", {
+  name: "Wakoopa",
+  urlToGraphNode: toSgn
+});
+
+nodemapper.registerDomain("software.wakoopa.com", {
+  name: "Wakoopa Software",
+  notMassMarketSite: true,
+  identRegexp: /^[\w-]+$/
+});
+
+nodemapper.addSimpleHandler("wakoopa.com", "ident_to_profile",
+    "http://wakoopa.com/");
+nodemapper.addSimpleHandler("software.wakoopa.com", "ident_to_profile",
+    "http://wakoopa.com/software/");
+
+})();
+// (end of included file sites/wakoopa.js)
 
 // =========================================================================
 // Begin included file sites/yelp.js
