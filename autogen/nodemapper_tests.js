@@ -101,6 +101,8 @@ var nodemapper_tests = [
   ["urlToGraphNode", "http://youtube.com/jsmarr", "sgn://youtube.com/?ident=jsmarr"],
   ["urlToGraphNode", "http://www.youtube.com/user/jsmarr", "sgn://youtube.com/?ident=jsmarr"],
   ["urlToGraphNode", "http://www.youtube.com/profile?user=bradfitztube", "sgn://youtube.com/?ident=bradfitztube"],
+  ["urlToGraphNode", "http://www.youtube.com/watch?v=pF20uyMTqqI", "http://www.youtube.com/watch?v=pF20uyMTqqI"],
+  ["urlToGraphNode", "http://gdata.youtube.com/feeds/base/users/bradfitztube/uploads?alt=rss&v=2&client=ytapi-youtube-profile", "sgn://youtube.com/?ident=bradfitztube"],
   ["urlFromGraphNode", "sgn://youtube.com/?ident=jsmarr", "profile", "http://youtube.com/user/jsmarr"],
   ["urlToGraphNode", "http://youtube.com/user/jsmarr", "sgn://youtube.com/?ident=jsmarr"],
   ["urlFromGraphNode", "sgn://youtube.com/?ident=jsmarr", "rss", "http://youtube.com/rss/user/jsmarr/videos.rss"],

@@ -576,10 +576,36 @@ nodemapper.addSimpleHandler("reader.google.com", "pk_to_atom",
                             "/state/com.google/broadcast");
 var PROFILE_RE = /^\/profile\?user=(\w+)/;
 var USER_RE = /^\/(?:(?:rss\/)?user\/)?(\w+)\b/;
+var YOUTUBE_NOT_USERNAME = {
+  'blog': true,
+  'browse': true,
+  'community': true,
+  'dev': true,
+  'feeds': true,
+  'inbox': true,
+  'jobs': true,
+  'members': true,
+  'my_account': true,
+  'my_favorites': true,
+  'my_playlists': true,
+  'my_subscriptions': true,
+  'my_videos': true,
+  'press_room': true,
+  'support': true,
+  't': true,
+  'testtube': true,
+  'watch': true,
+  'watch_queue': true,
+  'youtubeonyoursite': true
+};
 var youTubeToSgn = function(url, host, path) {
   var m;
   if ((m = PROFILE_RE.exec(path)) || (m = USER_RE.exec(path))) {
-    return "sgn://youtube.com/?ident=" + m[1].toLowerCase();
+    var username = m[1].toLowerCase();
+    if (YOUTUBE_NOT_USERNAME[username]) {
+      return url;
+    }
+    return "sgn://youtube.com/?ident=" + username;
   }
   return url;
 };
@@ -587,6 +613,11 @@ nodemapper.registerDomain(
   "youtube.com",
   {name: "YouTube",
    urlToGraphNode: youTubeToSgn});
+nodemapper.registerDomain(
+    "gdata.youtube.com",
+    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+          "feeds/base/users",
+          "youtube.com")});
 nodemapper.addSimpleHandler(
     "youtube.com", "ident_to_profile",
     "http://youtube.com/user/");
