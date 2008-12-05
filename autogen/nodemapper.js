@@ -507,7 +507,7 @@ nodemapper.registerDomain(
   name: "Flickr",
   urlToGraphNode: urlToGraphNodeFlickr,
   pkRegexp: /^\d+@\w\d+$/,
-  accountToSgn: { pk: ["flickr.com", /^\d+(?:@|%40)\w\d+$/], ident: ["flickr.com"] }
+  accountToSgn: { pk: ["flickr.com", /^\d+@\w\d+$/], ident: ["flickr.com"] }
 });
 nodemapper.addSimpleHandler("flickr.com", "pk_to_rss",
 			    "http://api.flickr.com/services/feeds/photos_public.gne?id=", "&lang=en-us&format=rss_200");
@@ -536,7 +536,7 @@ nodemapper.addSimpleHandler("friendfeed.com", "ident_to_atom",
     "http://friendfeed.com/", "?format=atom");
 })();
 (function(){
-var GOOGLE_TLDS = "ad ae am as at az ba be bg bi bs ca cd cg ch ci cl cn co.bw co.ck co.cr co.id co.il co.im co.in co.je co.jp co.ke co.kr co.ls co.ma co.mw co.nz co.pn co.th co.tt co.ug co.uk co.uz co.ve co.vi co.yu co.za co.zm co.zw com com.af com.ag com.ar com.au com.bd com.bh com.bn com.bo com.br com.bz com.cn com.co com.cu com.do com.ec com.eg com.et com.fj com.gi com.gr com.gt com.hk com.jm com.kh com.kz com.lv com.ly com.mt com.mw com.mx com.my com.na com.nf com.ng com.ni com.np com.om com.pa com.pe com.ph com.pk com.pl com.pr com.py com.qa com.ru com.sa com.sb com.sg com.sv com.tj com.tr com.tt com.tw com.ua com.uy com.vc com.ve com.vn cz de dj dk dm ee es fi fm fr ge gg gl gm gp gr gy hk hn hr ht hu ie is it je jo kg ki kz la li lk lt lu lv md mn ms mu mv mw ne.jp nl no nr nu off.ai ph pl pn pt ro ru rw sc se sg sh si sk sm sn st tk tl tm to tp tt us vg vn vu ws".split(" ");
+var GOOGLE_TLDS = "ad ae am as at az ba be bg bi bs ca cd cg ch ci cl cn co.bw co.ck co.cr co.id co.il co.im co.in co.je co.jp co.ke co.kr co.ls co.ma co.mw co.nz co.pn co.th co.tt co.ug co.uk co.uz co.ve co.vi co.yu co.za co.zm co.zw com com.af com.ag com.ar com.au com.bd com.bh com.bn com.bo com.br com.bz com.cn com.co com.cu com.do com.ec com.eg com.et com.fj com.gi com.gr com.gt com.hk com.jm com.kh com.kz com.lv com.ly com.mt com.mw com.mx com.my com.na com.nf com.ng com.ni com.np com.om com.pa com.pe com.ph com.pk com.pl com.pr com.py com.qa com.ru com.sa com.sb com.sg com.sl com.sv com.tj com.tr com.tt com.tw com.ua com.uy com.vc com.ve com.vn cz de dj dk dm ee es fi fm fr ge gg gl gm gp gr gy hk hn hr ht hu ie is it je jo kg ki kz la li lk lt lu lv md mn ms mu mv mw ne.jp nl no nr nu off.ai ph pl pn pt ro ru rw sc se sg sh si sk sl sm sn st tk tl tm to tp tt us vg vn vu ws".split(" ");
 function googleDomains(prefix) {
   var ret = [];
   for (var idx in GOOGLE_TLDS) {
@@ -725,6 +725,9 @@ nodemapper.registerDomain(["users.livejournal.com",
                           {urlToGraphNode:urlToGraphNodeUsersCommunity});
 var urlToGraphNodeGeneral = function(url, host, path) {
   var m;
+  if (host == "pics.livejournal.com") {
+    return url;
+  }
   if (host == "www.livejournal.com" || host == "livejournal.com") {
     if (m = LJCOM_MAIN_DOMAIN_REGEX.exec(path)) {
       return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
@@ -771,6 +774,11 @@ nodemapper.registerDomain("livejournal.com",
  	 	          identRegexp: /^\w+$/,
                           name: "LiveJournal"
 			 });
+nodemapper.registerDomain(
+    "pics.livejournal.com",
+    {urlToGraphNode: nodemapper.createSlashUsernameHandler(
+          "livejournal.com",
+          { slashAnything: 1 })});
 })();
 (function(){
 meetupHandler = function(url, host, path) {

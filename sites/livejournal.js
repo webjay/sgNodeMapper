@@ -71,6 +71,13 @@ nodemapper.registerDomain(["users.livejournal.com",
  */
 var urlToGraphNodeGeneral = function(url, host, path) {
   var m;
+
+  // If we're getting a pics URL at this point, that just means the pics-specific
+  // one already failed, so we want to fail here too.
+  if (host == "pics.livejournal.com") {
+    return url;
+  }
+
   if (host == "www.livejournal.com" || host == "livejournal.com") {
     if (m = LJCOM_MAIN_DOMAIN_REGEX.exec(path)) {
       return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
@@ -127,6 +134,13 @@ nodemapper.registerDomain("livejournal.com",
                           name: "LiveJournal"
 			 });
 
+nodemapper.registerDomain(
+    "pics.livejournal.com",
+    {urlToGraphNode: nodemapper.createSlashUsernameHandler(
+          "livejournal.com",
+          { slashAnything: 1 })});
+
+
 __END__
 
 # usernames go in front of livejournal.com
@@ -179,3 +193,6 @@ http://www.livejournal.com/go.bml?journal=bob&itemid=1929138&dir=next sgn://live
 http://www.livejournal.com/go.bml?journal=bob&itemid=1929138&dir=prev sgn://livejournal.com/?ident=bob
 
 http://www.livejournal.com/talkread.bml?journal=bob&itemid=1724560 sgn://livejournal.com/?ident=bob
+
+http://pics.livejournal.com/brad/pic/0000g163/g4  sgn://livejournal.com/?ident=brad
+http://pics.livejournal.com/   http://pics.livejournal.com/
