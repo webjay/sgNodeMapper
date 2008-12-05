@@ -48,6 +48,7 @@ while (<$fh>) {
   my ($input, $expected) = grep { $_ } split;
   next unless $input =~ /$pattern/o || $expected =~ /$pattern/o;
   my $actual;
+  $expected = "" unless defined $expected;
 
   my $test_name;
   if ($input =~ /^pair\((.+),(.+)\)$/) {

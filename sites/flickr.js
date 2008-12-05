@@ -31,7 +31,9 @@ var urlToGraphNodeFlickr =
     nodemapper.createSomethingSlashUsernameHandler(
         "(?:people|photos)",
         "flickr.com",
-        {fallbackHandler: urlToGraphNodeFlickrFallback});
+        {fallbackHandler: urlToGraphNodeFlickrFallback,
+         pathTransform: function(path) { return path.replace('%40', '@'); }
+        });
 
 nodemapper.registerDomain(
   "flickr.com", {
@@ -76,3 +78,8 @@ atom(sgn://flickr.com/?pk=15738836@N00)	http://api.flickr.com/services/feeds/pho
 
 content(sgn://flickr.com/?pk=15738836@N00)   http://www.flickr.com/photos/15738836@N00/
 profile(sgn://flickr.com/?pk=15738836@N00)   http://www.flickr.com/people/15738836@N00/
+
+http://www.flickr.com/photos/84536344%40N00/  sgn://flickr.com/?pk=84536344@N00
+
+# matches nothing:
+pair(flickr.com,brad@danga.com)   

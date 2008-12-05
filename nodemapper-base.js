@@ -503,6 +503,9 @@ nodemapper.urlToGraphNodeNotHTTP = function(url) {
 nodemapper.createPathRegexpHandler = function(domain, re, opt_opts) {
   if (!opt_opts) opt_opts = {};
   return function(url, host, path) {
+    if (opt_opts.pathTransform) {
+      path = opt_opts.pathTransform(path);
+    }
     var m = re.exec(path);
     if (!m) {
       return opt_opts.fallbackHandler ?

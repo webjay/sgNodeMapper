@@ -274,6 +274,9 @@ nodemapper.urlToGraphNodeNotHTTP = function(url) {
 nodemapper.createPathRegexpHandler = function(domain, re, opt_opts) {
   if (!opt_opts) opt_opts = {};
   return function(url, host, path) {
+    if (opt_opts.pathTransform) {
+      path = opt_opts.pathTransform(path);
+    }
     var m = re.exec(path);
     if (!m) {
       return opt_opts.fallbackHandler ?
@@ -496,13 +499,15 @@ var urlToGraphNodeFlickr =
     nodemapper.createSomethingSlashUsernameHandler(
         "(?:people|photos)",
         "flickr.com",
-        {fallbackHandler: urlToGraphNodeFlickrFallback});
+        {fallbackHandler: urlToGraphNodeFlickrFallback,
+         pathTransform: function(path) { return path.replace('%40', '@'); }
+        });
 nodemapper.registerDomain(
   "flickr.com", {
   name: "Flickr",
   urlToGraphNode: urlToGraphNodeFlickr,
   pkRegexp: /^\d+@\w\d+$/,
-  accountToSgn: { pk: ["flickr.com", /^\d+@\w\d+$/], ident: ["flickr.com"] }
+  accountToSgn: { pk: ["flickr.com", /^\d+(?:@|%40)\w\d+$/], ident: ["flickr.com"] }
 });
 nodemapper.addSimpleHandler("flickr.com", "pk_to_rss",
 			    "http://api.flickr.com/services/feeds/photos_public.gne?id=", "&lang=en-us&format=rss_200");
