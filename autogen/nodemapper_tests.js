@@ -159,6 +159,7 @@ var nodemapper_tests = [
   ["urlToGraphNode", "http://bobfoo.hi5.com/", "sgn://hi5.com/?ident=bobfoo"],
   ["urlFromGraphNode", "sgn://hi5.com/?ident=bobfoo", "profile", "http://bobfoo.hi5.com/"],
   ["urlToGraphNode", "http://bobfoo.hi5.com/", "sgn://hi5.com/?ident=bobfoo"],
+  ["urlToGraphNode", "http://53835694.hi5.com/friend/profile/displayProfile.do", "sgn://hi5.com/?pk=53835694"],
   ["urlToGraphNode", "http://www.last.fm/user/aa123/", "sgn://last.fm/?ident=aa123"],
   ["urlToGraphNode", "http://www.last.fm/user/aa123", "sgn://last.fm/?ident=aa123"],
   ["urlToGraphNode", "http://lastfm.excite.co.jp/user/SomeCaps/", "sgn://last.fm/?ident=somecaps"],

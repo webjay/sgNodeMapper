@@ -1,3 +1,4 @@
+
 // -*-java-*-
 
 /**
@@ -18,6 +19,8 @@
 var HAS_ID_REGEXP = /\b(?:ownerId=|userid=|friend\/|\/profile\/foaf\/)(\d+)/;
 
 var DISPLAY_PROFILE = /^\/friend\/profile\/displayHi5URL\.do\?nickname=([\w\-]{6,})\b/;
+
+var NUMERIC_DOMAIN = /^(\d+)\.hi5\.com$/;
 
 function urlToGraphNodeHi5(url, host, path) {
     var m;
@@ -40,7 +43,13 @@ function urlToGraphNodeHi5(url, host, path) {
 	return "sgn://hi5.com/?ident=" + m[1].toLowerCase();
     }
 
-  return url;
+    // numeric domain and no query string that might alter what's
+    // being viewed
+    if ((m = NUMERIC_DOMAIN.exec(host)) && !/\?/.exec(path)) {
+      return "sgn://hi5.com/?pk=" + m[1];
+    }
+
+    return url;
 }
 
 nodemapper.registerDomain(
@@ -119,3 +128,5 @@ blog(sgn://hi5.com/?pk=12345)  http://www.hi5.com/friend/profile/displayJournal.
 # ident
 content(sgn://hi5.com/?ident=bobfoo)  http://bobfoo.hi5.com/
 profile(sgn://hi5.com/?ident=bobfoo)  http://bobfoo.hi5.com/
+
+http://53835694.hi5.com/friend/profile/displayProfile.do  sgn://hi5.com/?pk=53835694

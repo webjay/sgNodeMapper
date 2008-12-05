@@ -1052,6 +1052,8 @@ var HAS_ID_REGEXP = /\b(?:ownerId=|userid=|friend\/|\/profile\/foaf\/)(\d+)/;
 
 var DISPLAY_PROFILE = /^\/friend\/profile\/displayHi5URL\.do\?nickname=([\w\-]{6,})\b/;
 
+var NUMERIC_DOMAIN = /^(\d+)\.hi5\.com$/;
+
 function urlToGraphNodeHi5(url, host, path) {
     var m;
     if (m = HAS_ID_REGEXP.exec(path)) {
@@ -1073,7 +1075,13 @@ function urlToGraphNodeHi5(url, host, path) {
 	return "sgn://hi5.com/?ident=" + m[1].toLowerCase();
     }
 
-  return url;
+    // numeric domain and no query string that might alter what's
+    // being viewed
+    if ((m = NUMERIC_DOMAIN.exec(host)) && !/\?/.exec(path)) {
+      return "sgn://hi5.com/?pk=" + m[1];
+    }
+
+    return url;
 }
 
 nodemapper.registerDomain(
