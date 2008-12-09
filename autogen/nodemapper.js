@@ -496,9 +496,9 @@ function urlToGraphNodeFlickrFallback(url, host, path) {
   return; // undef
 };
 var urlToGraphNodeFlickr =
-    nodemapper.createSomethingSlashUsernameHandler(
-        "(?:people|photos)",
+    nodemapper.createPathRegexpHandler(
         "flickr.com",
+        /^\/(?:people|photos)\/([\w\-]+)(?:\/|$)/,
         {fallbackHandler: urlToGraphNodeFlickrFallback,
          pathTransform: function(path) { return path.replace('%40', '@'); }
         });
@@ -507,7 +507,8 @@ nodemapper.registerDomain(
   name: "Flickr",
   urlToGraphNode: urlToGraphNodeFlickr,
   pkRegexp: /^\d+@\w\d+$/,
-  accountToSgn: { pk: ["flickr.com", /^\d+@\w\d+$/], ident: ["flickr.com"] }
+  accountToSgn: { pk: ["flickr.com", /^\d+@\w\d+$/],
+                  ident: ["flickr.com", /^[\-\w]+$/] }
 });
 nodemapper.addSimpleHandler("flickr.com", "pk_to_rss",
 			    "http://api.flickr.com/services/feeds/photos_public.gne?id=", "&lang=en-us&format=rss_200");
