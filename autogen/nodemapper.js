@@ -583,6 +583,7 @@ var YOUTUBE_NOT_USERNAME = {
   'community': true,
   'dev': true,
   'feeds': true,
+  'greetings': true,
   'inbox': true,
   'jobs': true,
   'members': true,
