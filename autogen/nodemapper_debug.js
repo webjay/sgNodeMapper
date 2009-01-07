@@ -2045,6 +2045,16 @@ nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_profile",
 nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_rss",
     "http://www.mojageneracja.pl/", "/rss");
 
+nodemapper.registerDomain(
+    "goodreads.com",
+    {name: "goodreads",
+     urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+        "user/show", "goodreads.com", {keyName: "pk"})});
+nodemapper.addSimpleHandler("goodreads.com", "pk_to_profile",
+			    "http://www.goodreads.com/user/show/");
+nodemapper.addSimpleHandler("goodreads.com", "pk_to_rss",
+			    "http://www.goodreads.com/review/list_rss/");
+
 })();
 // (end of included file sites/simple.js)
 

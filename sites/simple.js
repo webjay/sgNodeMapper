@@ -487,6 +487,16 @@ nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_profile",
 nodemapper.addSimpleHandler("mojageneracja.pl", "pk_to_rss",
     "http://www.mojageneracja.pl/", "/rss");
 
+nodemapper.registerDomain(
+    "goodreads.com",
+    {name: "goodreads",
+     urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
+        "user/show", "goodreads.com", {keyName: "pk"})});
+nodemapper.addSimpleHandler("goodreads.com", "pk_to_profile",
+			    "http://www.goodreads.com/user/show/");
+nodemapper.addSimpleHandler("goodreads.com", "pk_to_rss",
+			    "http://www.goodreads.com/review/list_rss/");
+
 __END__
 
 http://digg.com/users/foobar	sgn://digg.com/?ident=foobar
@@ -735,3 +745,9 @@ http://www.mojageneracja.pl/13192415/ sgn://mojageneracja.pl/?pk=13192415
 http://www.mojageneracja.pl/13192415/something sgn://mojageneracja.pl/?pk=13192415
 profile(sgn://mojageneracja.pl/?pk=13192415) http://www.mojageneracja.pl/13192415/
 rss(sgn://mojageneracja.pl/?pk=13192415) http://www.mojageneracja.pl/13192415/rss
+
+http://www.goodreads.com/user/show/1150869 sgn://goodreads.com/?pk=1150869
+http://goodreads.com/user/show/1150869 sgn://goodreads.com/?pk=1150869
+http://www.goodreads.com/review/list_rss/1150869 sgn://goodreads.com/?pk=1150869
+profile(sgn://goodreads.com/?pk=1150869) http://www.goodreads.com/user/show/1150869
+rss(sgn://goodreads.com/?pk=1150869) http://www.goodreads.com/review/list_rss/1150869
