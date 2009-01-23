@@ -298,15 +298,32 @@ nodemapper.addSimpleHandler("disqus.com", "ident_to_profile",
 nodemapper.addSimpleHandler("disqus.com", "ident_to_rss", 
     "http://www.disqus.com/people/", "/comments.rss");
 
+var rateitallHandler = function(url, host, path) {
+  var handler;
+  if (path.match(/\/rss-u-[A-Za-z]/)) {
+    handler = nodemapper.createPathRegexpHandler(
+     "rateitall.com", /^\/rss-u-([A-Za-z][\w-]*).aspx$/);
+  } else if (path.match(/\/rss-u-[0-9]/)) {
+    handler = nodemapper.createPathRegexpHandler(
+     "rateitall.com", /^\/rss-u-([0-9]+).aspx$/, {keyName: "pk"});
+  } else {
+     handler = nodemapper.createSlashUsernameHandler("rateitall.com");
+  }
+  return handler(url, host, path);
+};
+
 nodemapper.registerDomain("rateitall.com",
   {name: "RateItAll",
-   identRegexp: /^[A-Za-z][\w-]*$/});
+   identRegexp: /^(?!rss-)[A-Za-z][\w-]*$/,
+   urlToGraphNode: rateitallHandler});
 nodemapper.addSimpleHandler("rateitall.com", "ident_to_profile", 
     "http://www.rateitall.com/");
+nodemapper.addSimpleHandler("rateitall.com", "pk_to_profile", 
+    "http://www.rateitall.com/Profile.aspx?userID=");
 nodemapper.addSimpleHandler("rateitall.com", "ident_to_rss", 
-    "http://www.rateitall.com/usercommentsrss.aspx?RI=");
+    "http://www.rateitall.com/rss-u-", ".aspx");
 nodemapper.addSimpleHandler("rateitall.com", "pk_to_rss", 
-    "http://www.rateitall.com/usercommentsrss.aspx?RI=");
+    "http://www.rateitall.com/rss-u-", ".aspx");
 
 nodemapper.registerDomain("slideshare.net",
   {name: "SlideShare",
@@ -700,11 +717,12 @@ profile(sgn://disqus.com/?ident=jsmarr) http://www.disqus.com/people/jsmarr
 rss(sgn://disqus.com/?ident=jsmarr) http://www.disqus.com/people/jsmarr/comments.rss
 
 http://www.rateitall.com/jsmarr sgn://rateitall.com/?ident=jsmarr
-http://www.rateitall.com/usercommentsrss.aspx?RI=jsmarr sgn://rateitall.com/?ident=jsmarr
-http://www.rateitall.com/usercommentsrss.aspx?RI=12345 sgn://rateitall.com/?pk=12345
+http://www.rateitall.com/Profile.aspx?userID=12345 sgn://rateitall.com/?pk=12345
+http://www.rateitall.com/rss-u-jsmarr.aspx sgn://rateitall.com/?ident=jsmarr
+http://www.rateitall.com/rss-u-12345.aspx sgn://rateitall.com/?pk=12345
 profile(sgn://rateitall.com/?ident=jsmarr) http://www.rateitall.com/jsmarr
-rss(sgn://rateitall.com/?ident=jsmarr) http://www.rateitall.com/usercommentsrss.aspx?RI=jsmarr
-rss(sgn://rateitall.com/?pk=12345) http://www.rateitall.com/usercommentsrss.aspx?RI=12345
+rss(sgn://rateitall.com/?ident=jsmarr) http://www.rateitall.com/rss-u-jsmarr.aspx
+rss(sgn://rateitall.com/?pk=12345) http://www.rateitall.com/rss-u-12345.aspx
 
 http://www.slideshare.net/jsmarr sgn://slideshare.net/?ident=jsmarr
 http://slideshare.net/rss/user/jsmarr sgn://slideshare.net/?ident=jsmarr
