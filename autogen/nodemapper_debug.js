@@ -1864,6 +1864,12 @@ var rateitallHandler = function(url, host, path) {
   } else if (path.match(/\/rss-u-[0-9]/)) {
     handler = nodemapper.createPathRegexpHandler(
      "rateitall.com", /^\/rss-u-([0-9]+).aspx$/, {keyName: "pk"});
+  } else if (path.match(/\/usercommentsrss.aspx\?RI=[A-Za-z]/)) {
+    handler = nodemapper.createPathRegexpHandler(
+     "rateitall.com", /^\/usercommentsrss.aspx\?RI=([A-Za-z][\w-]*)/);
+  } else if (path.match(/\/usercommentsrss.aspx\?RI=[0-9]/)) {
+    handler = nodemapper.createPathRegexpHandler(
+     "rateitall.com", /^\/usercommentsrss.aspx\?RI=([0-9]+)/, {keyName: "pk"});
   } else {
      handler = nodemapper.createSlashUsernameHandler("rateitall.com");
   }

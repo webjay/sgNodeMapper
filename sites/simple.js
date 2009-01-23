@@ -306,6 +306,12 @@ var rateitallHandler = function(url, host, path) {
   } else if (path.match(/\/rss-u-[0-9]/)) {
     handler = nodemapper.createPathRegexpHandler(
      "rateitall.com", /^\/rss-u-([0-9]+).aspx$/, {keyName: "pk"});
+  } else if (path.match(/\/usercommentsrss.aspx\?RI=[A-Za-z]/)) {
+    handler = nodemapper.createPathRegexpHandler(
+     "rateitall.com", /^\/usercommentsrss.aspx\?RI=([A-Za-z][\w-]*)/);
+  } else if (path.match(/\/usercommentsrss.aspx\?RI=[0-9]/)) {
+    handler = nodemapper.createPathRegexpHandler(
+     "rateitall.com", /^\/usercommentsrss.aspx\?RI=([0-9]+)/, {keyName: "pk"});
   } else {
      handler = nodemapper.createSlashUsernameHandler("rateitall.com");
   }
@@ -721,8 +727,13 @@ http://www.rateitall.com/Profile.aspx?userID=12345 sgn://rateitall.com/?pk=12345
 http://www.rateitall.com/rss-u-jsmarr.aspx sgn://rateitall.com/?ident=jsmarr
 http://www.rateitall.com/rss-u-12345.aspx sgn://rateitall.com/?pk=12345
 profile(sgn://rateitall.com/?ident=jsmarr) http://www.rateitall.com/jsmarr
+profile(sgn://rateitall.com/?pk=12345) http://www.rateitall.com/Profile.aspx?userID=12345
 rss(sgn://rateitall.com/?ident=jsmarr) http://www.rateitall.com/rss-u-jsmarr.aspx
 rss(sgn://rateitall.com/?pk=12345) http://www.rateitall.com/rss-u-12345.aspx
+
+# old rateitall url structure (no longer used, but there may be old links out there)
+http://www.rateitall.com/usercommentsrss.aspx?RI=jsmarr sgn://rateitall.com/?ident=jsmarr
+http://www.rateitall.com/usercommentsrss.aspx?RI=12345 sgn://rateitall.com/?pk=12345
 
 http://www.slideshare.net/jsmarr sgn://slideshare.net/?ident=jsmarr
 http://slideshare.net/rss/user/jsmarr sgn://slideshare.net/?ident=jsmarr
