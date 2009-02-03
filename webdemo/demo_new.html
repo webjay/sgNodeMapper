@@ -1,34 +1,29 @@
 <html>
-<head>
-	<title>Demo for google-sgnodemapper</title>
-	<script src="http://www.google.com/jsapi"></script>
-	<script src="demo_new.js"></script>
-	<style>
-	#status {
-	  border: 1px solid grey;
-	  padding: 0.3em;
-	}
-	</style>
-<head>
-<body>
-
-<form id="tosgnform" onsubmit="convertToSgn(); return false;">
-<h2>Convert <i>to</i> an SGN URL</h2>
-<input type='text' id='tosgn' size='50'/>
-<input type="button" value='Convert to SGN' onclick='convertToSgn()'/>
-<div id='tosgn_output'></div>
-</form>
-
-<form id="fromsgnform" onsubmit="convertFromSgn(); return false;">
-<h2>Convert <i>from</i> an SGN URL to HTTP URL(s)</h2>
-<input type="text" id="fromsgn" size="50"/>
-<input type="button" value="Convert from SGN" onclick="convertFromSgn()"/>
-<div id="fromsgn_output"></div>
-
-<h2>Status</h2>
-<div id="status"></div>
-
-</form>
-
-</body>
+  <head>
+    <title>Demo for google-sgnodemapper</title>
+    <script src="http://www.google.com/jsapi"></script>
+    <script src="demo_new.js"></script>
+    <style>
+    #status {
+      border: 1px solid grey;
+      padding: 0.3em;
+    }
+    </style>
+  <head>
+  <body>
+    <form id="tosgnform" onsubmit="convertToSgn(); return false;">
+      <h2>Convert <i>to</i> an SGN URL</h2>
+      <input type="text" id="tosgn" size="50"/>
+      <input type="button" value="Convert to SGN" onclick="convertToSgn()"/>
+      <div id="tosgn_output"></div>
+    </form>
+    <form id="fromsgnform" onsubmit="convertFromSgn(); return false;">
+      <h2>Convert <i>from</i> an SGN URL to HTTP URL(s)</h2>
+      <input type="text" id="fromsgn" size="50"/>
+      <input type="button" value="Convert from SGN" onclick="convertFromSgn()"/>
+      <div id="fromsgn_output"></div>
+    </form>
+    <h2>Status</h2>
+    <div id="status"></div>
+  </body>
 </html>
