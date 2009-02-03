@@ -422,29 +422,25 @@ nodemapper.parseSgnUrl = function(sgnUrl) {
 
 nodemapper.urlFromGraphNode = function(sgnUrl, type) {
     // is it even an sgn URL?
-    var m = nodemapper.SGN_REGEX.exec(sgnUrl);
-    if (!m) {
+    var node = nodemapper.parseSgnUrl(sgnUrl);
+    if (!node) {
 	return;
     }
 
-    var nodeHost = m[1];
-    var nodeType = m[2];
-    var nodeValue = m[3];
-
     // see if there's a handler.
-    var handler = nodemapper.handlers[nodeHost];
+    var handler = nodemapper.handlers[node.domain];
     if (!handler) {
 	return;
     }
 
     // see if there's a to<Type> handler
-    var attrName = nodeType + "_to_" + type;
+    var attrName = node.keyName + "_to_" + type;
     var toFunc = handler[attrName];
     if (!toFunc) {
 	return;
     }
 
-    return toFunc(nodeValue);
+    return toFunc(node.value);
 };
 
 
