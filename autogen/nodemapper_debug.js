@@ -1577,12 +1577,12 @@ nodemapper.registerDomain(
     "digg.com",
     {name: "Digg",
      urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
-        "users",
+        "(?:users|rss)",
         "digg.com")});
 nodemapper.addSimpleHandler("digg.com", "ident_to_profile",
 			    "http://digg.com/users/", "/");
 nodemapper.addSimpleHandler("digg.com", "ident_to_rss",
-			    "http://digg.com/rss/", "/index2.xml");
+			    "http://digg.com/users/", "/history/diggs");
 
 nodemapper.registerDomain(
     "pownce.com",

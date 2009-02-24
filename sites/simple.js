@@ -19,12 +19,12 @@ nodemapper.registerDomain(
     "digg.com",
     {name: "Digg",
      urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
-        "users",
+        "(?:users|rss)",
         "digg.com")});
 nodemapper.addSimpleHandler("digg.com", "ident_to_profile",
 			    "http://digg.com/users/", "/");
 nodemapper.addSimpleHandler("digg.com", "ident_to_rss",
-			    "http://digg.com/rss/", "/index2.xml");
+			    "http://digg.com/users/", "/history/diggs");
 
 nodemapper.registerDomain(
     "pownce.com",
@@ -524,8 +524,11 @@ __END__
 
 http://digg.com/users/foobar	sgn://digg.com/?ident=foobar
 http://digg.com/users/foobar/	sgn://digg.com/?ident=foobar
+http://digg.com/users/foobar/history/diggs sgn://digg.com/?ident=foobar
+# old rss url (no longer used, but kept for historical legacy)
+http://digg.com/rss/foobar/index2.xml sgn://digg.com/?ident=foobar
 profile(sgn://digg.com/?ident=foobar)	http://digg.com/users/foobar/
-rss(sgn://digg.com/?ident=foobar)	http://digg.com/rss/foobar/index2.xml
+rss(sgn://digg.com/?ident=foobar)	http://digg.com/users/foobar/history/diggs 
 
 http://pownce.com/a   sgn://pownce.com/?ident=a
 http://pownce.com/A   sgn://pownce.com/?ident=a
