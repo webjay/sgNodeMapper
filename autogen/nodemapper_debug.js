@@ -1582,7 +1582,7 @@ nodemapper.registerDomain(
 nodemapper.addSimpleHandler("digg.com", "ident_to_profile",
 			    "http://digg.com/users/", "/");
 nodemapper.addSimpleHandler("digg.com", "ident_to_rss",
-			    "http://digg.com/users/", "/history/diggs");
+			    "http://digg.com/users/", "/history/diggs.rss");
 
 nodemapper.registerDomain(
     "pownce.com",
