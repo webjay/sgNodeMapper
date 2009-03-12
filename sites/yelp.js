@@ -2,7 +2,7 @@ var yelpCompoundHandler = function(url, host, path) {
   var handler;
   if (host.indexOf("www.") == 0) {
      handler = nodemapper.createPathRegexpHandler("yelp.com", 
-        /^\/user_details\?userid=(\w+)/, 
+        /^\/user_details\?userid=([\w\-]+)/, 
         {keyName: "pk", casePreserve: 1});
   } else handler = nodemapper.createUserIsSubdomainHandler("yelp.com");
   return handler(url, host, path);
@@ -12,7 +12,7 @@ nodemapper.registerDomain("yelp.com", {
 	name: "Yelp",
 	urlToGraphNode: yelpCompoundHandler,
 	pkRegexp: /^\w{22}$/,
-        identRegexp: /^\w+$/
+        identRegexp: /^[\w\-]+$/
 	});
 nodemapper.addSimpleHandler("yelp.com", "pk_to_rss", 
     "http://www.yelp.com/syndicate/user/", "/rss.xml");
@@ -28,3 +28,6 @@ http://www.yelp.com/user_details?userid=Dk2IkchUjADbrC05sdsAVQ	sgn://yelp.com/?p
 rss(sgn://yelp.com/?pk=Dk2IkchUjADbrC05sdsAVQ)	http://www.yelp.com/syndicate/user/Dk2IkchUjADbrC05sdsAVQ/rss.xml 
 profile(sgn://yelp.com/?pk=Dk2IkchUjADbrC05sdsAVQ) http://www.yelp.com/user_details?userid=Dk2IkchUjADbrC05sdsAVQ
 profile(sgn://yelp.com/?ident=jsmarr) http://jsmarr.yelp.com
+
+# May also contain hyphens:
+http://www.yelp.com/user_details?userid=nkN_do3fJ9xekchVa-v68A sgn://yelp.com/?pk=nkN_do3fJ9xekchVa-v68A
