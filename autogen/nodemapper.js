@@ -662,9 +662,12 @@ nodemapper.addSimpleHandler("orkut.com", "pk_to_profile",
                             "http://www.orkut.com/Profile.aspx?uid=");
 nodemapper.registerDomain("profiles.google.com", {
 	name: "Google Profile",
-	pkRegexp: /^\d{7,}$/
-	});
+	pkRegexp: /^\d{7,}$/,
+        identRegexp: /^[\w\.]{1,40}$/
+  });
 nodemapper.addSimpleHandler("profiles.google.com", "pk_to_profile",
+                            "http://www.google.com/profiles/");
+nodemapper.addSimpleHandler("profiles.google.com", "ident_to_profile",
                             "http://www.google.com/profiles/");
 })();
 (function(){

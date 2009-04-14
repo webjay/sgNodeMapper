@@ -151,9 +151,12 @@ nodemapper.addSimpleHandler("orkut.com", "pk_to_profile",
 
 nodemapper.registerDomain("profiles.google.com", {
 	name: "Google Profile",
-	pkRegexp: /^\d{7,}$/
-	});
+	pkRegexp: /^\d{7,}$/,
+        identRegexp: /^[\w\.]{1,40}$/
+  });
 nodemapper.addSimpleHandler("profiles.google.com", "pk_to_profile",
+                            "http://www.google.com/profiles/");
+nodemapper.addSimpleHandler("profiles.google.com", "ident_to_profile",
                             "http://www.google.com/profiles/");
 
 
@@ -203,3 +206,4 @@ http://www.google.com/profiles/bradfitz   sgn://profiles.google.com/?ident=bradf
 http://www.google.com/s2/sharing/stuff?user=123   sgn://profiles.google.com/?pk=123
 
 profile(sgn://profiles.google.com/?pk=115863474911002159675)  http://www.google.com/profiles/115863474911002159675
+profile(sgn://profiles.google.com/?ident=bradfitz)  http://www.google.com/profiles/bradfitz
