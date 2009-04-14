@@ -936,10 +936,15 @@ var GOOGLE_DOMAINS = googleDomains("google.");
 
 var READER_RE = /^\/reader\/(?:shared|public\/atom\/user)\/(\d{7,})(?:\/state\/com.google\/broadcast)?/;
 
+var googleIdentProfileHandler = nodemapper.createPathRegexpHandler(
+    "profiles.google.com",  // fake domain
+    /^(?:\/s2)?\/(?:profiles\/|sharing\/stuff\?user=)([\w+\.]+)/,
+    {keyName: "ident"});
+
 var googleProfileHandler = nodemapper.createPathRegexpHandler(
     "profiles.google.com",  // fake domain
-    /^\/s2\/(?:profiles\/|sharing\/stuff\?user=)(\d+)/,
-    {keyName: "pk"});
+    /^(?:\/s2)?\/(?:profiles\/|sharing\/stuff\?user=)(\d+)/,
+    {keyName: "pk", fallbackHandler: googleIdentProfileHandler });
 
 var readerHandler = nodemapper.createPathRegexpHandler(
     "reader.google.com",  // fake domain
@@ -952,6 +957,8 @@ googleMasterHandler = function(url, host, path) {
   if (path.indexOf("/reader") == 0) {
     handler = readerHandler;
   } else if (path.indexOf("/s2/") == 0) {
+    handler = googleProfileHandler;
+  } else if (path.indexOf("/profiles/") == 0) {
     handler = googleProfileHandler;
   }
   // TODO: add more handlers for other google properties
@@ -1071,7 +1078,7 @@ nodemapper.registerDomain("profiles.google.com", {
 	pkRegexp: /^\d{7,}$/
 	});
 nodemapper.addSimpleHandler("profiles.google.com", "pk_to_profile",
-                            "http://www.google.com/s2/profiles/");
+                            "http://www.google.com/profiles/");
 
 })();
 // (end of included file sites/google.js)
