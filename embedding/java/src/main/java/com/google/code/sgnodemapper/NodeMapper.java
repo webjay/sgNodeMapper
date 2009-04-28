@@ -31,9 +31,10 @@ public class NodeMapper {
   private final Function urlToGraphNodeFunction;
   private final Function urlFromGraphNodeFunction;
 
-  public NodeMapper(String nodeMapperJavaScript) {
+  public NodeMapper(String nodeMapperJavaScriptFile) throws IOException {
     Context context = Context.enter();
     scope = context.initStandardObjects();
+    String nodeMapperJavaScript = FileUtils.getClasspathResourceAsString(nodeMapperJavaScriptFile);
 
     // The entrypoint we want to use is appended in the root namespace,
     // to make it easier to lookup:
