@@ -15,6 +15,18 @@
  * limitations under the License.
  **/
 
+var FRIENDS_API1_RE = /^\/friends\/ids\/(\w+)\.(?:xml|json)/;
+var FRIENDS_API2_RE = /^\/friends\/ids\.(?:xml|json)\?screen_name=(\w+)/;
+var twitterFallbackHandler = function(url, host, path) {
+  var m;
+  if ((m = FRIENDS_API1_RE.exec(path)) ||
+      (m = FRIENDS_API2_RE.exec(path))) {
+    var username = m[1].toLowerCase();
+    return "sgn://twitter.com/?ident=" + username;
+  }
+  return url;
+};
+
 nodemapper.registerDomain(
     "twitter.com",
     { httpsLikeHttp: 1,
@@ -24,8 +36,10 @@ nodemapper.registerDomain(
           "twitter.com",
           {slashAnything: 1,
 	   notUsernames: {
-	      "statuses": 1
-           }
+	      "statuses": 1,
+	      "friends": 1
+           },
+           fallbackHandler: twitterFallbackHandler
 	  })
    });
 
@@ -61,3 +75,8 @@ atom(sgn://twitter.com/?ident=brad) http://twitter.com/statuses/user_timeline/br
 
 http://twitter.com/statuses/user_timeline/BRAD.rss  sgn://twitter.com/?ident=brad
 http://twitter.com/statuses/user_timeline/1234.rss  sgn://twitter.com/?pk=1234
+
+http://twitter.com/friends/ids/bradfitz.xml  sgn://twitter.com/?ident=bradfitz
+http://twitter.com/friends/ids/BRADFITZ.json  sgn://twitter.com/?ident=bradfitz
+http://twitter.com/friends/ids.xml?screen_name=lisaphillips sgn://twitter.com/?ident=lisaphillips
+http://twitter.com/friends/ids.json?screen_name=lisaphillips sgn://twitter.com/?ident=lisaphillips

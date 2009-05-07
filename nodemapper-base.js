@@ -511,8 +511,10 @@ nodemapper.createPathRegexpHandler = function(domain, re, opt_opts) {
     var keyName = opt_opts.keyName || 'ident'; // ident= or pk=; TODO: enforce valid key names?
     var value = (opt_opts.casePreserve ? m[1] : m[1].toLowerCase());
     if (opt_opts.notUsernames && opt_opts.notUsernames[value]) {
-	// fail.  this username is marked as not a real username.
-	return;
+      // fail.  this username is marked as not a real username.
+      return opt_opts.fallbackHandler ?
+          opt_opts.fallbackHandler(url, host, path) :
+          url;
     }
     return "sgn://" + domain + "/?" + keyName + "=" + value;
   };

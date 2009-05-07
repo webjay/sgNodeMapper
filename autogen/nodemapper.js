@@ -283,7 +283,9 @@ nodemapper.createPathRegexpHandler = function(domain, re, opt_opts) {
     var keyName = opt_opts.keyName || 'ident'; // ident= or pk=; TODO: enforce valid key names?
     var value = (opt_opts.casePreserve ? m[1] : m[1].toLowerCase());
     if (opt_opts.notUsernames && opt_opts.notUsernames[value]) {
-	return;
+      return opt_opts.fallbackHandler ?
+          opt_opts.fallbackHandler(url, host, path) :
+          url;
     }
     return "sgn://" + domain + "/?" + keyName + "=" + value;
   };
@@ -1531,6 +1533,17 @@ nodemapper.addSimpleHandler("tribe.net", "pk_to_profile",
 			    "http://people.tribe.net/");
 })();
 (function(){
+var FRIENDS_API1_RE = /^\/friends\/ids\/(\w+)\.(?:xml|json)/;
+var FRIENDS_API2_RE = /^\/friends\/ids\.(?:xml|json)\?screen_name=(\w+)/;
+var twitterFallbackHandler = function(url, host, path) {
+  var m;
+  if ((m = FRIENDS_API1_RE.exec(path)) ||
+      (m = FRIENDS_API2_RE.exec(path))) {
+    var username = m[1].toLowerCase();
+    return "sgn://twitter.com/?ident=" + username;
+  }
+  return url;
+};
 nodemapper.registerDomain(
     "twitter.com",
     { httpsLikeHttp: 1,
@@ -1540,8 +1553,10 @@ nodemapper.registerDomain(
           "twitter.com",
           {slashAnything: 1,
 	   notUsernames: {
-	      "statuses": 1
-           }
+	      "statuses": 1,
+	      "friends": 1
+           },
+           fallbackHandler: twitterFallbackHandler
 	  })
    });
 nodemapper.addSimpleHandler("twitter.com", "ident_to_profile",
