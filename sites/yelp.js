@@ -11,7 +11,7 @@ var yelpCompoundHandler = function(url, host, path) {
 nodemapper.registerDomain("yelp.com", {
 	name: "Yelp",
 	urlToGraphNode: yelpCompoundHandler,
-	pkRegexp: /^\w{22}$/,
+	pkRegexp: /^(?=\w)[\w-]{22}$/,
         identRegexp: /^[\w\-]+$/
 	});
 nodemapper.addSimpleHandler("yelp.com", "pk_to_rss", 
@@ -30,4 +30,5 @@ profile(sgn://yelp.com/?pk=Dk2IkchUjADbrC05sdsAVQ) http://www.yelp.com/user_deta
 profile(sgn://yelp.com/?ident=jsmarr) http://jsmarr.yelp.com
 
 # May also contain hyphens:
+http://jsmarr-hyphen.yelp.com	sgn://yelp.com/?ident=jsmarr-hyphen
 http://www.yelp.com/user_details?userid=nkN_do3fJ9xekchVa-v68A sgn://yelp.com/?pk=nkN_do3fJ9xekchVa-v68A
