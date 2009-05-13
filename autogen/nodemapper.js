@@ -1056,11 +1056,13 @@ nodemapper.registerDomain(
     ["del.icio.us", "delicious.com"],
     {name: "del.icio.us",
      primaryDomain: "del.icio.us",
-     urlToGraphNode: nodemapper.createSlashUsernameHandler("del.icio.us")});
+     urlToGraphNode: nodemapper.createPathRegexpHandler(
+         "del.icio.us", /^\/(?:rss\/)?(\w+)/, 
+         { notUsernames: { "rss": 1 }, slashAnything: 1})});
 nodemapper.addSimpleHandler("del.icio.us", "ident_to_profile", 
-    "http://del.icio.us/");
+    "http://delicious.com/");
 nodemapper.addSimpleHandler("del.icio.us", "ident_to_rss", 
-    "http://del.icio.us/rss/");
+    "http://feeds.delicious.com/rss/");
 nodemapper.registerDomain("webshots.com", {
     name: "Webshots",
     identRegexp: /^\w+$/
