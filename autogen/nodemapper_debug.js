@@ -1249,6 +1249,14 @@ var LJCOM_MISC_BML_REGEX = /^\/(?:go|talkread)\.bml\?.*\bjournal=(\w+)/;
 
 
 /**
+ * Regular expression for the fdata (friend data) endpoint.
+ *
+ * @type RegExp
+ */
+var LJCOM_MISC_FDATA_REGEX = /^\/misc\/fdata2?\.bml\?.*\buser=(\w+)/;
+
+
+/**
  * Handler for URLs on 'users.' or 'community.' subdomains.
  *
  * @type Function
@@ -1297,6 +1305,10 @@ var urlToGraphNodeGeneral = function(url, host, path) {
     }
 
     if (m = LJCOM_MISC_BML_REGEX.exec(path)) {
+      return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
+    }
+
+    if (m = LJCOM_MISC_FDATA_REGEX.exec(path)) {
       return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
     }
 

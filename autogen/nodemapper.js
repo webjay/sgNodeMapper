@@ -762,6 +762,7 @@ nodemapper.addSimpleHandler("last.fm", "ident_to_profile",
 var LJCOM_MAIN_DOMAIN_REGEX = /^\/(?:~|users\/|community\/)(\w+)(?:\/|$)/;
 var LJCOM_USERINFO_BML_REGEX = /^\/userinfo\.bml\?(user|userid)=(\w+)/;
 var LJCOM_MISC_BML_REGEX = /^\/(?:go|talkread)\.bml\?.*\bjournal=(\w+)/;
+var LJCOM_MISC_FDATA_REGEX = /^\/misc\/fdata2?\.bml\?.*\buser=(\w+)/;
 var urlToGraphNodeUsersCommunity = function(url, host, path) {
   var slashUserMaybeProfile = /^\/(\w+)(?:\/|\/profile|$)/;
   var m;
@@ -790,6 +791,9 @@ var urlToGraphNodeGeneral = function(url, host, path) {
       }
     }
     if (m = LJCOM_MISC_BML_REGEX.exec(path)) {
+      return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
+    }
+    if (m = LJCOM_MISC_FDATA_REGEX.exec(path)) {
       return "sgn://livejournal.com/?ident=" + m[1].toLowerCase();
     }
     return url;
