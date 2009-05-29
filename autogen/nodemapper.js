@@ -487,7 +487,7 @@ nodemapper.registerDomain(
 })();
 (function(){
 function urlToGraphNodeFlickrFallback(url, host, path) {
-  var flickerPathRE = /^\/(?:people|photos)\/(\d+@\w+)\/?$/;
+  var flickerPathRE = /^\/(?:people|photos)\/(\d+@\w+)(?:\/|$)/;
   var m = flickerPathRE.exec(path);
   if (m) {
       return "sgn://flickr.com/?pk=" + m[1];

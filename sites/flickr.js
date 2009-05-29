@@ -19,7 +19,7 @@
  * Flickr-specific URL handler.
  */
 function urlToGraphNodeFlickrFallback(url, host, path) {
-  var flickerPathRE = /^\/(?:people|photos)\/(\d+@\w+)\/?$/;
+  var flickerPathRE = /^\/(?:people|photos)\/(\d+@\w+)(?:\/|$)/;
   var m = flickerPathRE.exec(path);
   if (m) {
       return "sgn://flickr.com/?pk=" + m[1];
@@ -88,3 +88,17 @@ pair(flickr.com,brad@danga.com)
 # hyphenated stuff:
 http://www.flickr.com/people/hyph-enated       sgn://flickr.com/?ident=hyph-enated
 content(sgn://flickr.com/?ident=hyph-enated)   http://www.flickr.com/photos/hyph-enated/
+
+# With trailing stuff:
+http://flickr.com/photos/15738836@N00/with/3026663345/ sgn://flickr.com/?pk=15738836@N00
+http://flickr.com/photos/15738836@N00/page3/           sgn://flickr.com/?pk=15738836@N00
+http://www.flickr.com/people/15738836@N00/contacts     sgn://flickr.com/?pk=15738836@N00
+http://flickr.com/photos/crucially/with/3026663345/    sgn://flickr.com/?ident=crucially
+http://flickr.com/photos/crucially/page3/              sgn://flickr.com/?ident=crucially
+http://www.flickr.com/people/crucially/contacts        sgn://flickr.com/?ident=crucially
+http://www.flickr.com/people/crucially/contacts/?page=2&filter=default sgn://flickr.com/?ident=crucially
+http://www.flickr.com/photos/crucially/sets/        sgn://flickr.com/?ident=crucially
+http://www.flickr.com/photos/crucially/favorites/        sgn://flickr.com/?ident=crucially
+http://www.flickr.com/photos/crucially/page2/        sgn://flickr.com/?ident=crucially
+http://www.flickr.com/photos/crucially/map/        sgn://flickr.com/?ident=crucially
+http://www.flickr.com/photos/crucially/show/        sgn://flickr.com/?ident=crucially

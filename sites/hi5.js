@@ -130,3 +130,6 @@ content(sgn://hi5.com/?ident=bobfoo)  http://bobfoo.hi5.com/
 profile(sgn://hi5.com/?ident=bobfoo)  http://bobfoo.hi5.com/
 
 http://53835694.hi5.com/friend/profile/displayProfile.do  sgn://hi5.com/?pk=53835694
+
+# What is this?
+# http://cuttolipta.hi5.com/friend/p155132387--Lambretta--html
