@@ -694,11 +694,13 @@ nodemapper.addSimpleHandler("profiles.google.com", "ident_to_profile",
 })();
 (function(){
 var HAS_ID_REGEXP = /\b(?:ownerId=|userid=|friend\/|\/profile\/foaf\/)(\d+)/;
+var FRIEND_ID_REGEXP = /^\/friend\/p(\d+)-/;
 var DISPLAY_PROFILE = /^\/friend\/profile\/displayHi5URL\.do\?nickname=([\w\-]{6,})\b/;
 var NUMERIC_DOMAIN = /^(\d+)\.hi5\.com$/;
 function urlToGraphNodeHi5(url, host, path) {
     var m;
-    if (m = HAS_ID_REGEXP.exec(path)) {
+    if ((m = HAS_ID_REGEXP.exec(path)) ||
+        (m = FRIEND_ID_REGEXP.exec(path))) {
 	return "sgn://hi5.com/?pk=" + m[1];
     }
     if (path == "/" && (m = /^([\w\-]{6,})\.hi5\.com$/.exec(host))) {

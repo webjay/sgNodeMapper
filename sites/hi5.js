@@ -18,13 +18,16 @@
 
 var HAS_ID_REGEXP = /\b(?:ownerId=|userid=|friend\/|\/profile\/foaf\/)(\d+)/;
 
+var FRIEND_ID_REGEXP = /^\/friend\/p(\d+)-/;
+
 var DISPLAY_PROFILE = /^\/friend\/profile\/displayHi5URL\.do\?nickname=([\w\-]{6,})\b/;
 
 var NUMERIC_DOMAIN = /^(\d+)\.hi5\.com$/;
 
 function urlToGraphNodeHi5(url, host, path) {
     var m;
-    if (m = HAS_ID_REGEXP.exec(path)) {
+    if ((m = HAS_ID_REGEXP.exec(path)) ||
+        (m = FRIEND_ID_REGEXP.exec(path))) {
 	return "sgn://hi5.com/?pk=" + m[1];
     }
 
@@ -131,5 +134,5 @@ profile(sgn://hi5.com/?ident=bobfoo)  http://bobfoo.hi5.com/
 
 http://53835694.hi5.com/friend/profile/displayProfile.do  sgn://hi5.com/?pk=53835694
 
-# What is this?
-# http://cuttolipta.hi5.com/friend/p155132387--Lambretta--html
+http://bobfoo.hi5.com/friend/p1234--Foo_Bar%20Bar--html  sgn://hi5.com/?pk=1234
+http://bobfoo.hi5.com/friend/p5678--Paula--html sgn://hi5.com/?pk=5678
