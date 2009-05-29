@@ -15,6 +15,18 @@
  * limitations under the License.
  **/
 
+var FACEBOOK_ALT_DOMAINS = [
+    "facebook.at",
+    "facebook.ca",
+    "facebook.de",
+    "facebook.dk",
+    "facebook.es",
+    "facebook.jp",
+    "facebook.no",
+    "facebook.pl",
+    "facebook.se",
+    "facebook.vn"
+];
 
 var facebookHandler = function(url, host, path) {
   var m;
@@ -31,6 +43,10 @@ var facebookHandler = function(url, host, path) {
 
 
 nodemapper.registerDomain(
+    FACEBOOK_ALT_DOMAINS,
+    { urlToGraphNode: facebookHandler });
+
+nodemapper.registerDomain(
     "facebook.com",
     {name: "Facebook",
      urlToGraphNode: facebookHandler,
@@ -44,6 +60,8 @@ nodemapper.registerDomain(
 __END__
 
 http://www.facebook.com/profile.php?id=500033387   sgn://facebook.com/?pk=500033387
+http://fr.facebook.com/profile.php?id=500033387   sgn://facebook.com/?pk=500033387
+http://fr.facebook.ca/profile.php?id=500033387   sgn://facebook.com/?pk=500033387
 http://www.facebook.com/people/Brad_Fitzpatrick/500033387 sgn://facebook.com/?ident=Brad_Fitzpatrick/500033387
 http://www.facebook.com/p/Brad_Fitzpatrick/500033387 sgn://facebook.com/?ident=Brad_Fitzpatrick/500033387
 http://facebook.com/p/Brad_Fitzpatrick/500033387 sgn://facebook.com/?ident=Brad_Fitzpatrick/500033387

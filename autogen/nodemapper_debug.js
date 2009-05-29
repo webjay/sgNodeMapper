@@ -825,6 +825,19 @@ nodemapper.addSimpleHandler("blogger.com", "pk_to_profile",
 // =========================================================================
 // Begin included file sites/facebook.js
 (function(){
+var FACEBOOK_ALT_DOMAINS = [
+    "facebook.at",
+    "facebook.ca",
+    "facebook.de",
+    "facebook.dk",
+    "facebook.es",
+    "facebook.jp",
+    "facebook.no",
+    "facebook.pl",
+    "facebook.se",
+    "facebook.vn"
+];
+
 var facebookHandler = function(url, host, path) {
   var m;
   var slashProfile = /^(?:\/home\.php\#)?\/profile\.php\?id=(\d+)/;
@@ -838,6 +851,10 @@ var facebookHandler = function(url, host, path) {
   return url;
 };
 
+
+nodemapper.registerDomain(
+    FACEBOOK_ALT_DOMAINS,
+    { urlToGraphNode: facebookHandler });
 
 nodemapper.registerDomain(
     "facebook.com",
