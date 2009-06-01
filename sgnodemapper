@@ -1,0 +1,47 @@
+#!/usr/bin/perl
+#
+# Little command-line tool to go from http -> sgn.
+#
+# $ ./sgnodemapper http://twitter.com/bradfitz
+# sgn://twitter.com/?ident=bradfitz
+#
+
+use strict;
+use IPC::Open3;
+use FindBin;
+
+my $smjs = `which smjs`;
+chomp $smjs;
+unless ($smjs && -x $smjs) {
+  die "smjs binary not found.  Install the smjs (spidermonkey javascript) package.\n";
+}
+
+my $nm = "$FindBin::Bin/nodemapper.js";
+unless (-e $nm) {
+  die "Can't find nodemapper.js at $nm\n";
+}
+
+
+my ($wtr, $rdr, $err);
+select($wtr); $| = 1; select(STDOUT);
+
+my $pid = open3($wtr, $rdr, $err, $smjs);
+open(my $jsfh, $nm) or die;
+my $js = do { local $/; <$jsfh>; };
+print $wtr $js;
+
+my $arg = shift;
+if ($arg =~ /^http/) {
+  print $wtr "$js\n", "print(nodemapper.urlToGraphNode(\"$arg\"));\n";
+}
+shutdown($wtr, 1);  # stopped writing data
+close($wtr);
+
+my $out = <$rdr>;
+chomp $out;
+
+if ($out && $out =~ /^sgn:/) {
+  print "$out\n";
+}
+
+
