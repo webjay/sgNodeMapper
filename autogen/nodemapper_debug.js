@@ -1616,6 +1616,23 @@ nodemapper.addSimpleHandler("my.opera.com", "ident_to_foaf",
 // (end of included file sites/opera.js)
 
 // =========================================================================
+// Begin included file sites/sapo.js
+(function(){
+nodemapper.registerDomain(
+    "blogs.sapo.pt",
+    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("blogs.sapo.pt"),
+          name: "SAPO"
+          });
+
+nodemapper.addSimpleHandler("blogs.sapo.pt", "ident_to_foaf",
+                            "http://", ".blogs.sapo.pt/data/foaf");
+nodemapper.addSimpleHandler("blogs.sapo.pt", "ident_to_blog",
+                            "http://", ".blogs.sapo.pt/");
+
+})();
+// (end of included file sites/sapo.js)
+
+// =========================================================================
 // Begin included file sites/simple.js
 (function(){
 nodemapper.registerDomain(

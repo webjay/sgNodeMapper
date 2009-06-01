@@ -999,6 +999,17 @@ nodemapper.addSimpleHandler("my.opera.com", "ident_to_foaf",
 })();
 (function(){
 nodemapper.registerDomain(
+    "blogs.sapo.pt",
+    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("blogs.sapo.pt"),
+          name: "SAPO"
+          });
+nodemapper.addSimpleHandler("blogs.sapo.pt", "ident_to_foaf",
+                            "http://", ".blogs.sapo.pt/data/foaf");
+nodemapper.addSimpleHandler("blogs.sapo.pt", "ident_to_blog",
+                            "http://", ".blogs.sapo.pt/");
+})();
+(function(){
+nodemapper.registerDomain(
     "digg.com",
     {name: "Digg",
      urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
