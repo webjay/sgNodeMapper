@@ -266,7 +266,7 @@ nodemapper.addSimpleHandler("furl.net", "ident_to_rss",
 nodemapper.registerDomain("dailymotion.com",
   {name: "DailyMotion",
    urlToGraphNode: nodemapper.createPathRegexpHandler(
-    "dailymotion.com", /^\/(?:rss\/)?(\w+)(?:\/|$)/, {slashAnything: 1})});
+    "dailymotion.com", /^\/(?:rss\/)?(\w+)(?:\/|$|\?from=)/, {slashAnything: 1})});
 nodemapper.addSimpleHandler("dailymotion.com", "ident_to_profile", 
     "http://www.dailymotion.com/");
 nodemapper.addSimpleHandler("dailymotion.com", "ident_to_rss", 
@@ -716,6 +716,7 @@ rss(sgn://furl.net/?ident=jsmarr) http://www.furl.net/members/jsmarr/rss.xml
 
 http://www.dailymotion.com/jsmarr  sgn://dailymotion.com/?ident=jsmarr
 http://dailymotion.com/jsmarr  sgn://dailymotion.com/?ident=jsmarr
+http://beta.dailymotion.com/JSMarr?from=rss  sgn://dailymotion.com/?ident=jsmarr
 http://www.dailymotion.com/rss/jsmarr/1  sgn://dailymotion.com/?ident=jsmarr
 profile(sgn://dailymotion.com/?ident=jsmarr) http://www.dailymotion.com/jsmarr
 rss(sgn://dailymotion.com/?ident=jsmarr) http://www.dailymotion.com/rss/jsmarr/1

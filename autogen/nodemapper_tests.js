@@ -526,6 +526,7 @@ var nodemapper_tests = [
   ["urlToGraphNode", "http://www.furl.net/members/jsmarr/rss.xml", "sgn://furl.net/?ident=jsmarr"],
   ["urlToGraphNode", "http://www.dailymotion.com/jsmarr", "sgn://dailymotion.com/?ident=jsmarr"],
   ["urlToGraphNode", "http://dailymotion.com/jsmarr", "sgn://dailymotion.com/?ident=jsmarr"],
+  ["urlToGraphNode", "http://beta.dailymotion.com/JSMarr?from=rss", "sgn://dailymotion.com/?ident=jsmarr"],
   ["urlToGraphNode", "http://www.dailymotion.com/rss/jsmarr/1", "sgn://dailymotion.com/?ident=jsmarr"],
   ["urlFromGraphNode", "sgn://dailymotion.com/?ident=jsmarr", "profile", "http://www.dailymotion.com/jsmarr"],
   ["urlToGraphNode", "http://www.dailymotion.com/jsmarr", "sgn://dailymotion.com/?ident=jsmarr"],
