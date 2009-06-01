@@ -39,9 +39,15 @@ close($wtr);
 
 my $out = <$rdr>;
 chomp $out;
+exit 0 unless $out;
 
-if ($out && $out =~ /^sgn:/) {
+if ($out =~ /^sgn:/) {
   print "$out\n";
+} else {
+  print STDERR "# $out\n";
+  while (<$rdr>) {
+    print STDERR "# $_";
+  }
 }
 
 
