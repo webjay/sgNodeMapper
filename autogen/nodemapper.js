@@ -219,7 +219,9 @@ nodemapper.sgnFromHttpUsingToHttpRules = function(domain, url) {
 		    if (! handler.caseSensitiveIdent) {
 			match = match.toLowerCase();
 		    }
-		    matches.push("sgn://" + domain + "/?ident=" + match);
+                    if (match != "www") {
+                      matches.push("sgn://" + domain + "/?ident=" + match);
+                    }
 		}
 	    }
 	}
@@ -227,7 +229,7 @@ nodemapper.sgnFromHttpUsingToHttpRules = function(domain, url) {
     if (matches.length == 1) {
 	return matches[0];
     } else {
-	debug("More/less than 1 match.  Potential matches: " + matches);
+        debug("More/less than 1 match for " + url + ".  Potential matches: [" + matches + "]");
     }
     return;
 };
@@ -996,6 +998,39 @@ nodemapper.addSimpleHandler("my.opera.com", "ident_to_profile",
                             "http://my.opera.com/", "/about/");
 nodemapper.addSimpleHandler("my.opera.com", "ident_to_foaf",
                             "http://my.opera.com/", "/xml/foaf/");
+})();
+(function(){
+nodemapper.registerDomain(
+    "gallery.ru",
+    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("gallery.ru"),
+          name: "Gallery.ru"
+          });
+nodemapper.addSimpleHandler("gallery.ru", "ident_to_foaf",
+                            "http://", ".gallery.ru/foaf/");
+nodemapper.addSimpleHandler("gallery.ru", "ident_to_profile",
+                            "http://", ".gallery.ru/");
+nodemapper.registerDomain(
+    "blogonline.ru",
+    {urlToGraphNode: nodemapper.createUserIsSubdomainHandler("blogonline.ru"),
+     name: "blogonline.ru"
+          });
+nodemapper.addSimpleHandler("blogonline.ru", "ident_to_foaf",
+                            "http://", ".blogonline.ru/data/foaf");
+nodemapper.addSimpleHandler("blogonline.ru", "ident_to_profile",
+                            "http://", ".blogonline.ru/profile");
+nodemapper.addSimpleHandler("blogonline.ru", "ident_to_blog",
+                            "http://", ".blogonline.ru/");
+nodemapper.registerDomain(
+    "privet.ru",
+    {urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("user", "privet.ru"),
+          name: "privet.ru"
+          });
+nodemapper.addSimpleHandler("privet.ru", "ident_to_foaf",
+                            "http://www.privet.ru/user/", "/foaf");
+nodemapper.addSimpleHandler("privet.ru", "ident_to_blog",
+                            "http://blogs.privet.ru/user/");
+nodemapper.addSimpleHandler("privet.ru", "ident_to_profile",
+                            "http://www.privet.ru/user/");
 })();
 (function(){
 nodemapper.registerDomain(

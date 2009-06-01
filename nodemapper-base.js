@@ -388,7 +388,9 @@ nodemapper.sgnFromHttpUsingToHttpRules = function(domain, url) {
 		    if (! handler.caseSensitiveIdent) {
 			match = match.toLowerCase();
 		    }
-		    matches.push("sgn://" + domain + "/?ident=" + match);
+                    if (match != "www") {
+                      matches.push("sgn://" + domain + "/?ident=" + match);
+                    }
 		}
 	    }
 	}
@@ -396,7 +398,7 @@ nodemapper.sgnFromHttpUsingToHttpRules = function(domain, url) {
     if (matches.length == 1) {
 	return matches[0];
     } else {
-	debug("More/less than 1 match.  Potential matches: " + matches);
+        debug("More/less than 1 match for " + url + ".  Potential matches: [" + matches + "]");
     }
     return;
 };
