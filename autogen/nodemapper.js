@@ -87,7 +87,7 @@ nodemapper.urlToGraphNode = function(url) {
     if (handler.urlToGraphNode) {
 	graphNode = handler.urlToGraphNode(url, host, path);
     }
-    if (!graphNode || graphNode == url) {
+    if ((!graphNode || graphNode == url) && !handler.skipAutomaticHttpToSgn) {
 	graphNode = nodemapper.sgnFromHttpUsingToHttpRules(matchedDomain, url);
     }
     if (!graphNode || graphNode == url) {
@@ -904,6 +904,7 @@ var ACTION_REGEX = /index\.cfm\?fuseaction=(.+)&friendID=(\d+)/i;
 var SLASH_WHATEVER_REGEX = /^\/(\d+)|([a-z]\w*)(?:\?|$)/;
 var MYSPACE_USER_ACTIONS = {
   "user.viewprofile": 1,
+  "user.viewfriends": 1,
   "blog.listall": 1,
   "blog.confirmsubscribe": 1
 };
@@ -941,10 +942,10 @@ nodemapper.registerDomain(
 });
 nodemapper.addSimpleHandler(
     "myspace.com", "ident_to_profile",
-    "http://myspace.com/");
+    "http://www.myspace.com/");
 nodemapper.addSimpleHandler(
     "myspace.com", "ident_to_content",
-    "http://myspace.com/");
+    "http://www.myspace.com/");
 nodemapper.addSimpleHandler(
     "myspace.com", "pk_to_profile",
     "http://profile.myspace.com/index.cfm?fuseaction=user.viewprofile&friendid=");
@@ -1111,14 +1112,6 @@ nodemapper.registerDomain(
         /^\/\w\w\/people\/(\w+)\/?/)});
 nodemapper.addSimpleHandler("ziki.com", "ident_to_profile",
 			    "http://www.ziki.com/people/", "");
-nodemapper.registerDomain(
-    "wordpress.com",
-    {name: "WordPress",
-     urlToGraphNode: nodemapper.createHostRegexpHandler(
-        "wordpress.com",
-        /^(?:www\.)?([\w\-]+)\.wordpress\.com$/)});
-nodemapper.addSimpleHandler("wordpress.com", "ident_to_blog",
-			    "http://", ".wordpress.com/");
 nodemapper.registerDomain(
     ["del.icio.us", "delicious.com"],
     {name: "del.icio.us",
@@ -1665,6 +1658,25 @@ nodemapper.addSimpleHandler("wakoopa.com", "ident_to_profile",
     "http://wakoopa.com/");
 nodemapper.addSimpleHandler("software.wakoopa.com", "ident_to_profile",
     "http://wakoopa.com/software/");
+})();
+(function(){
+var DOMAIN_RE = /^(?:www\.)?([\w\-]+)\.wordpress\.com$/;
+function wordpressHandler(url, host, path) {
+  var m = DOMAIN_RE.exec(host);
+  var ident = m ? m[1].toLowerCase() : "";
+  if (!m || ident == "www" || ident.length == 2 ||
+      (ident.length == 5 && ident.substr(2, 1) == "-")) {
+    return url;
+  }
+  return "sgn://wordpress.com/?ident=" + ident;
+}
+nodemapper.registerDomain(
+    "wordpress.com",
+    {name: "WordPress",
+     skipAutomaticHttpToSgn: true,
+     urlToGraphNode: wordpressHandler});
+nodemapper.addSimpleHandler("wordpress.com", "ident_to_blog",
+			    "http://", ".wordpress.com/");
 })();
 (function(){
 var yelpCompoundHandler = function(url, host, path) {

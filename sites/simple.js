@@ -93,16 +93,6 @@ nodemapper.addSimpleHandler("ziki.com", "ident_to_profile",
 			    "http://www.ziki.com/people/", "");
 
 nodemapper.registerDomain(
-    "wordpress.com",
-    {name: "WordPress",
-     urlToGraphNode: nodemapper.createHostRegexpHandler(
-        "wordpress.com",
-        /^(?:www\.)?([\w\-]+)\.wordpress\.com$/)});
-
-nodemapper.addSimpleHandler("wordpress.com", "ident_to_blog",
-			    "http://", ".wordpress.com/");
-
-nodemapper.registerDomain(
     ["del.icio.us", "delicious.com"],
     {name: "del.icio.us",
      primaryDomain: "del.icio.us",
@@ -570,10 +560,6 @@ http://www.ziki.com/en/people/bob   sgn://ziki.com/?ident=bob
 http://www.ziki.com/fr/people/bob/  sgn://ziki.com/?ident=bob
 http://www.ziki.com/fr/people/bob/extrastuff sgn://ziki.com/?ident=bob
 profile(sgn://ziki.com/?ident=bob)  http://www.ziki.com/people/bob
-
-http://foo.wordpress.com/  sgn://wordpress.com/?ident=foo
-http://www.foo.wordpress.com/  sgn://wordpress.com/?ident=foo
-blog(sgn://wordpress.com/?ident=foo) http://foo.wordpress.com/
 
 http://del.icio.us/jsmarr	sgn://del.icio.us/?ident=jsmarr
 http://del.icio.us/rss/jsmarr	sgn://del.icio.us/?ident=jsmarr

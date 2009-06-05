@@ -201,7 +201,7 @@ nodemapper.urlToGraphNode = function(url) {
     // If the http-to-sgn handler didn't do anything (or didn't
     // exist), try matching using all the registered sgn-to-http rules
     // in reverse.
-    if (!graphNode || graphNode == url) {
+    if ((!graphNode || graphNode == url) && !handler.skipAutomaticHttpToSgn) {
 	graphNode = nodemapper.sgnFromHttpUsingToHttpRules(matchedDomain, url);
     }
 
@@ -1476,6 +1476,7 @@ var SLASH_WHATEVER_REGEX = /^\/(\d+)|([a-z]\w*)(?:\?|$)/;
  */
 var MYSPACE_USER_ACTIONS = {
   "user.viewprofile": 1,
+  "user.viewfriends": 1,
   "blog.listall": 1,
   "blog.confirmsubscribe": 1
 };
@@ -1531,11 +1532,11 @@ nodemapper.registerDomain(
 
 nodemapper.addSimpleHandler(
     "myspace.com", "ident_to_profile",
-    "http://myspace.com/");
+    "http://www.myspace.com/");
 
 nodemapper.addSimpleHandler(
     "myspace.com", "ident_to_content",
-    "http://myspace.com/");
+    "http://www.myspace.com/");
 
 nodemapper.addSimpleHandler(
     "myspace.com", "pk_to_profile",
@@ -1758,16 +1759,6 @@ nodemapper.registerDomain(
 
 nodemapper.addSimpleHandler("ziki.com", "ident_to_profile",
 			    "http://www.ziki.com/people/", "");
-
-nodemapper.registerDomain(
-    "wordpress.com",
-    {name: "WordPress",
-     urlToGraphNode: nodemapper.createHostRegexpHandler(
-        "wordpress.com",
-        /^(?:www\.)?([\w\-]+)\.wordpress\.com$/)});
-
-nodemapper.addSimpleHandler("wordpress.com", "ident_to_blog",
-			    "http://", ".wordpress.com/");
 
 nodemapper.registerDomain(
     ["del.icio.us", "delicious.com"],
@@ -2423,6 +2414,34 @@ nodemapper.addSimpleHandler("software.wakoopa.com", "ident_to_profile",
 
 })();
 // (end of included file sites/wakoopa.js)
+
+// =========================================================================
+// Begin included file sites/wordpress.js
+(function(){
+var DOMAIN_RE = /^(?:www\.)?([\w\-]+)\.wordpress\.com$/;
+
+function wordpressHandler(url, host, path) {
+  var m = DOMAIN_RE.exec(host);
+  var ident = m ? m[1].toLowerCase() : "";
+  if (!m || ident == "www" || ident.length == 2 ||
+      (ident.length == 5 && ident.substr(2, 1) == "-")) {
+    // Language or "www" subdomain.  Front-page, not user page.
+    return url;
+  }
+  return "sgn://wordpress.com/?ident=" + ident;
+}
+
+nodemapper.registerDomain(
+    "wordpress.com",
+    {name: "WordPress",
+     skipAutomaticHttpToSgn: true,
+     urlToGraphNode: wordpressHandler});
+
+nodemapper.addSimpleHandler("wordpress.com", "ident_to_blog",
+			    "http://", ".wordpress.com/");
+
+})();
+// (end of included file sites/wordpress.js)
 
 // =========================================================================
 // Begin included file sites/yelp.js

@@ -40,6 +40,7 @@ var SLASH_WHATEVER_REGEX = /^\/(\d+)|([a-z]\w*)(?:\?|$)/;
  */
 var MYSPACE_USER_ACTIONS = {
   "user.viewprofile": 1,
+  "user.viewfriends": 1,
   "blog.listall": 1,
   "blog.confirmsubscribe": 1
 };
@@ -95,11 +96,11 @@ nodemapper.registerDomain(
 
 nodemapper.addSimpleHandler(
     "myspace.com", "ident_to_profile",
-    "http://myspace.com/");
+    "http://www.myspace.com/");
 
 nodemapper.addSimpleHandler(
     "myspace.com", "ident_to_content",
-    "http://myspace.com/");
+    "http://www.myspace.com/");
 
 nodemapper.addSimpleHandler(
     "myspace.com", "pk_to_profile",
@@ -139,9 +140,12 @@ http://blog.myspace.com/index.cfm?fuseaction=blog.ListAll&friendID=64410858     
 http://blog.myspace.com/index.cfm?fuseaction=blog.ConfirmSubscribe&friendID=64410858 sgn://myspace.com/?pk=64410858
 http://profile.myspace.com/index.cfm?fuseaction=user.viewProfile&friendID=34718576   sgn://myspace.com/?pk=34718576
 
+# Newer friend URL format:
+http://friends.myspace.com/index.cfm?fuseaction=user.viewfriends&friendID=64410858  sgn://myspace.com/?pk=64410858
+
 profile(sgn://myspace.com/?pk=123)	http://profile.myspace.com/index.cfm?fuseaction=user.viewprofile&friendid=123
 blog(sgn://myspace.com/?pk=123)		http://blog.myspace.com/index.cfm?fuseaction=blog.ListAll&friendID=123
 rss(sgn://myspace.com/?pk=123)		http://blog.myspace.com/blog/rss.cfm?friendID=123
 
-profile(sgn://myspace.com/?ident=foobar) http://myspace.com/foobar
-content(sgn://myspace.com/?ident=foobar) http://myspace.com/foobar
+profile(sgn://myspace.com/?ident=foobar) http://www.myspace.com/foobar
+content(sgn://myspace.com/?ident=foobar) http://www.myspace.com/foobar

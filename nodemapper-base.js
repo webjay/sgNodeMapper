@@ -196,7 +196,7 @@ nodemapper.urlToGraphNode = function(url) {
     // If the http-to-sgn handler didn't do anything (or didn't
     // exist), try matching using all the registered sgn-to-http rules
     // in reverse.
-    if (!graphNode || graphNode == url) {
+    if ((!graphNode || graphNode == url) && !handler.skipAutomaticHttpToSgn) {
 	graphNode = nodemapper.sgnFromHttpUsingToHttpRules(matchedDomain, url);
     }
 
