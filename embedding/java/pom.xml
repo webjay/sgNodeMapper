@@ -10,7 +10,7 @@
   <description>The Social Graph Node Mapper is a community project to build a portable library to map social networking sites' URLs to and from a new canonical form (sgn:// URLs).</description>
   <groupId>com.google.sgnodemapper</groupId>
   <artifactId>sgnodemapper</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.2-SNAPSHOT</version>
   <url>http://code.google.com/p/google-sgnodemapper/</url>
 
   <scm>
