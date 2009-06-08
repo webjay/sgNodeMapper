@@ -7,47 +7,27 @@
 #
 
 use strict;
-use IPC::Open3;
 use FindBin;
-
-my $smjs = `which smjs`;
-chomp $smjs;
-unless ($smjs && -x $smjs) {
-  die "smjs binary not found.  Install the smjs (spidermonkey javascript) package.\n";
-}
-
-my $nm = "$FindBin::Bin/nodemapper.js";
-unless (-e $nm) {
-  die "Can't find nodemapper.js at $nm\n";
-}
-
-
-my ($wtr, $rdr, $err);
-select($wtr); $| = 1; select(STDOUT);
-
-my $pid = open3($wtr, $rdr, $err, $smjs);
-open(my $jsfh, $nm) or die;
-my $js = do { local $/; <$jsfh>; };
-print $wtr $js;
+use lib 'embedding/perl/lib';
+use SocialGraph::NodeMapper;
 
 my $arg = shift;
-if ($arg =~ /^http/) {
-  print $wtr "$js\n", "print(nodemapper.urlToGraphNode(\"$arg\"));\n";
+unless ($arg && $arg =~ /^http/) {
+  die "Usage: sgnodemapper <http_url>\n";
 }
-shutdown($wtr, 1);  # stopped writing data
-close($wtr);
 
-my $out = <$rdr>;
-chomp $out;
-exit 0 unless $out;
+my $js_file = "$FindBin::Bin/nodemapper.js";
+unless (-e $js_file) {
+  die "Can't find nodemapper.js at $js_file\n";
+}
+
+my $mapper = SocialGraph::NodeMapper->new($js_file);
+my $out = $mapper->graph_node_from_url($arg);
 
 if ($out =~ /^sgn:/) {
   print "$out\n";
 } else {
   print STDERR "# $out\n";
-  while (<$rdr>) {
-    print STDERR "# $_";
-  }
 }
 
 

@@ -16,7 +16,22 @@
 
 package SocialGraph::NodeMapper;
 use strict;
-use JavaScript::SpiderMonkey;
+use IPC::Open3;
+use File::Temp qw(tempfile);
+
+my $HAVE_JS_LIB;   # is JavaScript::SpiderMonkey available?
+my $SMJS;          # path to 'smjs' binary, if found.
+BEGIN {
+    $HAVE_JS_LIB = eval "use JavaScript::SpiderMonkey; 1;";
+    unless ($HAVE_JS_LIB) {
+	$SMJS = `which smjs`;
+	chomp $SMJS;
+	unless ($SMJS) {
+	    die "Missing 'smjs' binary.  Install package 'spidermonkey-bin'.\n";
+	}
+	die "'smjs' binary isn't executable" unless -x $SMJS;
+    }
+}
 use JSON ();
 
 our $json;
@@ -29,25 +44,44 @@ BEGIN {
 }
 
 sub new {
-  my ($class, $opt_file) = @_;
-  my $js = JavaScript::SpiderMonkey->new();
-  $js->init;
-
+  my ($class, $js_file) = @_;
   my $self = bless {
-    'js' => $js,
   }, $class;
-  $self->load_javascript($opt_file) if $opt_file;
+  if ($HAVE_JS_LIB) {
+      $self->{js} = JavaScript::SpiderMonkey->new();
+      $self->{js}->init;
+      $self->_load_javascript($js_file);
+  } else {
+      my ($wtr, $rdr, $err);
+      select($wtr); $| = 1; select(STDOUT);
+      my ($tmp_fh, $tmp_filename) = tempfile();
+      my $js = _slurp($js_file);
+      print $tmp_fh $js, "\n";
+      print $tmp_fh "debug = function(msg) { print(\"# \" + msg); };\n";
+      print $tmp_fh "while (true) { var expr = readline(); print(eval(expr) + \"\\n.\"); }\n";
+      close($tmp_fh);
+      my $pid = open3($wtr, $rdr, $err, $SMJS, $tmp_filename);
+      die "Can't open $SMJS: $!" unless $pid;
+      $self->{wtr} = $wtr;
+      $self->{rdr} = $rdr;
+      $self->{pid} = $pid;
+  }
   return $self;
 }
 
-sub load_javascript {
+sub _slurp {
+  my $filename = shift;
+  open(my $fh, $filename) or die "Couldn't open $filename: $!";
+  return scalar do { local $/; <$fh>; };
+}
+
+sub _load_javascript {
   my ($self, $jsfile) = @_;
-  open(my $fh, $jsfile) or die "Couldn't open $jsfile: $!";
-  my $all_js = do { local $/; <$fh>; };
+  my $all_js = _slurp($jsfile);
+  die "assert" unless $self->{js};
 
   # install the debug function (before eval)
   $self->{js}->function_set("debug", sub { print STDERR "DEBUG: @_\n"; });
-
   $self->{js}->eval($all_js) or die $@;
 
   # bummer: JavaScript-SpiderMonkey-0.19 didn't wrap JS_CallFunction,
@@ -63,7 +97,9 @@ sub load_javascript {
 
 sub DESTROY {
   my $self = shift;
-  $self->{js}->destroy;  # TODO: is this needed? it doesn't do it itself?
+  # TODO: is this needed? it doesn't do it itself?
+  $self->{js}->destroy if $self->{js};
+  kill 9, $self->{pid} if $self->{pid};
 }
 
 sub graph_node_from_url {
@@ -116,11 +152,32 @@ sub _json_encode {
 
 sub _call_jsfunc {
   my ($self, $func, @args) = @_;
-  my $js = "_set_return_value($func(" .
+  my $expr = "$func(" .
     join(", ", map { _json_encode($_) } @args) .
-    "));";
-  $self->{js}->eval($js) or die $@;
-  return $self->{_last_return_value};
+    ")";
+  if ($self->{js}) {
+    my $js = "_set_return_value($expr);";
+    $self->{js}->eval($js) or die $@;
+    return $self->{_last_return_value};
+  }
+  syswrite($self->{wtr}, "$expr\n");
+  my $ret;
+  my $fh = $self->{rdr};
+  while (<$fh>) {
+    if (/^\# /) {
+      warn $_;
+      next;
+    }
+    if ($_ eq ".\n") {
+      chomp $ret;
+      last;
+    }
+    $ret .= $_;
+  }
+  if ($ret eq "undefined") {
+      return undef;
+  }
+  return $ret;  # TODO(bradfitz): json decode to support non-scalars
 }
 
 1;
