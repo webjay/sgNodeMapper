@@ -890,8 +890,31 @@ function urlToGraphNodeFlickrFallback(url, host, path) {
 var urlToGraphNodeFlickr =
     nodemapper.createPathRegexpHandler(
         "flickr.com",
-        /^\/(?:people|photos)\/([\w\-]+)(?:\/|$)/,
+        /^(?:\/(?:people|photos))?\/([\w\-]+)(?:\/|$)/,
         {fallbackHandler: urlToGraphNodeFlickrFallback,
+	 notUsernames: {
+		photos: 1,
+		groups: 1,
+		people: 1,
+		search: 1,
+		places: 1,
+		help: 1,
+		services: 1,
+		explore: 1,
+		groups_topics: 1,
+		photo: 1,
+		creativecommons: 1,
+		commons: 1,
+		cameras: 1,
+		photo_zoom: 1,
+		signin: 1,
+		forums: 1,
+		apps: 1,
+		slideShow: 1,
+		map: 1,
+		account: 1,
+		groups_topic: 1
+	    },
          pathTransform: function(path) { return path.replace('%40', '@'); }
         });
 

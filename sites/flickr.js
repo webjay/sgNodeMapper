@@ -30,8 +30,31 @@ function urlToGraphNodeFlickrFallback(url, host, path) {
 var urlToGraphNodeFlickr =
     nodemapper.createPathRegexpHandler(
         "flickr.com",
-        /^\/(?:people|photos)\/([\w\-]+)(?:\/|$)/,
+        /^(?:\/(?:people|photos))?\/([\w\-]+)(?:\/|$)/,
         {fallbackHandler: urlToGraphNodeFlickrFallback,
+	 notUsernames: {
+		photos: 1,
+		groups: 1,
+		people: 1,
+		search: 1,
+		places: 1,
+		help: 1,
+		services: 1,
+		explore: 1,
+		groups_topics: 1,
+		photo: 1,
+		creativecommons: 1,
+		commons: 1,
+		cameras: 1,
+		photo_zoom: 1,
+		signin: 1,
+		forums: 1,
+		apps: 1,
+		slideShow: 1,
+		map: 1,
+		account: 1,
+		groups_topic: 1
+	    },
          pathTransform: function(path) { return path.replace('%40', '@'); }
         });
 
@@ -102,3 +125,21 @@ http://www.flickr.com/photos/crucially/favorites/        sgn://flickr.com/?ident
 http://www.flickr.com/photos/crucially/page2/        sgn://flickr.com/?ident=crucially
 http://www.flickr.com/photos/crucially/map/        sgn://flickr.com/?ident=crucially
 http://www.flickr.com/photos/crucially/show/        sgn://flickr.com/?ident=crucially
+
+# Redirect short URL:
+http://flickr.com/hyph-enated  sgn://flickr.com/?ident=hyph-enated
+http://flickr.com/bob  sgn://flickr.com/?ident=bob
+
+# These aren't usernames:
+http://flickr.com/photos http://flickr.com/photos
+http://flickr.com/groups http://flickr.com/groups
+http://flickr.com/search http://flickr.com/search
+http://flickr.com/places http://flickr.com/places
+http://flickr.com/people http://flickr.com/people
+http://flickr.com/photo http://flickr.com/photo
+http://flickr.com/explore http://flickr.com/explore
+http://flickr.com/photo_zoom http://flickr.com/photo_zoom
+http://flickr.com/commons http://flickr.com/commons
+http://flickr.com/services http://flickr.com/services
+http://flickr.com/groups_topics http://flickr.com/groups_topics
+
