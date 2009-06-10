@@ -388,7 +388,8 @@ nodemapper.sgnFromHttpUsingToHttpRules = function(domain, url) {
 		    if (! handler.caseSensitiveIdent) {
 			match = match.toLowerCase();
 		    }
-                    if (match != "www") {
+                    if (!(match == "www" ||
+                          (handler.notUsernames && handler.notUsernames[match]))) {
                       matches.push("sgn://" + domain + "/?ident=" + match);
                     }
 		}

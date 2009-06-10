@@ -27,18 +27,21 @@ var twitterFallbackHandler = function(url, host, path) {
   return url;
 };
 
+var NOT_USERNAMES = {
+  "statuses": 1,
+  "friends": 1
+};
+
 nodemapper.registerDomain(
     "twitter.com",
     { httpsLikeHttp: 1,
       name: "Twitter",
       accountToSgn: { pk: ["twitter.com"], ident: ["twitter.com"] },
+      notUsernames: NOT_USERNAMES,
       urlToGraphNode: nodemapper.createSlashUsernameHandler(
           "twitter.com",
           {slashAnything: 1,
-	   notUsernames: {
-	      "statuses": 1,
-	      "friends": 1
-           },
+           notUsernames: NOT_USERNAMES,
            fallbackHandler: twitterFallbackHandler
 	  })
    });
@@ -72,6 +75,8 @@ profile(sgn://twitter.com/?ident=brad) http://twitter.com/brad
 rss(sgn://twitter.com/?ident=brad) http://twitter.com/statuses/user_timeline/brad.rss
 atom(sgn://twitter.com/?ident=brad) http://twitter.com/statuses/user_timeline/brad.atom
 
+http://twitter.com/friends/foo  http://twitter.com/friends/foo
+http://twitter.com/friends  http://twitter.com/friends
 
 http://twitter.com/statuses/user_timeline/BRAD.rss  sgn://twitter.com/?ident=brad
 http://twitter.com/statuses/user_timeline/1234.rss  sgn://twitter.com/?pk=1234

@@ -728,6 +728,8 @@ var nodemapper_tests = [
   ["urlToGraphNode", "http://twitter.com/statuses/user_timeline/brad.rss", "sgn://twitter.com/?ident=brad"],
   ["urlFromGraphNode", "sgn://twitter.com/?ident=brad", "atom", "http://twitter.com/statuses/user_timeline/brad.atom"],
   ["urlToGraphNode", "http://twitter.com/statuses/user_timeline/brad.atom", "sgn://twitter.com/?ident=brad"],
+  ["urlToGraphNode", "http://twitter.com/friends/foo", "http://twitter.com/friends/foo"],
+  ["urlToGraphNode", "http://twitter.com/friends", "http://twitter.com/friends"],
   ["urlToGraphNode", "http://twitter.com/statuses/user_timeline/BRAD.rss", "sgn://twitter.com/?ident=brad"],
   ["urlToGraphNode", "http://twitter.com/statuses/user_timeline/1234.rss", "sgn://twitter.com/?pk=1234"],
   ["urlToGraphNode", "http://twitter.com/friends/ids/bradfitz.xml", "sgn://twitter.com/?ident=bradfitz"],

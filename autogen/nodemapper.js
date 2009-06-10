@@ -219,7 +219,8 @@ nodemapper.sgnFromHttpUsingToHttpRules = function(domain, url) {
 		    if (! handler.caseSensitiveIdent) {
 			match = match.toLowerCase();
 		    }
-                    if (match != "www") {
+                    if (!(match == "www" ||
+                          (handler.notUsernames && handler.notUsernames[match]))) {
                       matches.push("sgn://" + domain + "/?ident=" + match);
                     }
 		}
@@ -1657,18 +1658,20 @@ var twitterFallbackHandler = function(url, host, path) {
   }
   return url;
 };
+var NOT_USERNAMES = {
+  "statuses": 1,
+  "friends": 1
+};
 nodemapper.registerDomain(
     "twitter.com",
     { httpsLikeHttp: 1,
       name: "Twitter",
       accountToSgn: { pk: ["twitter.com"], ident: ["twitter.com"] },
+      notUsernames: NOT_USERNAMES,
       urlToGraphNode: nodemapper.createSlashUsernameHandler(
           "twitter.com",
           {slashAnything: 1,
-	   notUsernames: {
-	      "statuses": 1,
-	      "friends": 1
-           },
+           notUsernames: NOT_USERNAMES,
            fallbackHandler: twitterFallbackHandler
 	  })
    });
