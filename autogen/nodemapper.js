@@ -476,14 +476,36 @@ var FACEBOOK_ALT_DOMAINS = [
     "facebook.se",
     "facebook.vn"
 ];
+var PRIVATE_PROFILE_RE = /^(?:\/home\.php\#)?\/profile\.php\?id=(\d+)/;
+var PUBLIC_PROFILE_RE = /^\/(?:p|people)\/([^\/]+\/(\d+))/;
+var USERNAME_RE = /^\/(\w[\w\.]{3,30}\w)(?:$|[\/\?])/;
+var NOT_USERNAME = {
+  people: 1,
+  pages: 1,
+  directory: 1,
+  video: 1,
+  apps: 1,
+  discography: 1,
+  networks: 1,
+  help: 1,
+  applications: 1,
+  reviews: 1,
+  ext: 1,
+  marketplace: 1
+};
 var facebookHandler = function(url, host, path) {
   var m;
-  var slashProfile = /^(?:\/home\.php\#)?\/profile\.php\?id=(\d+)/;
-  if (m = slashProfile.exec(path)) {
+  if (m = PRIVATE_PROFILE_RE.exec(path)) {
     return "sgn://facebook.com/?pk=" + m[1];
   }
-  var publicProfile = /^\/(?:p|people)\/([^\/]+\/(\d+))/;
-  if (m = publicProfile.exec(path)) {
+  if (m = PUBLIC_PROFILE_RE.exec(path)) {
+    return "sgn://facebook.com/?ident=" + m[1];
+  }
+  if (m = USERNAME_RE.exec(path)) {
+    if (m[1].lastIndexOf(".php") == m[1].length - 4 ||
+        NOT_USERNAME[m[1].toLowerCase()]) {
+      return url;
+    }
     return "sgn://facebook.com/?ident=" + m[1];
   }
   return url;
@@ -495,10 +517,16 @@ nodemapper.registerDomain(
     "facebook.com",
     {name: "Facebook",
      urlToGraphNode: facebookHandler,
-     ident_to_profile: function (ident) { return "http://www.facebook.com/people/" + ident },
+     ident_to_profile: function (ident) {
+        if (/\//.exec(ident)) {
+          return "http://www.facebook.com/people/" + ident;
+        } else {
+          return "http://www.facebook.com/" + ident;
+        }
+      },
      pk_to_profile: function (pk) { return "http://www.facebook.com/profile.php?id=" + pk; },
      pkRegexp: /^\d+$/,
-     identRegexp: /^.+\/\d+$/,
+     identRegexp: /^(?:.+\/\d+)|(?:\w[\w\.]{3,30}\w)$/,
      identCasePreserve: 1
      });
 })();
