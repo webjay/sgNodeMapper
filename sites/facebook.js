@@ -18,10 +18,15 @@
 var FACEBOOK_ALT_DOMAINS = [
     "facebook.at",
     "facebook.ca",
+    "facebook.co.nz",
+    "facebook.co.za",
+    "facebook.com.au",
     "facebook.de",
     "facebook.dk",
     "facebook.es",
+    "facebook.ie",
     "facebook.jp",
+    "facebook.net.nz",
     "facebook.no",
     "facebook.pl",
     "facebook.se",
@@ -35,7 +40,7 @@ var PRIVATE_PROFILE_RE = /^(?:\/home\.php\#)?\/profile\.php\?id=(\d+)/;
 var PUBLIC_PROFILE_RE = /^\/(?:p|people)\/([^\/]+\/(\d+))/;
 
 // $1: "sarahpalin" (ident, form 2 for facebook)
-var USERNAME_RE = /^\/(\w[\w\.]{3,30}\w)(?:$|[\/\?])/;
+var USERNAME_RE = /^\/(\w[\w\.]{2,30}\w)(?:$|[\/\?])/;
 
 var NOT_USERNAME = {
   people: 1,
@@ -88,7 +93,7 @@ nodemapper.registerDomain(
       },
      pk_to_profile: function (pk) { return "http://www.facebook.com/profile.php?id=" + pk; },
      pkRegexp: /^\d+$/,
-     identRegexp: /^(?:.+\/\d+)|(?:\w[\w\.]{3,30}\w)$/,
+     identRegexp: /^(?:.+\/\d+)|(?:\w[\w\.]{2,30}\w)$/,
      identCasePreserve: 1
      });
 
@@ -123,6 +128,9 @@ http://www.facebook.com/sarahpalin?v=info  sgn://facebook.com/?ident=sarahpalin
 http://ru.facebook.com/sarahpalin  sgn://facebook.com/?ident=sarahpalin
 
 http://www.facebook.com/blaise.dipersia  sgn://facebook.com/?ident=blaise.dipersia
+
+# some people get shorter-than-5 ones:
+http://www.facebook.com/greg  sgn://facebook.com/?ident=greg
 
 http://www.facebook.com/AdamLambert  sgn://facebook.com/?ident=AdamLambert
 profile(sgn://facebook.com/?ident=sarahpalin)  http://www.facebook.com/sarahpalin

@@ -468,10 +468,15 @@ nodemapper.addSimpleHandler("blogger.com", "pk_to_profile",
 var FACEBOOK_ALT_DOMAINS = [
     "facebook.at",
     "facebook.ca",
+    "facebook.co.nz",
+    "facebook.co.za",
+    "facebook.com.au",
     "facebook.de",
     "facebook.dk",
     "facebook.es",
+    "facebook.ie",
     "facebook.jp",
+    "facebook.net.nz",
     "facebook.no",
     "facebook.pl",
     "facebook.se",
@@ -479,7 +484,7 @@ var FACEBOOK_ALT_DOMAINS = [
 ];
 var PRIVATE_PROFILE_RE = /^(?:\/home\.php\#)?\/profile\.php\?id=(\d+)/;
 var PUBLIC_PROFILE_RE = /^\/(?:p|people)\/([^\/]+\/(\d+))/;
-var USERNAME_RE = /^\/(\w[\w\.]{3,30}\w)(?:$|[\/\?])/;
+var USERNAME_RE = /^\/(\w[\w\.]{2,30}\w)(?:$|[\/\?])/;
 var NOT_USERNAME = {
   people: 1,
   pages: 1,
@@ -527,7 +532,7 @@ nodemapper.registerDomain(
       },
      pk_to_profile: function (pk) { return "http://www.facebook.com/profile.php?id=" + pk; },
      pkRegexp: /^\d+$/,
-     identRegexp: /^(?:.+\/\d+)|(?:\w[\w\.]{3,30}\w)$/,
+     identRegexp: /^(?:.+\/\d+)|(?:\w[\w\.]{2,30}\w)$/,
      identCasePreserve: 1
      });
 })();

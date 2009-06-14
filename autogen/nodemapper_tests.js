@@ -66,6 +66,7 @@ var nodemapper_tests = [
   ["urlToGraphNode", "http://www.facebook.com/sarahpalin?v=info", "sgn://facebook.com/?ident=sarahpalin"],
   ["urlToGraphNode", "http://ru.facebook.com/sarahpalin", "sgn://facebook.com/?ident=sarahpalin"],
   ["urlToGraphNode", "http://www.facebook.com/blaise.dipersia", "sgn://facebook.com/?ident=blaise.dipersia"],
+  ["urlToGraphNode", "http://www.facebook.com/greg", "sgn://facebook.com/?ident=greg"],
   ["urlToGraphNode", "http://www.facebook.com/AdamLambert", "sgn://facebook.com/?ident=AdamLambert"],
   ["urlFromGraphNode", "sgn://facebook.com/?ident=sarahpalin", "profile", "http://www.facebook.com/sarahpalin"],
   ["urlToGraphNode", "http://www.facebook.com/sarahpalin", "sgn://facebook.com/?ident=sarahpalin"],
