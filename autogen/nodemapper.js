@@ -484,7 +484,7 @@ var FACEBOOK_ALT_DOMAINS = [
 ];
 var PRIVATE_PROFILE_RE = /^(?:\/home\.php\#)?\/profile\.php\?id=(\d+)/;
 var PUBLIC_PROFILE_RE = /^\/(?:p|people)\/([^\/]+\/(\d+))/;
-var USERNAME_RE = /^\/(\w[\w\.]{2,30}\w)(?:$|[\/\?])/;
+var USERNAME_RE = /^\/(\w[\w\.\-]{2,30}\w)(?:$|[\/\?])/;
 var NOT_USERNAME = {
   people: 1,
   pages: 1,
@@ -512,7 +512,7 @@ var facebookHandler = function(url, host, path) {
         NOT_USERNAME[m[1].toLowerCase()]) {
       return url;
     }
-    return "sgn://facebook.com/?ident=" + m[1];
+    return "sgn://facebook.com/?ident=" + m[1].toLowerCase().replace(/[\-\.]/g, "");
   }
   return url;
 };
@@ -532,7 +532,7 @@ nodemapper.registerDomain(
       },
      pk_to_profile: function (pk) { return "http://www.facebook.com/profile.php?id=" + pk; },
      pkRegexp: /^\d+$/,
-     identRegexp: /^(?:.+\/\d+)|(?:\w[\w\.]{2,30}\w)$/,
+     identRegexp: /^(?:.+\/\d+)|(?:\w[\w\.\-]{2,30}\w)$/,
      identCasePreserve: 1
      });
 })();
