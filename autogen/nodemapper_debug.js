@@ -2515,7 +2515,7 @@ nodemapper.addSimpleHandler("wordpress.com", "ident_to_blog",
 (function(){
 var yelpCompoundHandler = function(url, host, path) {
   var handler;
-  if (host.indexOf("www.") == 0) {
+  if (host.indexOf("www.") == 0 || path.indexOf('user_details') != -1) {
      handler = nodemapper.createPathRegexpHandler("yelp.com", 
         /^\/user_details\?userid=([\w\-]+)/, 
         {keyName: "pk", casePreserve: 1});
