@@ -1,8 +1,8 @@
 var yelpCompoundHandler = function(url, host, path) {
   var handler;
-  if (host.indexOf("www.") == 0 || path.indexOf('user_details') != -1) {
+  if (host.indexOf("www.") == 0 || path.indexOf('user_details') != -1 || path.indexOf('syndicate/user') != -1) {
      handler = nodemapper.createPathRegexpHandler("yelp.com", 
-        /^\/user_details\?userid=([\w\-]+)/, 
+        /^(?:\/user_details\?userid=|\/syndicate\/user\/)([\w\-]+)/, 
         {keyName: "pk", casePreserve: 1});
   } else handler = nodemapper.createUserIsSubdomainHandler("yelp.com");
   return handler(url, host, path);
@@ -26,6 +26,8 @@ __END__
 http://jsmarr.yelp.com	sgn://yelp.com/?ident=jsmarr
 http://www.yelp.com/user_details?userid=Dk2IkchUjADbrC05sdsAVQ	sgn://yelp.com/?pk=Dk2IkchUjADbrC05sdsAVQ
 http://yelp.com/user_details?userid=Dk2IkchUjADbrC05sdsAVQ	sgn://yelp.com/?pk=Dk2IkchUjADbrC05sdsAVQ
+http://www.yelp.com/syndicate/user/Dk2IkchUjADbrC05sdsAVQ/rss.xml sgn://yelp.com/?pk=Dk2IkchUjADbrC05sdsAVQ	
+http://yelp.com/syndicate/user/Dk2IkchUjADbrC05sdsAVQ/rss.xml sgn://yelp.com/?pk=Dk2IkchUjADbrC05sdsAVQ	
 rss(sgn://yelp.com/?pk=Dk2IkchUjADbrC05sdsAVQ)	http://www.yelp.com/syndicate/user/Dk2IkchUjADbrC05sdsAVQ/rss.xml 
 profile(sgn://yelp.com/?pk=Dk2IkchUjADbrC05sdsAVQ) http://www.yelp.com/user_details?userid=Dk2IkchUjADbrC05sdsAVQ
 profile(sgn://yelp.com/?ident=jsmarr) http://jsmarr.yelp.com

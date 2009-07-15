@@ -2515,9 +2515,9 @@ nodemapper.addSimpleHandler("wordpress.com", "ident_to_blog",
 (function(){
 var yelpCompoundHandler = function(url, host, path) {
   var handler;
-  if (host.indexOf("www.") == 0 || path.indexOf('user_details') != -1) {
+  if (host.indexOf("www.") == 0 || path.indexOf('user_details') != -1 || path.indexOf('syndicate/user') != -1) {
      handler = nodemapper.createPathRegexpHandler("yelp.com", 
-        /^\/user_details\?userid=([\w\-]+)/, 
+        /^(?:\/user_details\?userid=|\/syndicate\/user\/)([\w\-]+)/, 
         {keyName: "pk", casePreserve: 1});
   } else handler = nodemapper.createUserIsSubdomainHandler("yelp.com");
   return handler(url, host, path);
