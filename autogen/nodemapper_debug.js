@@ -1066,6 +1066,8 @@ nodemapper.registerDomain("reader.google.com", {
 	});
 nodemapper.addSimpleHandler("reader.google.com", "pk_to_content",
 			    "http://www.google.com/reader/shared/", "");
+nodemapper.addSimpleHandler("reader.google.com", "pk_to_profile",
+			    "http://www.google.com/reader/shared/", "");
 nodemapper.addSimpleHandler("reader.google.com", "pk_to_atom",
 			    "http://www.google.com/reader/public/atom/user/",
                             "/state/com.google/broadcast");

@@ -57,6 +57,8 @@ nodemapper.registerDomain("reader.google.com", {
 	});
 nodemapper.addSimpleHandler("reader.google.com", "pk_to_content",
 			    "http://www.google.com/reader/shared/", "");
+nodemapper.addSimpleHandler("reader.google.com", "pk_to_profile",
+			    "http://www.google.com/reader/shared/", "");
 nodemapper.addSimpleHandler("reader.google.com", "pk_to_atom",
 			    "http://www.google.com/reader/public/atom/user/",
                             "/state/com.google/broadcast");
@@ -171,6 +173,7 @@ http://www.google.de/reader/shared/12649763491721032377 sgn://reader.google.com/
 http://www.google.com/reader/shared/12649763491721032377 sgn://reader.google.com/?pk=12649763491721032377
 http://www.google.com/reader/public/atom/user/12649763491721032377/state/com.google/broadcast sgn://reader.google.com/?pk=12649763491721032377
 content(sgn://reader.google.com/?pk=12649763491721032377) http://www.google.com/reader/shared/12649763491721032377
+profile(sgn://reader.google.com/?pk=12649763491721032377) http://www.google.com/reader/shared/12649763491721032377
 atom(sgn://reader.google.com/?pk=12649763491721032377) http://www.google.com/reader/public/atom/user/12649763491721032377/state/com.google/broadcast
 
 http://youtube.com/jsmarr sgn://youtube.com/?ident=jsmarr
