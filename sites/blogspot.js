@@ -34,6 +34,10 @@ nodemapper.addSimpleHandler("blogspot.com", "ident_to_blog",
 			    "http://", ".blogspot.com/");
 nodemapper.addSimpleHandler("blogspot.com", "ident_to_content",
 			    "http://", ".blogspot.com/");
+nodemapper.addSimpleHandler("blogspot.com", "ident_to_rss",
+			    "http://", ".blogspot.com/feeds/posts/default?alt=rss");
+nodemapper.addSimpleHandler("blogspot.com", "ident_to_atom",
+			    "http://", ".blogspot.com/feeds/posts/default");
 
 nodemapper.registerDomain("blogger.com", {
   name: "Blogger (Profile)",
@@ -55,3 +59,6 @@ http://foo.blogspot.com/path/blah sgn://blogspot.com/?ident=foo
 
 content(sgn://blogspot.com/?ident=foo) http://foo.blogspot.com/
 blog(sgn://blogspot.com/?ident=foo)    http://foo.blogspot.com/
+
+atom(sgn://blogspot.com/?ident=foo)  http://foo.blogspot.com/feeds/posts/default
+rss(sgn://blogspot.com/?ident=foo)   http://foo.blogspot.com/feeds/posts/default?alt=rss
