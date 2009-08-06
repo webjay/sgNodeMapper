@@ -220,6 +220,15 @@ nodemapper.addSimpleHandler("bloglines.com", "ident_to_profile",
 nodemapper.addSimpleHandler("bloglines.com", "ident_to_rss", 
     "http://www.bloglines.com/blog/", "/rss");
 
+nodemapper.registerDomain("nytimes.com",
+  {name: "TimesPeople",
+   urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("view/user",
+      "nytimes.com", {keyName: "pk", slashAnything: 1})});
+nodemapper.addSimpleHandler("nytimes.com", "pk_to_profile", 
+    "http://timespeople.nytimes.com/view/user/", "/activities.html");
+nodemapper.addSimpleHandler("nytimes.com", "pk_to_rss", 
+    "http://timespeople.nytimes.com/view/user/", "/rss.xml");
+
 upcomingHandler = nodemapper.createSomethingSlashUsernameHandler("user", 
     "upcoming.yahoo.com", {keyName: "pk"});
 nodemapper.registerDomain("upcoming.yahoo.com",
@@ -618,6 +627,12 @@ http://upcoming.yahoo.com/user/75587/ sgn://upcoming.yahoo.com/?pk=75587
 http://upcoming.org/user/75587/ sgn://upcoming.yahoo.com/?pk=75587
 profile(sgn://upcoming.yahoo.com/?pk=75587) http://upcoming.yahoo.com/user/75587/
 rss(sgn://upcoming.yahoo.com/?pk=75587) http://upcoming.yahoo.com/syndicate/v2/my_events/75587
+
+http://timespeople.nytimes.com/view/user/57047872 sgn://nytimes.com/?pk=57047872
+http://timespeople.nytimes.com/view/user/57047872/activities.html sgn://nytimes.com/?pk=57047872
+http://timespeople.nytimes.com/view/user/57047872/rss.xml sgn://nytimes.com/?pk=57047872
+profile(sgn://nytimes.com/?pk=57047872) http://timespeople.nytimes.com/view/user/57047872/activities.html
+rss(sgn://nytimes.com/?pk=57047872) http://timespeople.nytimes.com/view/user/57047872/rss.xml
 
 http://www.socializr.com/user/jsmarr sgn://socializr.com/?ident=jsmarr
 # TODO: this doesn't work cuz we're we have a custom identRegexp, so we need to use sgnFromHttpUsingToHttpRules

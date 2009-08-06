@@ -1290,6 +1290,14 @@ nodemapper.addSimpleHandler("bloglines.com", "ident_to_profile",
     "http://www.bloglines.com/blog/");
 nodemapper.addSimpleHandler("bloglines.com", "ident_to_rss", 
     "http://www.bloglines.com/blog/", "/rss");
+nodemapper.registerDomain("nytimes.com",
+  {name: "TimesPeople",
+   urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler("view/user",
+      "nytimes.com", {keyName: "pk", slashAnything: 1})});
+nodemapper.addSimpleHandler("nytimes.com", "pk_to_profile", 
+    "http://timespeople.nytimes.com/view/user/", "/activities.html");
+nodemapper.addSimpleHandler("nytimes.com", "pk_to_rss", 
+    "http://timespeople.nytimes.com/view/user/", "/rss.xml");
 upcomingHandler = nodemapper.createSomethingSlashUsernameHandler("user", 
     "upcoming.yahoo.com", {keyName: "pk"});
 nodemapper.registerDomain("upcoming.yahoo.com",
