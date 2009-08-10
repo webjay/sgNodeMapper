@@ -1843,6 +1843,15 @@ nodemapper.addSimpleHandler("del.icio.us", "ident_to_profile",
 nodemapper.addSimpleHandler("del.icio.us", "ident_to_rss", 
     "http://feeds.delicious.com/rss/");
 
+nodemapper.registerDomain(
+    ["tungle.me", "tgl.me"],
+    {name: "Tungle.me",
+     primaryDomain: "tungle.me",
+     urlToGraphNode: nodemapper.createSlashUsernameHandler(
+         "tungle.me")});
+nodemapper.addSimpleHandler("tungle.me", "ident_to_profile", 
+    "http://tungle.me/");
+
 nodemapper.registerDomain("webshots.com", {
     name: "Webshots",
     identRegexp: /^\w+$/

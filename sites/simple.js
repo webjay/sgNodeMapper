@@ -105,6 +105,15 @@ nodemapper.addSimpleHandler("del.icio.us", "ident_to_profile",
 nodemapper.addSimpleHandler("del.icio.us", "ident_to_rss", 
     "http://feeds.delicious.com/rss/");
 
+nodemapper.registerDomain(
+    ["tungle.me", "tgl.me"],
+    {name: "Tungle.me",
+     primaryDomain: "tungle.me",
+     urlToGraphNode: nodemapper.createSlashUsernameHandler(
+         "tungle.me")});
+nodemapper.addSimpleHandler("tungle.me", "ident_to_profile", 
+    "http://tungle.me/");
+
 nodemapper.registerDomain("webshots.com", {
     name: "Webshots",
     identRegexp: /^\w+$/
@@ -791,3 +800,7 @@ http://goodreads.com/user/show/1150869 sgn://goodreads.com/?pk=1150869
 http://www.goodreads.com/review/list_rss/1150869 sgn://goodreads.com/?pk=1150869
 profile(sgn://goodreads.com/?pk=1150869) http://www.goodreads.com/user/show/1150869
 rss(sgn://goodreads.com/?pk=1150869) http://www.goodreads.com/review/list_rss/1150869
+
+http://tungle.me/jsmarr sgn://tungle.me/?ident=jsmarr
+http://tgl.me/jsmarr sgn://tungle.me/?ident=jsmarr
+profile(sgn://tungle.me/?ident=jsmarr) http://tungle.me/jsmarr
