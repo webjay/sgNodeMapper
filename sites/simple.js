@@ -191,16 +191,6 @@ nodemapper.addSimpleHandler("spaces.live.com", "ident_to_rss",
     "http://", ".spaces.live.com/feed.rss");
 
 nodemapper.registerDomain(
-    "stumbleupon.com",
-    {name: "StumbleUpon",
-     urlToGraphNode: nodemapper.createUserIsSubdomainHandler(
-        "stumbleupon.com")});
-nodemapper.addSimpleHandler("stumbleupon.com", "ident_to_profile", 
-    "http://", ".stumbleupon.com");
-nodemapper.addSimpleHandler("stumbleupon.com", "ident_to_rss", 
-    "http://www.stumbleupon.com/syndicate.php?stumbler=");
-
-nodemapper.registerDomain(
     "travelpod.com",
     {name: "TravelPod",
      urlToGraphNode: nodemapper.createSomethingSlashUsernameHandler(
@@ -610,10 +600,6 @@ rss(sgn://360.yahoo.com/?ident=a) http://blog.360.yahoo.com/a
 http://bradfitz.spaces.live.com/   sgn://spaces.live.com/?ident=bradfitz
 profile(sgn://spaces.live.com/?ident=bradfitz) http://bradfitz.spaces.live.com
 rss(sgn://spaces.live.com/?ident=bradfitz) http://bradfitz.spaces.live.com/feed.rss
-
-http://bradfitz.stumbleupon.com/   sgn://stumbleupon.com/?ident=bradfitz
-profile(sgn://stumbleupon.com/?ident=bradfitz) http://bradfitz.stumbleupon.com
-rss(sgn://stumbleupon.com/?ident=bradfitz) http://www.stumbleupon.com/syndicate.php?stumbler=bradfitz
 
 http://www.travelpod.com/members/foobar	sgn://travelpod.com/?ident=foobar
 http://travelpod.com/members/foobar/	sgn://travelpod.com/?ident=foobar
