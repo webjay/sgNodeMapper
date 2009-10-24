@@ -1561,6 +1561,14 @@ nodemapper.addSimpleHandler("goodreads.com", "pk_to_profile",
 			    "http://www.goodreads.com/user/show/");
 nodemapper.addSimpleHandler("goodreads.com", "pk_to_rss",
 			    "http://www.goodreads.com/review/list_rss/");
+nodemapper.registerDomain("tripit.com", {
+  name: "TripIt",
+  identRegexp: /^[-\w\+\.]+$/,
+  urlToGraphNode: nodemapper.createPathRegexpHandler(
+      "tripit.com", /^\/people\/([-\w\+\.]+)/ )
+});
+nodemapper.addSimpleHandler("tripit.com", "ident_to_profile",
+    "http://tripit.com/people/");
 })();
 (function(){
 spinPkHandler = function(url, host, path) {

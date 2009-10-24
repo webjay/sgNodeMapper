@@ -521,6 +521,15 @@ nodemapper.addSimpleHandler("goodreads.com", "pk_to_profile",
 nodemapper.addSimpleHandler("goodreads.com", "pk_to_rss",
 			    "http://www.goodreads.com/review/list_rss/");
 
+nodemapper.registerDomain("tripit.com", {
+  name: "TripIt",
+  identRegexp: /^[-\w\+\.]+$/,
+  urlToGraphNode: nodemapper.createPathRegexpHandler(
+      "tripit.com", /^\/people\/([-\w\+\.]+)/ )
+});
+nodemapper.addSimpleHandler("tripit.com", "ident_to_profile",
+    "http://tripit.com/people/");
+
 __END__
 
 http://digg.com/users/foobar	sgn://digg.com/?ident=foobar
@@ -790,3 +799,11 @@ rss(sgn://goodreads.com/?pk=1150869) http://www.goodreads.com/review/list_rss/11
 http://tungle.me/jsmarr sgn://tungle.me/?ident=jsmarr
 http://tgl.me/jsmarr sgn://tungle.me/?ident=jsmarr
 profile(sgn://tungle.me/?ident=jsmarr) http://tungle.me/jsmarr
+
+http://tripit.com/people/Adam+Smith sgn://tripit.com/?ident=adam+smith
+http://tripit.com/people/aNOTher-person/ sgn://tripit.com/?ident=another-person
+http://tripit.com/people/some.1 sgn://tripit.com/?ident=some.1
+http://www.tripit.com/people/just_me/nothing sgn://tripit.com/?ident=just_me
+http://www.tripit.com/people/meEE.123 sgn://tripit.com/?ident=meee.123
+http://www.tripit.com/people/trying?what sgn://tripit.com/?ident=trying
+profile(sgn://tripit.com/?ident=foobar) http://tripit.com/people/foobar
