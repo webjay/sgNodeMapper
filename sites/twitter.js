@@ -66,9 +66,11 @@ __END__
 http://twitter.com/bob   sgn://twitter.com/?ident=bob
 http://twitter.com/Bob   sgn://twitter.com/?ident=bob
 http://twitter.com/Bob/   sgn://twitter.com/?ident=bob
+http://twitter.com/#!/Bob/ sgn://twitter.com/?ident=bob
 
 https://twitter.com/bob  sgn://twitter.com/?ident=bob
 https://twitter.com/BOB/  sgn://twitter.com/?ident=bob
+https://twitter.com/#!/Bob/  sgn://twitter.com/?ident=bob
 
 http://explore.twitter.com/bob/with_friends  sgn://twitter.com/?ident=bob
 http://greekshow.twitter.com/bob/with_friends  sgn://twitter.com/?ident=bob
