@@ -24,7 +24,7 @@ my $SMJS;          # path to 'smjs' binary, if found.
 BEGIN {
     $HAVE_JS_LIB = eval "use JavaScript::SpiderMonkey; 1;";
     unless ($HAVE_JS_LIB) {
-	$SMJS = `which smjs`;
+	$SMJS = `which js`;
 	chomp $SMJS;
 	unless ($SMJS) {
 	    die "Missing 'smjs' binary.  Install package 'spidermonkey-bin'.\n";

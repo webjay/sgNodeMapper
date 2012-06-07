@@ -17,10 +17,12 @@
 
 var FRIENDS_API1_RE = /^\/friends\/ids\/(\w+)\.(?:xml|json)/;
 var FRIENDS_API2_RE = /^\/friends\/ids\.(?:xml|json)\?screen_name=(\w+)/;
+var HASH_BANG_RE    = /^\/#!\/(\w+)/;
 var twitterFallbackHandler = function(url, host, path) {
   var m;
   if ((m = FRIENDS_API1_RE.exec(path)) ||
-      (m = FRIENDS_API2_RE.exec(path))) {
+      (m = FRIENDS_API2_RE.exec(path)) ||
+      (m = HASH_BANG_RE.exec(path))) {
     var username = m[1].toLowerCase();
     return "sgn://twitter.com/?ident=" + username;
   }
@@ -64,9 +66,11 @@ __END__
 http://twitter.com/bob   sgn://twitter.com/?ident=bob
 http://twitter.com/Bob   sgn://twitter.com/?ident=bob
 http://twitter.com/Bob/   sgn://twitter.com/?ident=bob
+http://twitter.com/#!/Bob/ sgn://twitter.com/?ident=bob
 
 https://twitter.com/bob  sgn://twitter.com/?ident=bob
 https://twitter.com/BOB/  sgn://twitter.com/?ident=bob
+https://twitter.com/#!/Bob/  sgn://twitter.com/?ident=bob
 
 http://explore.twitter.com/bob/with_friends  sgn://twitter.com/?ident=bob
 http://greekshow.twitter.com/bob/with_friends  sgn://twitter.com/?ident=bob
