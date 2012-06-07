@@ -1698,10 +1698,12 @@ nodemapper.addSimpleHandler("tribe.net", "pk_to_profile",
 (function(){
 var FRIENDS_API1_RE = /^\/friends\/ids\/(\w+)\.(?:xml|json)/;
 var FRIENDS_API2_RE = /^\/friends\/ids\.(?:xml|json)\?screen_name=(\w+)/;
+var HASH_BANG_RE    = /^\/#!\/(\w+)/;
 var twitterFallbackHandler = function(url, host, path) {
   var m;
   if ((m = FRIENDS_API1_RE.exec(path)) ||
-      (m = FRIENDS_API2_RE.exec(path))) {
+      (m = FRIENDS_API2_RE.exec(path)) ||
+      (m = HASH_BANG_RE.exec(path))) {
     var username = m[1].toLowerCase();
     return "sgn://twitter.com/?ident=" + username;
   }
